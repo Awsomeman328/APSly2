@@ -2,7 +2,7 @@ from typing import NamedTuple
 
 from BaseClasses import Item, ItemClassification
 
-from .data import episodes
+from .data import EPISODES
 
 class Sly2Item(Item):
     game: str = "Sly 2: Band of Thieves"
@@ -34,6 +34,8 @@ powerup_list = [
     ("Music Box",               ItemClassification.useful,      "Power-Up"),
     ("Lightning Spin",          ItemClassification.useful,      "Power-Up"),
     ("Shadow Power",            ItemClassification.useful,      "Power-Up"),
+    ("TOM",                     ItemClassification.useful,      "Power-UP"),
+    ("Mega Jump",               ItemClassification.useful,      "Power-UP"),
 
     ("Trigger Bomb",            ItemClassification.useful,      "Power-Up"),
     ("Size Destabilizer",       ItemClassification.useful,      "Power-Up"),
@@ -72,15 +74,15 @@ clockwerk_parts_list = [
 
 bottle_list = [
     (f"Bottle - {e}",           ItemClassification.progression, "Bottles")
-    for e in episodes.keys()
+    for e in EPISODES.keys()
 ] + [
     (f"{i} bottles - {e}",      ItemClassification.progression, "Bottles")
-    for e in episodes.keys() for i in range(2,11)
+    for e in EPISODES.keys() for i in range(2,11)
 ]
 
 progressive_episode_list = [
     (f"Progressive {e}",        ItemClassification.progression, "Episode")
-    for e in episodes.keys()
+    for e in EPISODES.keys()
 ]
 
 item_list = (

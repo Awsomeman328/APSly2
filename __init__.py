@@ -1,4 +1,4 @@
-from typing import Dict, Optional, Mapping, Any
+from typing import Dict, Optional, Mapping, Any, List
 import typing
 import logging
 import random
@@ -59,6 +59,8 @@ class Sly2World(World):
     }
     location_name_groups = location_groups
 
+    thiefnet_costs: List[int] = []
+
     def generate_early(self) -> None:
         opt = self.options
         if opt.episode_8_keys and opt.required_keys > opt.keys_in_pool:
@@ -72,6 +74,21 @@ class Sly2World(World):
             raise OptionError(
                 f"Incompatible options: Episode 8 Keys and Starting Episode: {opt.starting_episode}"
             )
+
+        if (
+            (opt.bottle_item_bundle_size == 0 and opt.bottle_location_bundle_size != 0) or
+            (opt.bottle_item_bundle_size != 0 and opt.bottle_location_bundle_size == 0)
+        ):
+            raise OptionError(
+                f"Bottle item bundle size and bottle location bundle size should either both be zero or both be non-zero"
+            )
+
+        thiefnet_min = self.options.thiefnet_minimum.value
+        thiefnet_max = self.options.thiefnet_maximum.value
+        self.thiefnet_costs = [
+            random.randint(thiefnet_min,thiefnet_max)
+        ]
+
 
     def get_filler_item_name(self) -> str:
         return random.choice(list(self.item_name_groups["Filler"]))
@@ -108,11 +125,19 @@ class Sly2World(World):
             "episode_8_keys",
             "required_keys",
             "keys_in_pool",
+            "include_tom",
+            "include_mega_jump",
             "coins_minimum",
             "coins_maximum",
+            "thiefnet_minimum",
+            "thiefnet_maximum",
             "bottle_location_bundle_size",
             "bottle_item_bundle_size",
+            "skip_intro"
         )
 
     def fill_slot_data(self) -> Mapping[str, Any]:
-        return self.get_options_as_dict()
+        slot_data = self.get_options_as_dict()
+        slot_data["thiefnet_costs"] = self.thiefnet_costs
+
+        return slot_data

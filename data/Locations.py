@@ -1,6 +1,6 @@
 from typing import NamedTuple
 
-from .data import episodes, treasures
+from .data import EPISODES, TREASURES
 
 class Sly2LocationData(NamedTuple):
     name: str
@@ -8,29 +8,34 @@ class Sly2LocationData(NamedTuple):
     category: str
 
 jobs_list = [
-    (f"{ep} - {job}",       "job")
-    for ep, chapters in episodes.items()
+    (f"{ep} - {job}",       "Job")
+    for ep, chapters in EPISODES.items()
     for jobs in chapters for job in jobs
 ]
 
 safes_list = [
     (f"{ep} - Safe",        "Safe")
-    for ep in episodes.keys()
+    for ep in EPISODES.keys()
 ]
 
 treasures_list = [
     (f"{ep} - {treasure[0]}",  "Treasure")
-    for ep, t in treasures.items()
+    for ep, t in TREASURES.items()
     for treasure in t
 ]
 
 bottles_list = [
-    (f"{ep} - {i+1} bottles collected")
+    (f"{ep} - {i+1} bottles collected", "Bottle")
     for i in range(30)
-    for ep in episodes.keys()
+    for ep in EPISODES.keys()
 ]
 
-location_list = jobs_list + safes_list + treasures_list
+purchases_list = [
+    (f"ThiefNet {i+1}", "Purchase")
+    for i in range(24)
+]
+
+location_list = jobs_list + safes_list + treasures_list + bottles_list + purchases_list
 
 base_code = 321_000
 
@@ -43,8 +48,9 @@ location_groups = {
     key: {location.name for location in location_dict.values() if location.category == key}
     for key in [
         "Job",
-        "Bottles",
-        "Safes",
-        "Treasures",
+        "Bottle",
+        "Safe",
+        "Treasure",
+        "Purchase"
     ]
 }

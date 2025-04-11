@@ -2,9 +2,9 @@ import typing
 
 from BaseClasses import Region, CollectionState, Location
 
-from .data.Locations import location_dict
+from .data.Locations import location_dict, location_groups
 from .data.Items import item_groups
-from .data.data import episodes, treasures
+from .data.data import EPISODES, TREASURES
 
 if typing.TYPE_CHECKING:
     from . import Sly2World
@@ -40,9 +40,14 @@ def create_access_rule(episode: str, n: int, options: "Sly2Options", player: int
 
 def create_regions(world: "Sly2World"):
     menu = Region("Menu", world.player, world.multiworld)
+    menu.add_locations({
+        f"ThiefNet {i+1}": location_dict[f"ThiefNet {i+1}"].code
+        for i in range(24)
+    })
+
     world.multiworld.regions.append(menu)
 
-    for i, episode in enumerate(episodes.keys()):
+    for i, episode in enumerate(EPISODES.keys()):
         for n in range(1,5):
             if n == 3 and episode == "Jailbreak":
                 break
@@ -50,7 +55,7 @@ def create_regions(world: "Sly2World"):
             region = Region(f"Episode {i+1} ({n})", world.player, world.multiworld)
             region.add_locations({
                 f"{episode} - {job}": location_dict[f"{episode} - {job}"].code
-                for job in episodes[episode][n-1]
+                for job in EPISODES[episode][n-1]
             })
 
             world.multiworld.regions.append(region)
@@ -59,6 +64,25 @@ def create_regions(world: "Sly2World"):
                 None,
                 create_access_rule(episode, n, world.options, world.player)
             )
+
+    bottle_n = world.options.bottle_location_bundle_size
+
+    def add_bottles(episode: str, region: str, n:int):
+        location_name = f"{episode} - {n} bottles collected"
+        world.get_region(region).add_locations(
+            {location_name: location_dict[location_name].code}
+        )
+
+    for i, episode in enumerate(EPISODES.keys()):
+        bottles = {}
+        total_bottles = 0
+        while total_bottles+bottle_n <= 30:
+            total_bottles += bottle_n
+            add_bottles(episode, f"Episode {i+1} (1)", total_bottles)
+
+        if total_bottles < 30:
+            add_bottles(episode, f"Episode {i+1} (1)", 30)
+
 
     def add_safe(episode: str, region: str):
         world.get_region(region).add_locations(
@@ -74,7 +98,7 @@ def create_regions(world: "Sly2World"):
     add_safe("Menace from the North, Eh!", "Episode 7 (2)")
     add_safe("Anatomy for Disaster", "Episode 8 (2)")
 
-    for i, (ep, t) in enumerate(treasures.items()):
+    for i, (ep, t) in enumerate(TREASURES.items()):
         for treasure in t:
             location_name = f"{ep} - {treasure[0]}"
             region = f"Episode {i+1} ({treasure[1]})"

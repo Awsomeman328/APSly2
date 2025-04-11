@@ -3,6 +3,7 @@ from Options import (
     StartInventoryPool,
     PerGameCommonOptions,
     Choice,
+    Toggle,
     DefaultOnToggle,
     Range,
 )
@@ -79,6 +80,22 @@ class KeysInPool(Range):
     default = 10
 
 
+class IncludeTOM(Toggle):
+    """
+    Add the TOM ability to the pool.
+    """
+
+    display_name = "Include TOM"
+
+
+class IncludeMegaJump(Toggle):
+    """
+    Add the Mega Jump ability to the pool.
+    """
+
+    display_name = "Include Mega Jump"
+
+
 class CoinsMinimum(Range):
     """
     The minimum number of coins you'll receive when you get a "Coins" filler
@@ -101,6 +118,28 @@ class CoinsMaximum(Range):
     range_start = 0
     range_end = 1000
     default = 200
+
+
+class ThiefNetCostMinimum(Range):
+    """
+    The minimum number of coins items on ThiefNet will cost.
+    """
+
+    display_name = "ThiefNet Cost Minimum"
+    range_start = 0
+    range_end = 10_000
+    default = 200
+
+
+class ThiefNetCostMaximum(Range):
+    """
+    The maximum number of coins items on ThiefNet will cost.
+    """
+
+    display_name = "ThiefNet Cost Maximum"
+    range_start = 0
+    range_end = 10_000
+    default = 2000
 
 
 class BottleLocationBundleSize(Range):
@@ -127,6 +166,14 @@ class BottleItemBundleSize(Range):
     default = 0
 
 
+class SkipIntro(DefaultOnToggle):
+    """
+    Whether the Cairo intro should be skipped.
+    """
+
+    display_name = "Skip Intro"
+
+
 @dataclass
 class Sly2Options(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
@@ -136,7 +183,12 @@ class Sly2Options(PerGameCommonOptions):
     episode_8_keys: Episode8Keys
     required_keys: RequiredKeys
     keys_in_pool: KeysInPool
+    include_tom: IncludeTOM
+    include_mega_jump: IncludeMegaJump
     coins_minimum: CoinsMinimum
     coins_maximum: CoinsMaximum
+    thiefnet_minimum: ThiefNetCostMinimum
+    thiefnet_maximum: ThiefNetCostMaximum
     bottle_location_bundle_size: BottleLocationBundleSize
     bottle_item_bundle_size: BottleItemBundleSize
+    skip_intro: SkipIntro

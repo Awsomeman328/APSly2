@@ -1,7 +1,7 @@
 import json
 import shutil
 import zipfile
-from typing import Optional, cast, Dict, Any
+from typing import Optional, cast, Dict, Any, Set
 import asyncio
 import multiprocessing
 import os
@@ -14,8 +14,8 @@ import Utils
 from settings import get_settings
 from kvui import GameManager
 
-from .Sly2Interface import Sly2Interface, ConnectionState, Sly2Episode
-from .Callbacks import init, update
+from .Sly2Interface import Sly2Interface, ConnectionState, Sly2Episode, PowerUps
+from .Callbacks import init, update, handle_checks, handle_received
 
 class Sly2CommandProcessor(ClientCommandProcessor):
     def __init__(self, ctx: CommonContext):
@@ -23,6 +23,7 @@ class Sly2CommandProcessor(ClientCommandProcessor):
 
 class Sly2Context(CommonContext):
     current_episode: Optional[Sly2Episode] = None
+    in_safehouse: bool = False
     is_pending_death_link_reset = False
     command_processor = Sly2CommandProcessor
     game_interface: Sly2Interface
@@ -35,6 +36,10 @@ class Sly2Context(CommonContext):
     last_error_message: Optional[str] = None
     death_link_enabled = False
     queued_deaths: int = 0
+
+    available_episodes: Dict[Sly2Episode,int] = {e: 0 for e in Sly2Episode}
+    all_bottles: Dict[Sly2Episode,int] = {e: 0 for e in Sly2Episode}
+    powerups: PowerUps = PowerUps()
 
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
@@ -116,25 +121,28 @@ async def pcsx2_sync_task(ctx: Sly2Context):
             continue
 
 async def _handle_game_ready(ctx: Sly2Context):
+    current_episode = ctx.game_interface.get_current_episode()
+
     if ctx.is_loading:
         if not ctx.game_interface.is_loading():
             ctx.is_loading = False
-            current_episode = ctx.game_interface.get_current_episode()
-            if current_episode is not 0:
+            if current_episode != 0:
                 logger.info(f"Loaded episode {current_episode} ({current_episode.name})")
             await asyncio.sleep(1)
         await asyncio.sleep(0.1)
         return
     elif ctx.game_interface.is_loading():
-        ctx.game_interface.logger.info("Waiting for planet to load...")
+        if current_episode != 0:
+            ctx.game_interface.logger.info("Waiting for episode to load...")
         ctx.is_loading = True
         return
 
     connected_to_server = (ctx.server is not None) and (ctx.slot is not None)
-    if ctx.current_episode != ctx.game_interface.get_current_episode() and connected_to_server:
-        ctx.current_episode = ctx.game_interface.get_current_episode()
-        init(ctx)
-    update(ctx, connected_to_server)
+    if ctx.current_episode != current_episode:
+        ctx.current_episode = current_episode
+        await init(ctx, connected_to_server)
+
+    await update(ctx, connected_to_server)
 
     if ctx.server:
         ctx.last_error_message = None
@@ -142,15 +150,6 @@ async def _handle_game_ready(ctx: Sly2Context):
             await asyncio.sleep(1)
             return
 
-        # current_inventory = ctx.game_interface.get_current_inventory()
-        # if ctx.current_episode is not None and ctx.current_planet > 0 and ctx.game_interface.get_pause_state() in [0, 5]:
-        #     await handle_received_items(ctx, current_inventory)
-        # if ctx.current_planet and ctx.current_planet > 0:
-        #     await handle_checked_location(ctx)
-        # await handle_check_goal_complete(ctx)
-
-        # if ctx.death_link_enabled:
-        #     await handle_deathlink(ctx)
         await asyncio.sleep(0.1)
     else:
         message = "Waiting for player to connect to server"
