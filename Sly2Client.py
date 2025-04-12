@@ -14,6 +14,7 @@ import Utils
 from settings import get_settings
 from kvui import GameManager
 
+from .data import Locations
 from .Sly2Interface import Sly2Interface, ConnectionState, Sly2Episode, PowerUps
 from .Callbacks import init, update, handle_checks, handle_received
 
@@ -28,33 +29,41 @@ class Sly2Context(CommonContext):
     command_processor = Sly2CommandProcessor
     game_interface: Sly2Interface
     # notification_manager
-    game = "Sly 2"
+    game = "Sly 2: Band of Thieves"
+    items_handling = 0b111
     pcsx2_sync_task: Optional[asyncio.Task] = None
     is_connected: bool = False
     is_loading: bool = False
+    is_connected_to_server: bool = False
     slot_data: Optional[dict[str, Utils.Any]] = None
     last_error_message: Optional[str] = None
     death_link_enabled = False
     queued_deaths: int = 0
 
+    inventory: Dict[int,int] = {l.code: 0 for l in Locations.location_dict.values()}
     available_episodes: Dict[Sly2Episode,int] = {e: 0 for e in Sly2Episode}
     all_bottles: Dict[Sly2Episode,int] = {e: 0 for e in Sly2Episode}
+    thiefnet_items: Optional[list[str]] = None
     powerups: PowerUps = PowerUps()
+    thiefnet_purchases: PowerUps = PowerUps()
+    notification_queue: list[str] = []
 
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
         self.game_interface = Sly2Interface(logger)
-        # self.notification_manager = NotificationManager(HUD_MESSAGE_DURATION)
+
+    def notification(self, text: str):
+        self.notification_queue.append(text)
 
     def on_deathlink(self, data: Utils.Dict[str, Utils.Any]) -> None:
         super().on_deathlink(data)
         if self.death_link_enabled:
             self.queued_deaths += 1
             cause = data.get("cause", "")
-            # if cause:
-            #     self.notification_manager.queue_notification(f"DeathLink: {cause}")
-            # else:
-            #     self.notification_manager.queue_notification(f"DeathLink: Received from {data['source']}")
+            if cause:
+                self.notification(f"DeathLink: {cause}")
+            else:
+                self.notification(f"DeathLink: Received from {data['source']}")
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
@@ -65,29 +74,19 @@ class Sly2Context(CommonContext):
     def on_package(self, cmd: str, args: dict):
         if cmd == "Connected":
             self.slot_data = args["slot_data"]
+
             # Set death link tag if it was requested in options
             if "death_link" in args["slot_data"]:
                 self.death_link_enabled = bool(args["slot_data"]["death_link"])
                 Utils.async_start(self.update_death_link(
                     bool(args["slot_data"]["death_link"])))
-
-            # Scout all active locations for lookups that may be required later on
-            # all_locations = [loc.location_id for loc in get_all_active_locations(self.slot_data)]
-            # self.locations_scouted = set(all_locations)
-            # Utils.async_start(self.send_msgs([{
-            #     "cmd": "LocationScouts",
-            #     "locations": list(self.locations_scouted)
-            # }]))
-
-    # def run_gui(self):
-    #     class Sly2Manager(GameManager):
-    #         logging_pairs = [
-    #             ("Client", "Archipelago")
-    #         ]
-    #         base_title = "Archipelago Sly 2 Client"
-
-    #     self.ui = Sly2Manager(self)
-    #     self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
+                Utils.async_start(self.send_msgs([{
+                    "cmd": "LocationScouts",
+                    "locations": [
+                        Locations.location_dict[location].code
+                        for location in Locations.location_groups["Purchase"]
+                    ]
+                }]))
 
 def update_connection_status(ctx: Sly2Context, status: bool):
     if ctx.is_connected == status:
@@ -97,6 +96,7 @@ def update_connection_status(ctx: Sly2Context, status: bool):
         logger.info("Connected to Sly 2")
     else:
         logger.info("Unable to connect to the PCSX2 instance, attempting to reconnect...")
+
     ctx.is_connected = status
 
 async def pcsx2_sync_task(ctx: Sly2Context):
@@ -120,8 +120,10 @@ async def pcsx2_sync_task(ctx: Sly2Context):
             await asyncio.sleep(3)
             continue
 
-async def _handle_game_ready(ctx: Sly2Context):
+async def _handle_game_ready(ctx: Sly2Context) -> None:
     current_episode = ctx.game_interface.get_current_episode()
+
+    ctx.game_interface.skip_cutscene()
 
     if ctx.is_loading:
         if not ctx.game_interface.is_loading():
@@ -138,8 +140,10 @@ async def _handle_game_ready(ctx: Sly2Context):
         return
 
     connected_to_server = (ctx.server is not None) and (ctx.slot is not None)
-    if ctx.current_episode != current_episode:
+    new_connection = ctx.is_connected_to_server != connected_to_server
+    if ctx.current_episode != current_episode or new_connection:
         ctx.current_episode = current_episode
+        ctx.is_connected_to_server = connected_to_server
         await init(ctx, connected_to_server)
 
     await update(ctx, connected_to_server)

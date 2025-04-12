@@ -3,6 +3,7 @@ from enum import Enum, IntEnum
 from logging import Logger
 from typing import Optional, NamedTuple, Tuple
 from time import sleep
+from math import ceil
 import struct
 
 from .pcsx2_interface.pine import Pine
@@ -78,6 +79,9 @@ class PCSX2Interface():
     def _read8(self, address: int):
         return self.pcsx2_interface.read_int8(address)
 
+    def _read16(self, address: int):
+        return self.pcsx2_interface.read_int16(address)
+
     def _read32(self, address: int):
         return self.pcsx2_interface.read_int32(address)
 
@@ -89,6 +93,9 @@ class PCSX2Interface():
 
     def _write8(self, address: int, value: int):
         self.pcsx2_interface.write_int8(address, value)
+
+    def _write16(self, address: int, value: int):
+        self.pcsx2_interface.write_int16(address, value)
 
     def _write32(self, address: int, value: int):
         self.pcsx2_interface.write_int32(address, value)
@@ -145,6 +152,12 @@ class Sly2Interface(PCSX2Interface):
     def _write_job_status(self, address: int, status: int):
         self._write32(address+0x54, status)
 
+    def set_items_received(self, n:int) -> None:
+        self._write32(self.addresses["items received"], n)
+
+    def read_items_received(self) -> int:
+        return self._read32(self.addresses["items received"])
+
     def is_loading(self) -> bool:
         return self._read32(self.addresses["loading"]) == 2
 
@@ -161,6 +174,13 @@ class Sly2Interface(PCSX2Interface):
             self._read32(self.addresses["camera focus"]) == 0
         )
 
+    def skip_cutscene(self) -> None:
+        frame_counter = self._read16(self.addresses["frame counter"])
+        pressing_x = self._read8(self.addresses["pressing x"]) == 255
+
+        if frame_counter > 20 and pressing_x:
+            self._write32(self.addresses["skip cutscene"],0)
+
     def to_episode_menu(self) -> None:
         self.logger.info("Skipping to episode menu")
         self._write_bytes(
@@ -169,9 +189,12 @@ class Sly2Interface(PCSX2Interface):
         )
         self._write32(self.addresses["reload"], 1)
 
+    def unlock_episodes(self) -> None:
+        self._write8(self.addresses["episode unlocks"], 8)
+
     def set_text(self, text: str|int, replacement: str) -> None:
         if isinstance(text,str):
-            text = self.addresses[text]
+            text = self.addresses["text"][text][self.get_current_episode()]
 
         if not isinstance(text,int):
             return
@@ -180,18 +203,49 @@ class Sly2Interface(PCSX2Interface):
         self._write_bytes(text,replacement_string)
 
     def set_thiefnet(self, powerup: int, replacements: Tuple[str,str]) -> None:
-        addresses = self.addresses["powerups"].values()[powerup]
-        self.set_text(addresses[0],replacements[0])
-        self.set_text(addresses[1],replacements[1])
+        def adjust_length(text: str, target_length: int) -> str:
+            if len(text) > target_length:
+                if target_length%16 == 0:
+                    new_length = target_length+15
+                else:
+                    new_length = ceil(target_length/16)*16-1
+            else:
+                new_length = len(text)
+
+            if len(text) > new_length:
+                return text[:new_length-2]+".."
+            else:
+                return text
+
+        powerups = self.addresses["text"]["powerups"][self.get_current_episode()-1]
+        addresses = list(powerups.values())[powerup]
+
+        new_gadget_name = adjust_length(
+            replacements[0],
+            len(list(POWERUP_TEXT.keys())[powerup])
+        )
+        new_gadget_description = adjust_length(
+            replacements[1],
+            len(list(POWERUP_TEXT.values())[powerup])
+        )
+
+        self.set_text(addresses[0],new_gadget_name)
+        self.set_text(addresses[1],new_gadget_description)
 
     def set_thiefnet_cost(self, powerup: int, cost: int) -> None:
         address = self.addresses["thiefnet costs"][powerup]
         self._write32(address, cost)
 
+    def set_thiefnet_unlock(self) -> None:
+        for i in range(24):
+            address = self.addresses["thiefnet unlock"][i]
+            self._write32(address,1)
+
     def reset_thiefnet(self) -> None:
-        for powerup, addresses in self.addresses["powerups"]:
-            self._write_bytes(addresses[0],powerup)
-            self._write_bytes(addresses[1],POWERUP_TEXT[powerup].encode())
+        powerups = self.addresses["text"]["powerups"][self.get_current_episode()-1]
+        for powerup, addresses in powerups.items():
+            self.set_text(addresses[0],powerup)
+            self.set_text(addresses[1],POWERUP_TEXT[powerup])
 
     def set_bottles(self, amount: int) -> None:
         self._write32(self.addresses["bottle count"], amount)
@@ -226,7 +280,7 @@ class Sly2Interface(PCSX2Interface):
 
     def set_infobox(self, text: str):
         ep = self.get_current_episode()
-        if ep == 0:
+        if ep == 0 or self.in_safehouse():
             return
 
         infobox_pointer = self._read32(self.addresses["infobox"])
@@ -242,18 +296,48 @@ class Sly2Interface(PCSX2Interface):
         self._write32(self.addresses["infobox"]+0x64,1)
 
     def kill_player(self):
-        if self.in_safehouse():
+        if self.in_safehouse() or self.get_current_episode() == 0:
             return
 
         # Death
         active_character_pointer = self._read32(self.addresses["active character pointer"])
         self._write32(active_character_pointer+0xdf4,8)
 
+def find_text(interface: Sly2Interface, text: str) -> int:
+    search_text = text[:12].encode()
+    string_table_pointer = interface._read32(interface.addresses["string table"])
+    start = interface._read32(string_table_pointer+0x4)
+    pointer = start
+
+    for _ in range(5000):
+        text_at_pointer = interface._read_bytes(pointer,len(search_text))
+        if text_at_pointer == search_text:
+
+            break
+        pointer += 0x10
+
+    if pointer == start+0x10*5000:
+        print(hex(pointer))
+        pointer = 0
+
+    return pointer
+
 if __name__ == "__main__":
     interface = Sly2Interface(Logger("logger"))
     interface.connect_to_game()
-    # p = PowerUps(*[True for _ in range(35)])
+    p = PowerUps(*[False for _ in range(35)])
 
-    # interface.load_powerups(p)
-    interface.set_infobox("Received Progressive Menace from the North, Eh! from Jonathan")
+    interface.load_powerups(p)
+    interface.set_infobox("Penis "*20)
     # interface.kill_player()
+
+    # for i in range(24):
+    #     interface.set_thiefnet(i,(f"Check #{i+1}",f"This is check number {i+1} for thiefnet"))
+    #     interface.set_thiefnet_cost(i,(i+1)**3)
+
+    # print(" "*16+"{")
+    # for i, (gadget, description) in enumerate(POWERUP_TEXT.items()):
+    #     gadget_pointer = find_text(interface, gadget)
+    #     description_pointer = find_text(interface, description)
+    #     print(" "*20+f"\"{gadget}\": ({hex(gadget_pointer)},{hex(description_pointer)}),")
+    # print(" "*16+"},")

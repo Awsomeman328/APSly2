@@ -33,8 +33,6 @@ def gen_episodes(world: "Sly2World") -> list[Item]:
         all_episodes.remove("Progressive Anatomy for Disaster")
 
     starting_episode_n = world.options.starting_episode.value
-    if starting_episode_n == 9:
-        starting_episode_n = random.randint(1,7)
 
     starting_episode = f"Progressive {list(EPISODES.keys())[starting_episode_n]}"
 

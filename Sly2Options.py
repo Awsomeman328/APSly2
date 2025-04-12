@@ -25,9 +25,7 @@ class StartingEpisode(Choice):
     option_He_Who_Tames_the_Iron_Horse = 5
     option_Menace_from_the_North_Eh = 6
     option_Anatomy_for_Disaster = 7
-    # option_Random = 8
-    option_Random_not_8 = 9
-    default = 9
+    default = 0
 
 
 class Goal(Choice):
@@ -41,8 +39,7 @@ class Goal(Choice):
     option_The_Contessa = 2
     option_Jean_Bison = 3
     option_Clockla = 4
-    # Random = 5
-    # All_Bosses = 6
+    # option_All_Bosses = 6
     default = 4
 
 
@@ -191,4 +188,4 @@ class Sly2Options(PerGameCommonOptions):
     thiefnet_maximum: ThiefNetCostMaximum
     bottle_location_bundle_size: BottleLocationBundleSize
     bottle_item_bundle_size: BottleItemBundleSize
-    skip_intro: SkipIntro
+    # skip_intro: SkipIntro

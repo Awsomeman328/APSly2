@@ -73,15 +73,15 @@ def create_regions(world: "Sly2World"):
             {location_name: location_dict[location_name].code}
         )
 
-    for i, episode in enumerate(EPISODES.keys()):
-        bottles = {}
-        total_bottles = 0
-        while total_bottles+bottle_n <= 30:
-            total_bottles += bottle_n
-            add_bottles(episode, f"Episode {i+1} (1)", total_bottles)
+    if world.options.bottle_location_bundle_size > 0:
+        for i, episode in enumerate(EPISODES.keys()):
+            total_bottles = 0
+            while total_bottles+bottle_n <= 30:
+                total_bottles += bottle_n
+                add_bottles(episode, f"Episode {i+1} (1)", total_bottles)
 
-        if total_bottles < 30:
-            add_bottles(episode, f"Episode {i+1} (1)", 30)
+            if total_bottles < 30:
+                add_bottles(episode, f"Episode {i+1} (1)", 30)
 
 
     def add_safe(episode: str, region: str):

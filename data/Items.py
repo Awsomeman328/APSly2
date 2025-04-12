@@ -110,3 +110,10 @@ item_groups = {
         "Clockwerk Part"
     ]
 }
+
+def from_id(item_id: int) -> Sly2ItemData:
+    matching = [item for item in item_dict.values() if item.code == item_id]
+    if len(matching) == 0:
+        raise ValueError(f"No item data for item id '{item_id}'")
+    assert len(matching) < 2, f"Multiple item data with id '{item_id}'. Please report."
+    return matching[0]

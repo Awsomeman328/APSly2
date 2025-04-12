@@ -54,3 +54,10 @@ location_groups = {
         "Purchase"
     ]
 }
+
+def from_id(location_id: int) -> Sly2LocationData:
+    matching = [location for location in location_dict.values() if location.code == location_id]
+    if len(matching) == 0:
+        raise ValueError(f"No location data for location id '{location_id}'")
+    assert len(matching) < 2, f"Multiple locations data with id '{location_id}'. Please report."
+    return matching[0]

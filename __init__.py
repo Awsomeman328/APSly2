@@ -87,6 +87,7 @@ class Sly2World(World):
         thiefnet_max = self.options.thiefnet_maximum.value
         self.thiefnet_costs = [
             random.randint(thiefnet_min,thiefnet_max)
+            for _ in range(24)
         ]
 
 
@@ -133,11 +134,12 @@ class Sly2World(World):
             "thiefnet_maximum",
             "bottle_location_bundle_size",
             "bottle_item_bundle_size",
-            "skip_intro"
+            # "skip_intro"
         )
 
     def fill_slot_data(self) -> Mapping[str, Any]:
         slot_data = self.get_options_as_dict()
         slot_data["thiefnet_costs"] = self.thiefnet_costs
+        slot_data["skip_intro"] = True
 
         return slot_data
