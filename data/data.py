@@ -225,16 +225,26 @@ ADDRESSES = {
             0x4c10f0
         ],
         "health": [0x3d4ab0,0x3d4ac0,0x3d4ae0],
-        "bottle flags": {
-            "e4": 0x3D5020
-        },
+        "bottle flags": [
+            0,
+            0,
+            0,
+            0x3D5020
+        ],
         "bottle count": 0x3E1BF4,
         "thiefnet costs": [0x2BCDE8+i*0x20 for i in range(24)],
         "thiefnet unlock": [0x2BCDF0+i*0x20 for i in range(24)],
-        "jobs": {
-            "e1": [[],],
-            "e4": [[0xb2ec90,0xb34d30,],],
-        },
+        "jobs": [
+            [
+                [0x828750,0x82c560],
+                [0x831e60,0x840c50,0x831150],
+                [0x82ec70,0x83e5a0,0x83f7a0,0x83a700],
+                [0x841cc0]
+            ],
+            [],
+            [],
+            [[0xb2ec90,0xb34d30]]
+        ],
         "text": {
             "Press START (new)": [0x4b3970]+[0x0]*8,
             "Press START (resume)": [0x4b39a0]+[0x0]*8,

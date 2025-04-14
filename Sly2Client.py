@@ -1,34 +1,30 @@
-import json
-import shutil
-import zipfile
-from typing import Optional, cast, Dict, Any, Set
+from typing import Optional, Dict
 import asyncio
 import multiprocessing
-import os
-import subprocess
 import traceback
 
 from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, logger, server_loop, gui_enabled
-from NetUtils import ClientStatus
 import Utils
-from settings import get_settings
-from kvui import GameManager
 
 from .data import Locations
-from .Sly2Interface import Sly2Interface, ConnectionState, Sly2Episode, PowerUps
-from .Callbacks import init, update, handle_checks, handle_received
+from .Sly2Interface import Sly2Interface, Sly2Episode, PowerUps
+from .Callbacks import init, update
 
 class Sly2CommandProcessor(ClientCommandProcessor):
-    def __init__(self, ctx: CommonContext):
-        super().__init__(ctx)
+    def _cmd_deathlink(self):
+        """Toggle deathlink from client. Overrides default setting."""
+        if isinstance(self.ctx, Sly2Context):
+            self.ctx.death_link_enabled = not self.ctx.death_link_enabled
+            Utils.async_start(self.ctx.update_death_link(
+                self.ctx.death_link_enabled), name="Update Deathlink")
+            message = f"Deathlink {'enabled' if self.ctx.death_link_enabled else 'disabled'}"
+            logger.info(message)
+            self.ctx.notification(message)
 
 class Sly2Context(CommonContext):
-    current_episode: Optional[Sly2Episode] = None
-    in_safehouse: bool = False
     is_pending_death_link_reset = False
     command_processor = Sly2CommandProcessor
     game_interface: Sly2Interface
-    # notification_manager
     game = "Sly 2: Band of Thieves"
     items_handling = 0b111
     pcsx2_sync_task: Optional[asyncio.Task] = None
@@ -40,6 +36,8 @@ class Sly2Context(CommonContext):
     death_link_enabled = False
     queued_deaths: int = 0
 
+    in_safehouse: bool = False
+    current_episode: Optional[Sly2Episode] = None
     inventory: Dict[int,int] = {l.code: 0 for l in Locations.location_dict.values()}
     available_episodes: Dict[Sly2Episode,int] = {e: 0 for e in Sly2Episode}
     all_bottles: Dict[Sly2Episode,int] = {e: 0 for e in Sly2Episode}
@@ -47,6 +45,9 @@ class Sly2Context(CommonContext):
     powerups: PowerUps = PowerUps()
     thiefnet_purchases: PowerUps = PowerUps()
     notification_queue: list[str] = []
+    notification_timestamp: float = 0
+    showing_notification: bool = False
+    deathlink_timestamp: float = 0
 
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
@@ -65,7 +66,7 @@ class Sly2Context(CommonContext):
             else:
                 self.notification(f"DeathLink: Received from {data['source']}")
 
-    async def server_auth(self, password_requested: bool = False):
+    async def server_auth(self, password_requested: bool = False) -> None:
         if password_requested and not self.password:
             await super(Sly2Context, self).server_auth(password_requested)
         await self.get_username()
@@ -133,7 +134,8 @@ async def _handle_game_ready(ctx: Sly2Context) -> None:
             await asyncio.sleep(1)
         await asyncio.sleep(0.1)
         return
-    elif ctx.game_interface.is_loading():
+
+    if ctx.game_interface.is_loading():
         if current_episode != 0:
             ctx.game_interface.logger.info("Waiting for episode to load...")
         ctx.is_loading = True
