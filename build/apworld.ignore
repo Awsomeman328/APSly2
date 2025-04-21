@@ -1,0 +1,8 @@
+.git*
+__pycache__
+.vscode
+build
+README.md
+LICENSE
+requirements.txt
+Sly 2.yaml

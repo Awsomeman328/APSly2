@@ -1,0 +1,207 @@
+﻿name: Player{number}
+description: 'Default Sly 2: Band of Thieves Template'
+
+game: 'Sly 2: Band of Thieves'
+requires:
+  version: 0.6.1 # Version of Archipelago required for this yaml to work as expected.
+
+'Sly 2: Band of Thieves':
+  # Game Options
+  progression_balancing:
+    # A system that can move progression earlier, to try and prevent the player from getting stuck and bored early.
+    # 
+    # A lower setting means more getting stuck. A higher setting means less getting stuck.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 99
+    random: 0
+    random-low: 0
+    random-high: 0
+    disabled: 0 # equivalent to 0
+    normal: 50 # equivalent to 50
+    extreme: 0 # equivalent to 99
+
+  accessibility:
+    # Set rules for reachability of your items/locations.
+    # 
+    # **Full:** ensure everything can be reached and acquired.
+    # 
+    # **Minimal:** ensure what is needed to reach your goal can be acquired.
+    full: 50
+    minimal: 0
+
+  death_link:
+    # When you die, everyone who enabled death link dies. Of course, the reverse is true too.
+    'false': 50
+    'true': 0
+
+  starting_episode:
+    # Select Which episode to start with. Starting with Anatomy for disaster
+    # is not compatible with "Episode 8 Keys".
+    the_black_chateau: 50
+    a_starry_eyed_encounter: 0
+    the_predator_awakens: 0
+    jailbreak: 0
+    a_tangled_web: 0
+    he_who_tames_the_iron_horse: 0
+    menace_from_the_north_eh: 0
+    anatomy_for_disaster: 0
+
+  goal:
+    # Which boss you must defeat to goal.
+    dimitri: 0
+    rajan: 0
+    the_contessa: 0
+    jean_bison: 0
+    clockla: 50
+
+  episode_8_keys:
+    # Whether to have Anatomy for Disaster be unlocked with a number of Clockwerk
+    # parts, rather than with a single item like the other episodes.
+    'false': 0
+    'true': 50
+
+  required_keys:
+    # How many Clockwerk parts you need to unlock Anatomy for Disaster, if
+    # Episode 8 Keys is turned on.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 1
+    # Maximum value is 10
+    10: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  keys_in_pool:
+    # How many Clockwerk parts are added to the pool. This number cannot be
+    # lower than the required number of keys. No Clockwerk parts will be added
+    # if Episode 8 Keys is off
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 1
+    # Maximum value is 10
+    10: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  include_tom:
+    # Add the TOM ability to the pool.
+    'false': 50
+    'true': 0
+
+  include_mega_jump:
+    # Add the Mega Jump ability to the pool.
+    'false': 50
+    'true': 0
+
+  coins_minimum:
+    # The minimum number of coins you'll receive when you get a "Coins" filler
+    # item.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 1000
+    50: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  coins_maximum:
+    # The maximum number of coins you'll receive when you get a "Coins" filler
+    # item.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 1000
+    200: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  thiefnet_minimum:
+    # The minimum number of coins items on ThiefNet will cost.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 10000
+    200: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  thiefnet_maximum:
+    # The maximum number of coins items on ThiefNet will cost.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 10000
+    2000: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  bottle_location_bundle_size:
+    # How many bottles you need to collect for each check. Set to 0 to disable
+    # bottles as checks.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 10
+    0: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  bottle_item_bundle_size:
+    # How many bottles you receive from an item. Set to 0 to disable bottles
+    # as items.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 10
+    0: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  # Item & Location Options
+  local_items:
+    # Forces these items to be in their native world.
+    []
+
+  non_local_items:
+    # Forces these items to be outside their native world.
+    []
+
+  start_inventory:
+    # Start with these items.
+    {}
+
+  start_inventory_from_pool:
+    # Start with these items and don't place them in the world.
+    # 
+    # The game decides what the replacement items will be.
+    {}
+
+  start_hints:
+    # Start with these item's locations prefilled into the ``!hint`` command.
+    []
+
+  start_location_hints:
+    # Start with these locations and their item prefilled into the ``!hint`` command.
+    []
+
+  exclude_locations:
+    # Prevent these locations from having an important item.
+    []
+
+  priority_locations:
+    # Prevent these locations from having an unimportant item.
+    []
+
+  item_links:
+    # Share part of your item pool with other players.
+    []

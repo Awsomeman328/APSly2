@@ -2,14 +2,75 @@ from typing import TYPE_CHECKING
 from time import sleep, time
 from random import randint
 
+from NetUtils import ClientStatus
+
 from .data import Items, Locations
-from .data.data import EPISODES
-from .Sly2Interface import Sly2Episode
+from .data.Constants import EPISODES, POWERUP_TEXT, OTHER_POWERUPS, TREASURES
+from .Sly2Interface import Sly2Episode, PowerUps
 
 if TYPE_CHECKING:
     from .Sly2Client import Sly2Context
 
+async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
+    """Called continuously"""
+
+    # Quite a lot of stuff ended up in this function, even though it might
+    # have fit better in init(). It just didn't work when I put it there,
+    # probably because of when the game loads stuff.
+
+    # Makes sure all episodes are available
+    if ctx.current_episode == Sly2Episode.Title_Screen:
+        ctx.game_interface.unlock_episodes()
+
+    if ap_connected:
+        in_safehouse = ctx.game_interface.in_safehouse()
+        in_hub = ctx.game_interface.in_hub()
+        current_map = ctx.game_interface.get_current_map()
+
+        set_bottles(ctx)
+        replace_text(ctx)
+
+        # If the player is in a safehouse, set the thiefnet items
+        if in_safehouse and not ctx.in_safehouse:
+            ctx.in_safehouse = True
+            set_thiefnet(ctx)
+        elif ctx.in_safehouse and in_hub and not in_safehouse:
+            ctx.in_safehouse = False
+            unset_thiefnet(ctx)
+
+        if ctx.current_episode != Sly2Episode.Title_Screen:
+            current_job = ctx.game_interface.get_current_job()
+            in_hub = ctx.game_interface.in_hub()
+            if in_hub and current_job == 0xffffffff:
+                set_jobs(ctx)
+
+            check_jobs(ctx)
+
+            if not in_safehouse:
+                check_vaults(ctx)
+                await handle_notifications(ctx)
+                await handle_deathlink(ctx)
+
+        # If not in the tutorial, do Archipelago stuff.
+        # This part is separate from the other "handle_*" functions because
+        # episodes should be able to be unlocked while in the episode menu
+        if current_map != 0:
+            await handle_received(ctx)
+            if ctx.current_episode != Sly2Episode.Title_Screen:
+                await handle_checks(ctx)
+                await handle_check_goal(ctx)
+
+    boot_from_invalid_episode(ctx, ap_connected)
+
+
+async def init(ctx: 'Sly2Context', ap_connected: bool) -> None:
+    """Called when the player connects to the AP server or enters a new episode"""
+    if ap_connected:
+        if ctx.current_episode != 0:
+            fix_jobs(ctx)
+
 def set_bottles(ctx: 'Sly2Context'):
+    """Sets the bottles in the episode"""
     if ctx.current_episode is None:
         return
 
@@ -17,14 +78,16 @@ def set_bottles(ctx: 'Sly2Context'):
     ctx.game_interface.set_bottles(bottles)
 
 def set_thiefnet(ctx: 'Sly2Context'):
+    """Sets the randomized ThiefNet items"""
     if ctx.slot_data is None:
         return
 
+    # Write all the names in the ThiefNet description
     if ctx.thiefnet_items is None:
         info = ctx.locations_info
         ctx.thiefnet_items = []
-        for i, location in enumerate(Locations.location_groups["Purchase"]):
-            location_info = info[Locations.location_dict[location].code]
+        for i in range(24):
+            location_info = info[Locations.location_dict[f"ThiefNet {i+1}"].code]
 
             player_name = ctx.player_names[location_info.player]
             item_name = ctx.item_names.lookup_in_slot(location_info.item,location_info.player)
@@ -32,67 +95,65 @@ def set_thiefnet(ctx: 'Sly2Context'):
 
             ctx.thiefnet_items.append(string)
 
+    # Set which items should be available to purchase and unlock all from the
+    # start
     ctx.game_interface.load_powerups(ctx.thiefnet_purchases)
     ctx.game_interface.set_thiefnet_unlock()
 
-    print(ctx.slot_data["thiefnet_costs"])
-    print(len(ctx.slot_data["thiefnet_costs"]))
-    print(len(ctx.thiefnet_items))
-
+    # Set costs and names
     for i, item in enumerate(ctx.thiefnet_items):
         ctx.game_interface.set_thiefnet_cost(i,ctx.slot_data["thiefnet_costs"][i])
         ctx.game_interface.set_thiefnet(i,(f"Check #{i+1}",item))
 
 def unset_thiefnet(ctx: 'Sly2Context'):
+    """Returns powerups to the original state"""
     ctx.thiefnet_purchases = ctx.game_interface.read_powerups()
     set_powerups(ctx)
     ctx.game_interface.reset_thiefnet()
 
-async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
-    """Called continuously"""
-
-    ctx.game_interface.unlock_episodes()
-    boot_from_invalid_episode(ctx, ap_connected)
-
-    if ap_connected:
-        set_bottles(ctx)
-        in_safehouse = ctx.game_interface.in_safehouse()
-        if in_safehouse and not ctx.in_safehouse:
-            ctx.in_safehouse = True
-            set_thiefnet(ctx)
-        elif ctx.in_safehouse and not in_safehouse:
-            ctx.in_safehouse = False
-            unset_thiefnet(ctx)
-
-        if ctx.current_episode != 0:
-            set_jobs(ctx)
-
-        if (
-            ctx.current_episode != Sly2Episode.Title_Screen and
-            not in_safehouse
-        ):
-            await handle_notifications(ctx)
-            await handle_deathlink(ctx)
-
-
-        await handle_received(ctx)
-        await handle_checks(ctx)
+def check_vaults(ctx: 'Sly2Context') -> None:
+    """Checks if the vaults are opened"""
+    ctx.vaults = [ctx.game_interface.vault_opened(i) for i in range(1,9)]
 
 def replace_text(ctx: 'Sly2Context') -> None:
+    """Replaces the text in the game"""
+    if ctx.slot_data is None:
+        return
+
+    if ctx.current_episode != 0:
+        return
+
     ctx.game_interface.set_text(
-        "Press START (new)",
-        "Press START for new Archipelago"
-    )
-    ctx.game_interface.set_text(
-        "Press START (resume)",
+        ctx.game_interface.addresses["text"]["Press START (resume)"],
         "Press START to resume Archipelago"
     )
     ctx.game_interface.set_text(
-        "this powerup.",
-        "this check."
+        ctx.game_interface.addresses["text"]["Press START (new)"],
+        "Press START for new Archipelago"
     )
 
+    # Tells you if an episode is unlocked or not
+    # and how many Clockwerk parts you have
+    for i in range(1,9):
+        if ctx.available_episodes[Sly2Episode(i)] > 0:
+            rep_text = "Unlocked"
+        else:
+            if i == 8 and ctx.slot_data["episode_8_keys"]:
+                obtained_keys = len([
+                    i for i in ctx.items_received
+                    if Items.from_id(i.item).category == "Clockwerk Part"
+                ])
+                required_keys = ctx.slot_data["required_keys"]
+                rep_text = f"{obtained_keys}/{required_keys} Clockwerk parts"
+            else:
+                rep_text = "Locked"
+        ctx.game_interface.set_text(
+            ctx.game_interface.addresses["text"][f"Episode {i}"],
+            rep_text
+        )
+
 def boot_from_invalid_episode(ctx: 'Sly2Context', ap_connected: bool) -> None:
+    """Sends the player to the episode menu if they are in an invalid episode"""
     current_episode = ctx.current_episode
     current_job = ctx.game_interface.get_current_job()
 
@@ -115,54 +176,74 @@ def boot_from_invalid_episode(ctx: 'Sly2Context', ap_connected: bool) -> None:
 
     if not_connected or locked_episode or skip_intro:
         ctx.game_interface.to_episode_menu()
+        # Sleeping because stuff breaks if we don't
         sleep(1)
 
+def check_jobs(ctx: 'Sly2Context') -> None:
+    """Checks if the jobs are completed"""
+    episode = ctx.current_episode
+    if episode is None:
+        return
+
+    chapters = ctx.game_interface.addresses["jobs"][episode-1]
+
+    for j, chapter in enumerate(chapters):
+        for k, job in enumerate(chapter):
+            if isinstance(job, tuple):
+                job = job[1]
+
+            completed = ctx.game_interface.job_completed(job)
+            ctx.jobs_completed[episode-1][j][k] = completed
+
 def set_jobs(ctx: 'Sly2Context') -> None:
-    """
-    Sets jobs to available/unavailable
-    """
+    """Sets jobs to available/unavailable"""
     if ctx.current_episode is None:
         return
 
     episode_jobs = ctx.game_interface.addresses["jobs"][ctx.current_episode.value-1]
     available = ctx.available_episodes[ctx.current_episode]
+    completed_jobs = ctx.jobs_completed[ctx.current_episode-1]
     for i, chapter in enumerate(episode_jobs):
         for job in chapter:
-            if available > i:
+            if isinstance(job, tuple):
+                job = job[0]
+
+            prerequisites = [
+                j for chapter in completed_jobs[:i]
+                for j in chapter
+            ]
+            if available > i and all(prerequisites):
                 ctx.game_interface.activate_job(job)
             else:
                 ctx.game_interface.deactivate_job(job)
 
-def set_thiefnet_costs(ctx: 'Sly2Context') -> None:
-    if ctx.slot_data is None:
-        return
-
-    costs = ctx.slot_data["thiefnet_costs"]
-    for i, price in enumerate(costs):
-        ctx.game_interface.set_thiefnet_cost(i, price)
-
 def set_powerups(ctx: 'Sly2Context'):
+    """Loads the correct powerups into the game"""
     ctx.game_interface.load_powerups(ctx.powerups)
 
-async def init(ctx: 'Sly2Context', ap_connected: bool) -> None:
-    """Called when the player connects to the AP server or enters a new episode"""
-    # boot_from_invalid_episode(ctx, ap_connected)
-    if ap_connected:
-        # ctx.game_interface.logger.info("Initializing")
-        set_powerups(ctx)
-        set_thiefnet_costs(ctx)
-        replace_text(ctx)
+def fix_jobs(ctx: 'Sly2Context'):
+    """Fixes jobs in case they are broken"""
+    current_job = ctx.game_interface.get_current_job()
+    in_hub = ctx.game_interface.in_hub()
+    if in_hub and current_job == 0xffffffff:
+        ctx.game_interface.fix_jobs()
 
 async def handle_notifications(ctx: 'Sly2Context') -> None:
+    """Displays notifications in an infobox"""
     if (
-        (ctx.showing_notification and time() - ctx.notification_timestamp < 5) or
-        ((not ctx.showing_notification) and ctx.game_interface.is_infobox())
+        (ctx.showing_notification and time() - ctx.notification_timestamp < 10) or
+        (
+            (not ctx.showing_notification) and
+            ctx.game_interface.is_infobox() and
+            ctx.game_interface.current_infobox() != 0xffffffff
+        ) or
+        ctx.game_interface.in_cutscene()
     ):
         return
 
     ctx.game_interface.disable_infobox()
     ctx.showing_notification = False
-    if len(ctx.notification_queue) > 0:
+    if len(ctx.notification_queue) > 0 and ctx.game_interface.in_hub():
         new_notification = ctx.notification_queue.pop(0)
         ctx.notification_timestamp = time()
         ctx.showing_notification = True
@@ -170,6 +251,7 @@ async def handle_notifications(ctx: 'Sly2Context') -> None:
 
 
 async def handle_received(ctx: 'Sly2Context') -> None:
+    """Receive items from the multiworld"""
     if ctx.slot_data is None:
         return
 
@@ -180,7 +262,7 @@ async def handle_received(ctx: 'Sly2Context') -> None:
     network_items = ctx.items_received
     if ctx.slot_data["episode_8_keys"]:
         clockwerk_parts = [i for i in ctx.items_received if Items.from_id(i.item).category == "Clockwerk Part"]
-        if clockwerk_parts >= ctx.slot_data["required_keys"]:
+        if len(clockwerk_parts) >= ctx.slot_data["required_keys"]:
             available_episodes[Sly2Episode.Anatomy_for_Disaster] = 1
 
     for i, network_item in enumerate(network_items):
@@ -189,40 +271,63 @@ async def handle_received(ctx: 'Sly2Context') -> None:
 
         if i >= items_n:
             ctx.inventory[network_item.item] += 1
-            ctx.notification(f"Received {item} from {player}")
+            ctx.notification(f"Received {item.name} from {player}")
 
         if item.category == "Episode":
-            episode = Sly2Episode[item.name[12:].replace(" ","_")]
+            episode = Sly2Episode[
+                item.name[12:].replace(" ","_").replace(",","").replace("!","")
+            ]
 
             if (
-                not episode != Sly2Episode.Anatomy_for_Disaster or
+                episode != Sly2Episode.Anatomy_for_Disaster or
                 not ctx.slot_data["episode_8_keys"] or
                 available_episodes[episode] > 0
             ):
                 available_episodes[episode] += 1
         elif item.category == "Power-Up":
-            setattr(ctx.powerups,item.name.lower().replace(" ","_"),True)
+            # I have strong opinions about this. It should be paraglider
+            if item.name == "Paraglider":
+                item_name = "Paraglide"
+            else:
+                item_name = item.name
+
+            item_n = (list(POWERUP_TEXT.keys())+OTHER_POWERUPS).index(item_name)
+            new_powerups = list(ctx.powerups)
+            new_powerups[item_n] = True
+            ctx.powerups = PowerUps(*new_powerups)
         elif item.category == "Bottles":
             split = item.name.index("-")
             episode_name = item.name[split+2:]
-            episode = Sly2Episode[episode_name.replace(" ","_")]
-            amount = int(item.name[:split-1])
-            bottles[episode] += amount
+            episode = Sly2Episode[
+                # Jean's second episode has a weird name, thus the strange replace.
+                # There's probably a better way to do this, but I don't care enough
+                episode_name.replace(" ","_").replace(",","").replace("!","")
+            ]
+            amount = item.name[:split-1]
+            if amount == "Bottle":
+                count = 1
+            else:
+                count = int(amount[:-8])
+
+            bottles[episode] += count
         elif item.name == "Coins" and i >= items_n:
             amount = randint(
-                ctx.slot_data["coins minimum"],
-                ctx.slot_data["coins maximum"]
+                ctx.slot_data["coins_minimum"],
+                ctx.slot_data["coins_maximum"]
             )
             ctx.game_interface.add_coins(amount)
 
+    if ctx.current_episode != 0 and not ctx.in_safehouse:
+        set_powerups(ctx)
+
+    ctx.all_bottles = bottles
     ctx.game_interface.set_items_received(len(network_items))
     ctx.available_episodes = available_episodes
 
 async def handle_checks(ctx: 'Sly2Context') -> None:
+    """Send checks to the multiworld"""
     if ctx.slot_data is None:
         return
-
-    locations = set()
 
     # ThiefNet purchases
     purchases = list(ctx.thiefnet_purchases)[:24]
@@ -230,35 +335,57 @@ async def handle_checks(ctx: 'Sly2Context') -> None:
         if purchased:
             location_name = f"ThiefNet {i+1}"
             location_code = Locations.location_dict[location_name].code
-            locations.add(location_code)
+            ctx.locations_checked.add(location_code)
 
     # Bottles
     bottle_n = ctx.slot_data["bottle_location_bundle_size"]
     for ep in Sly2Episode:
+        if ep.value == 0:
+            continue
+
         bottles = ctx.game_interface.get_bottles(ep)
         for i in range(1,bottles+1):
             if i%bottle_n == 0 or i == 30:
-                location_name = f"{str(ep).replace('_',' ')} - {i} bottles collected"
+                episode_name = ep.name.replace('_',' ')
+                if ep.value == 7:
+                    episode_name = "Menace from the North, Eh!"
+                location_name = f"{episode_name} - {i} bottles collected"
                 location_code = Locations.location_dict[location_name].code
-                locations.add(location_code)
+                ctx.locations_checked.add(location_code)
 
     # Jobs
-    for i, episode in enumerate(ctx.game_interface.addresses["jobs"]):
+    for i, episode in enumerate(ctx.jobs_completed):
+        episode_name = list(EPISODES.keys())[i]
         for j, chapter in enumerate(episode):
             for k, job in enumerate(chapter):
-                completed = ctx.game_interface.job_completed(job)
-                if completed:
-                    episode_name = list(EPISODES.keys())[i]
+                if job:
                     job_name = EPISODES[episode_name][j][k]
                     location_name = f"{episode_name} - {job_name}"
                     location_code = Locations.location_dict[location_name].code
-                    locations.add(location_code)
+                    ctx.locations_checked.add(location_code)
 
+    # Treasures
+    for i, (episode_name,episode_treasures) in enumerate(TREASURES.items()):
+        for j, treasure in enumerate(episode_treasures):
+            address = ctx.game_interface.addresses["treasures"][i][j]
+            if ctx.game_interface.treasure_stolen(address):
+                location_name = f"{episode_name} - {treasure[0]}"
+                location_code = Locations.location_dict[location_name].code
+                ctx.locations_checked.add(location_code)
+
+    # Vaults
+    for i, opened in enumerate(ctx.vaults):
+        episode_name = list(EPISODES.keys())[i]
+        if opened:
+            location_name = f"{episode_name} - Vault"
+            location_code = Locations.location_dict[location_name].code
+            ctx.locations_checked.add(location_code)
 
     await ctx.send_msgs([{"cmd": 'LocationChecks', "locations": ctx.locations_checked}])
 
 
 async def handle_deathlink(ctx: 'Sly2Context') -> None:
+    """Receive and send deathlink"""
     if time()-ctx.deathlink_timestamp > 10:
         if ctx.game_interface.alive():
             if ctx.queued_deaths > 0:
@@ -266,6 +393,24 @@ async def handle_deathlink(ctx: 'Sly2Context') -> None:
                 ctx.queued_deaths -= 1
                 ctx.deathlink_timestamp = time()
         else:
-            # Maybe add something that writes a cause
+            # Maybe add something that writes a cause?
             await ctx.send_death()
             ctx.deathlink_timestamp = time()
+
+
+async def handle_check_goal(ctx: 'Sly2Context') -> None:
+    """Checks if the goal is completed"""
+    if ctx.slot_data is None:
+        return
+
+    victory_name = [
+        "The Black Chateau - Operation: Thunder Beak",
+        "The Predator Awakens - Operation: Wet Tiger",
+        "A Tangled Web - Operation: High Road",
+        "Menace from the North, Eh! - Operation: Canada Games",
+        "Anatomy for Disaster - Carmelita's Gunner/Defeat Clock-la"
+    ][ctx.slot_data["goal"]]
+    victory_code = Locations.location_dict[victory_name].code
+
+    if victory_code in ctx.locations_checked:
+        await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])

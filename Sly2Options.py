@@ -38,7 +38,7 @@ class Goal(Choice):
     option_Rajan = 1
     option_The_Contessa = 2
     option_Jean_Bison = 3
-    option_Clockla = 4
+    option_ClockLa = 4
     # option_All_Bosses = 6
     default = 4
 

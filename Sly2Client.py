@@ -6,7 +6,8 @@ import traceback
 from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, logger, server_loop, gui_enabled
 import Utils
 
-from .data import Locations
+from .data import Locations, Items
+from .data.Constants import EPISODES
 from .Sly2Interface import Sly2Interface, Sly2Episode, PowerUps
 from .Callbacks import init, update
 
@@ -15,39 +16,74 @@ class Sly2CommandProcessor(ClientCommandProcessor):
         """Toggle deathlink from client. Overrides default setting."""
         if isinstance(self.ctx, Sly2Context):
             self.ctx.death_link_enabled = not self.ctx.death_link_enabled
-            Utils.async_start(self.ctx.update_death_link(
-                self.ctx.death_link_enabled), name="Update Deathlink")
+            Utils.async_start(
+                self.ctx.update_death_link(
+                    self.ctx.death_link_enabled
+                ),
+                name="Update Deathlink"
+            )
             message = f"Deathlink {'enabled' if self.ctx.death_link_enabled else 'disabled'}"
             logger.info(message)
             self.ctx.notification(message)
 
+    def _cmd_notification(self, message: str):
+        """Send a message to the game interface."""
+        if isinstance(self.ctx, Sly2Context):
+            self.ctx.notification(message)
+
+    def _cmd_kill(self):
+        """Kill the game."""
+        if isinstance(self.ctx, Sly2Context):
+            self.ctx.game_interface.kill_player()
+
+    def _cmd_menu(self):
+        """Reload to the episode menu"""
+        if isinstance(self.ctx, Sly2Context):
+            self.ctx.game_interface.to_episode_menu()
+
+    def _cmd_coins(self, amount: str):
+        """Add coins to game."""
+        if isinstance(self.ctx, Sly2Context):
+            self.ctx.game_interface.add_coins(int(amount))
+
+
 class Sly2Context(CommonContext):
-    is_pending_death_link_reset = False
+    # Client variables
     command_processor = Sly2CommandProcessor
     game_interface: Sly2Interface
     game = "Sly 2: Band of Thieves"
     items_handling = 0b111
     pcsx2_sync_task: Optional[asyncio.Task] = None
-    is_connected: bool = False
-    is_loading: bool = False
+    is_connected_to_game: bool = False
     is_connected_to_server: bool = False
     slot_data: Optional[dict[str, Utils.Any]] = None
     last_error_message: Optional[str] = None
+    notification_queue: list[str] = []
+    notification_timestamp: float = 0
+    showing_notification: bool = False
+    deathlink_timestamp: float = 0
     death_link_enabled = False
     queued_deaths: int = 0
 
+    # Game state
+    is_loading: bool = False
     in_safehouse: bool = False
     current_episode: Optional[Sly2Episode] = None
-    inventory: Dict[int,int] = {l.code: 0 for l in Locations.location_dict.values()}
+
+    # Items and checks
+    inventory: Dict[int,int] = {l.code: 0 for l in Items.item_dict.values()}
     available_episodes: Dict[Sly2Episode,int] = {e: 0 for e in Sly2Episode}
     all_bottles: Dict[Sly2Episode,int] = {e: 0 for e in Sly2Episode}
     thiefnet_items: Optional[list[str]] = None
     powerups: PowerUps = PowerUps()
     thiefnet_purchases: PowerUps = PowerUps()
-    notification_queue: list[str] = []
-    notification_timestamp: float = 0
-    showing_notification: bool = False
-    deathlink_timestamp: float = 0
+    jobs_completed: list[list[list[bool]]] = [
+        [[False for _ in chapter] for chapter in episode]
+        for episode in EPISODES.values()
+    ]
+    vaults: list[bool] = [
+        False for _ in EPISODES
+    ]
 
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
@@ -76,6 +112,16 @@ class Sly2Context(CommonContext):
         if cmd == "Connected":
             self.slot_data = args["slot_data"]
 
+            self.thiefnet_purchases = PowerUps(*[
+                Locations.location_dict[f"ThiefNet {i+1}"].code in self.checked_locations
+                for i in range(24)
+            ])
+
+            self.vaults = [
+                Locations.location_dict[f"{ep} - Vault"].code in self.checked_locations
+                for ep in EPISODES.keys()
+            ]
+
             # Set death link tag if it was requested in options
             if "death_link" in args["slot_data"]:
                 self.death_link_enabled = bool(args["slot_data"]["death_link"])
@@ -90,7 +136,7 @@ class Sly2Context(CommonContext):
                 }]))
 
 def update_connection_status(ctx: Sly2Context, status: bool):
-    if ctx.is_connected == status:
+    if ctx.is_connected_to_game == status:
         return
 
     if status:
@@ -98,7 +144,7 @@ def update_connection_status(ctx: Sly2Context, status: bool):
     else:
         logger.info("Unable to connect to the PCSX2 instance, attempting to reconnect...")
 
-    ctx.is_connected = status
+    ctx.is_connected_to_game = status
 
 async def pcsx2_sync_task(ctx: Sly2Context):
     logger.info("Starting Sly 2 Connector, attempting to connect to emulator...")
@@ -129,19 +175,16 @@ async def _handle_game_ready(ctx: Sly2Context) -> None:
     if ctx.is_loading:
         if not ctx.game_interface.is_loading():
             ctx.is_loading = False
-            if current_episode != 0:
-                logger.info(f"Loaded episode {current_episode} ({current_episode.name})")
             await asyncio.sleep(1)
         await asyncio.sleep(0.1)
         return
 
     if ctx.game_interface.is_loading():
-        if current_episode != 0:
-            ctx.game_interface.logger.info("Waiting for episode to load...")
         ctx.is_loading = True
         return
 
     connected_to_server = (ctx.server is not None) and (ctx.slot is not None)
+
     new_connection = ctx.is_connected_to_server != connected_to_server
     if ctx.current_episode != current_episode or new_connection:
         ctx.current_episode = current_episode

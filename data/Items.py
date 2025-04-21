@@ -2,7 +2,7 @@ from typing import NamedTuple
 
 from BaseClasses import Item, ItemClassification
 
-from .data import EPISODES
+from .Constants import EPISODES
 
 class Sly2Item(Item):
     game: str = "Sly 2: Band of Thieves"
@@ -12,6 +12,9 @@ class Sly2ItemData(NamedTuple):
     code: int
     category: str
     classification: ItemClassification
+
+# The way I chose to do this is super nice-looking, but it also won't play nice
+# with multiworlds generated with a version with a different order of items.
 
 filler_list = [
     ("Coins",                   ItemClassification.filler,      "Filler"),

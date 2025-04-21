@@ -1,11 +1,11 @@
 from enum import  IntEnum
-from logging import Logger
-from typing import Optional, NamedTuple, Tuple, Dict
+from typing import Optional, NamedTuple, Tuple, Dict, List
 from math import ceil
 import struct
+from logging import Logger
 
 from .pcsx2_interface.pine import Pine
-from .data.data import MENU_RETURN_DATA, ADDRESSES, POWERUP_TEXT
+from .data.Constants import MENU_RETURN_DATA, CAIRO_RETURN_DATA, ADDRESSES, POWERUP_TEXT, HUB_MAPS
 
 class Sly2Episode(IntEnum):
     Title_Screen = 0
@@ -57,6 +57,7 @@ class PowerUps(NamedTuple):
     music_box: bool = False
     lightning_spin: bool = False
     shadow_power: bool = False
+
     tom: bool = False
     time_rush: bool = False
 
@@ -101,10 +102,6 @@ class GameInterface():
     def _write_bytes(self, address: int, value: bytes):
         self.pcsx2_interface.write_bytes(address, value)
 
-    def _collect_all_bottles(self, bottle_flags_address: int):
-        self._write32(bottle_flags_address,2**30-1)
-        self._write32(0x3E1BF4,30)
-
     def connect_to_game(self):
         """
         Initializes the connection to PCSX2 and verifies it is connected to the
@@ -139,32 +136,93 @@ class GameInterface():
     def get_connection_state(self) -> bool:
         try:
             connected = self.pcsx2_interface.is_connected()
-            return not connected or self.current_game is None
+            return connected and self.current_game is not None
         except RuntimeError:
             return False
 
 class Sly2Interface(GameInterface):
+    def _collect_all_bottles(self, bottle_flags_address: int):
+        self._write32(bottle_flags_address,2**30-1)
+        self._write32(0x3E1BF4,30)
+
     def _read_job_status(self, address: int):
-        return self._read32(address+0x54)
+        return self._read32(self._get_job_address(address)+0x54)
 
     def _write_job_status(self, address: int, status: int):
-        self._write32(address+0x54, status)
+        self._write32(self._get_job_address(address)+0x54, status)
+
+    def _read_task_mission(self, address: int, status: int):
+        self._write32(self._get_job_address(address)+0x54, status)
+
+    def _get_task_parents(self, task: int) -> List[int]:
+        address = self._get_job_address(task)
+        parents_n = self._read32(address+0x94)
+        parents_list = self._read32(address+0x98)
+        return [self._read32(parents_list+4*i) for i in range(parents_n)]
+
+    def _task_parents_finished(self, task: int):
+        parents = self._get_task_parents(task)
+        return all([
+            self._read32(p+0x54) == 3
+            for p in parents
+        ])
+
+    def _get_job_address(self, task: int) -> int:
+        pointer = self._read32(self.addresses["DAG root"])
+        for _ in range(task):
+            pointer = self._read32(pointer+0x20)
+
+        return pointer
+
+    def vault_opened(self, vault: int) -> bool:
+        return self._read32(self.addresses["vaults"][vault-1]) == 1
+
+    def fix_jobs(self) -> None:
+        current_job = self.get_current_job()
+        if current_job != 0xffffffff:
+            return
+
+        all_jobs = [
+            job
+            for chapter in self.addresses["jobs"][self.get_current_episode()-1]
+            for job in chapter
+        ]
+
+        for job in all_jobs:
+            if isinstance(job, tuple):
+                job = job[0]
+
+            if self._read_job_status(job) == 2:
+                self.logger.info(f"Fixing job {job}")
+                self._write_job_status(job,1)
+                address = self._get_job_address(job)
+                mission = self._read32(address+0x7c)
+
+                for i in range(1,50):
+                    address = self._read32(address+0x20)
+                    task_mission = self._read32(address+0x7c)
+                    if task_mission != mission:
+                        break
+
+                    self._write_job_status(job+i,0)
 
     def alive(self) -> bool:
-        return True
+        active_character = self._read32(self.addresses["active character"])-7
+        health = self._read32(self.addresses["health"][active_character])
+        return health != 0
 
-    def activate_job(self, address: int) -> None:
-        status = self._read_job_status(address)
-        if status == 0:
-            self._write_job_status(address,1)
+    def activate_job(self, task: int) -> None:
+        status = self._read_job_status(task)
+        if status == 0 and self._task_parents_finished(task):
+            self._write_job_status(task,1)
 
-    def deactivate_job(self, address: int) -> None:
-        status = self._read_job_status(address)
+    def deactivate_job(self, task: int) -> None:
+        status = self._read_job_status(task)
         if status == 1:
-            self._write_job_status(address,0)
+            self._write_job_status(task,0)
 
-    def job_completed(self, address: int) -> bool:
-        return self._read_job_status(address) == 4
+    def job_completed(self, task: int) -> bool:
+        return self._read_job_status(task) == 3
 
     def set_items_received(self, n:int) -> None:
         self._write32(self.addresses["items received"], n)
@@ -183,38 +241,66 @@ class Sly2Interface(GameInterface):
         return self._read32(self.addresses["job id"])
 
     def in_safehouse(self) -> bool:
+        # Some of these checks are not necessary, but I absolutely can't be
+        # bothered to figure out which ones are
         return (
             self.get_current_episode() != 0 and
-            self._read32(self.addresses["camera focus"]) == 0
+            self.in_hub() and
+            self.get_current_job() == 0xffffffff and
+            self._read32(self.addresses["active character pointer"]) == 0 and
+            self._read32(self.addresses["camera focus"]) == 0 and
+            # self._read32(self.addresses["fade type"]) == 777
+            self._read32(self.addresses["infobox string"]) in [305,306,307,308]
         )
 
-    def skip_cutscene(self) -> None:
+    def in_cutscene(self) -> bool:
         frame_counter = self._read16(self.addresses["frame counter"])
+        return frame_counter > 10
+
+    def get_current_map(self) -> int:
+        return self._read32(self.addresses["map id"])
+
+    def in_hub(self) -> bool:
+        return self.get_current_map() in HUB_MAPS
+
+    def skip_cutscene(self) -> None:
         pressing_x = self._read8(self.addresses["pressing x"]) == 255
 
-        if frame_counter > 20 and pressing_x:
+        if self.in_cutscene() and pressing_x:
             self._write32(self.addresses["skip cutscene"],0)
+
+    def _reload(self, reload_data: bytes):
+        self._write_bytes(
+            self.addresses["reload values"],
+            reload_data
+        )
+        self._write32(self.addresses["reload"], 1)
 
     def to_episode_menu(self) -> None:
         self.logger.info("Skipping to episode menu")
-        self._write_bytes(
-            self.addresses["reload values"],
-            bytes.fromhex(MENU_RETURN_DATA)
-        )
-        self._write32(self.addresses["reload"], 1)
+        if self.get_current_episode() == Sly2Episode.Title_Screen:
+            self._reload(bytes.fromhex(CAIRO_RETURN_DATA))
+
+        self._reload(bytes.fromhex(MENU_RETURN_DATA))
 
     def unlock_episodes(self) -> None:
         self._write8(self.addresses["episode unlocks"], 8)
 
     def set_text(self, text: str|int, replacement: str) -> None:
         if isinstance(text,str):
-            text = self.addresses["text"][text][self.get_current_episode()]
+            text_offset = self.addresses["text"][text][self.get_current_episode()-1]
 
-        if not isinstance(text,int):
-            return
+            if not isinstance(text_offset,int):
+                return
+
+            string_table = self._read32(self.addresses["string table"])
+            text_pointer = self._read32(string_table+text_offset)
+        else:
+            text_pointer = text
+
 
         replacement_string = replacement.encode()+bytes([0])
-        self._write_bytes(text,replacement_string)
+        self._write_bytes(text_pointer,replacement_string)
 
     def set_thiefnet(self, powerup: int, replacements: Tuple[str,str]) -> None:
         def adjust_length(text: str, target_length: int) -> str:
@@ -246,6 +332,9 @@ class Sly2Interface(GameInterface):
         self.set_text(addresses[0],new_gadget_name)
         self.set_text(addresses[1],new_gadget_description)
 
+    def treasure_stolen(self, address: int) -> bool:
+        return self._read32(address) == 0xffffffff
+
     def set_thiefnet_cost(self, powerup: int, cost: int) -> None:
         address = self.addresses["thiefnet costs"][powerup]
         self._write32(address, cost)
@@ -271,9 +360,7 @@ class Sly2Interface(GameInterface):
 
     def add_coins(self, to_add: int):
         current_amount = self._read32(self.addresses["coins"])
-        new_amount = current_amount + to_add
-        if new_amount < 0:
-            new_amount = 0
+        new_amount = max(current_amount + to_add,0)
         self._write32(self.addresses["coins"],new_amount)
 
     def load_powerups(self, powerups: PowerUps):
@@ -308,66 +395,38 @@ class Sly2Interface(GameInterface):
         infobox_pointer = self._read32(self.addresses["infobox"])
         return self._read32(infobox_pointer+0x64) == 2
 
+    def current_infobox(self) -> int:
+        return self._read32(self.addresses["infobox string"])
+
     def set_infobox(self, text: str):
         ep = self.get_current_episode()
         if ep == 0 or self.in_safehouse():
             return
 
         infobox_pointer = self._read32(self.addresses["infobox"])
-        text = " "*10+text
-        bytes_string = text.encode()+bytes([0])
-        self._write_bytes(self.addresses["infobox text"][ep-1],bytes_string)
+        self._write32(self.addresses["infobox scrolling"],2)
+        self.set_text("infobox"," "*10+text)
         self._write32(self.addresses["infobox string"],1)
         self._write32(infobox_pointer+0x64,2)
-        self._write32(self.addresses["infobox scrolling"],2)
         self._write32(self.addresses["infobox duration"],0xffffffff)
 
+        # For some reason this has to be done sometimes?
+        self._write32(self.addresses["infobox scrolling"],1)
+
     def disable_infobox(self):
-        self._write32(self.addresses["infobox"]+0x64,1)
+        infobox_pointer = self._read32(self.addresses["infobox"])
+        if self._read32(infobox_pointer+0x64) != 1:
+            self._write32(infobox_pointer+0x64,2)
+            self._write32(infobox_pointer+0x64,1)
 
     def kill_player(self):
         if self.in_safehouse() or self.get_current_episode() == 0:
             return
 
-        # Death
         active_character_pointer = self._read32(self.addresses["active character pointer"])
         self._write32(active_character_pointer+0xdf4,8)
 
-# def find_text(interface: Sly2Interface, text: str) -> int:
-#     search_text = text[:12].encode()
-#     string_table_pointer = interface._read32(interface.addresses["string table"])
-#     start = interface._read32(string_table_pointer+0x4)
-#     pointer = start
-
-#     for _ in range(5000):
-#         text_at_pointer = interface._read_bytes(pointer,len(search_text))
-#         if text_at_pointer == search_text:
-
-#             break
-#         pointer += 0x10
-
-#     if pointer == start+0x10*5000:
-#         print(hex(pointer))
-#         pointer = 0
-
-#     return pointer
-
 if __name__ == "__main__":
-    interf = Sly2Interface(Logger("logger"))
+    interf = Sly2Interface(Logger("testing"))
     interf.connect_to_game()
-    p = PowerUps(*[False for _ in range(35)])
-
-    interf.load_powerups(p)
-    interf.set_infobox("Penis "*20)
-    # interf.kill_player()
-
-    # for i in range(24):
-    #     interf.set_thiefnet(i,(f"Check #{i+1}",f"This is check number {i+1} for thiefnet"))
-    #     interf.set_thiefnet_cost(i,(i+1)**3)
-
-    # print(" "*16+"{")
-    # for i, (gadget, description) in enumerate(POWERUP_TEXT.items()):
-    #     gadget_pointer = find_text(interf, gadget)
-    #     description_pointer = find_text(interf, description)
-    #     print(" "*20+f"\"{gadget}\": ({hex(gadget_pointer)},{hex(description_pointer)}),")
-    # print(" "*16+"},")
+    print(interf.get_bottles(Sly2Episode.Menace_from_the_North_Eh))

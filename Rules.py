@@ -1,6 +1,7 @@
 import typing
 
 from worlds.generic.Rules import add_rule
+from .data.Constants import EPISODES
 
 if typing.TYPE_CHECKING:
     from . import Sly2World
@@ -10,7 +11,10 @@ def set_rules(world: "Sly2World"):
 
     add_rule(
         world.get_location("A Tangled Web - Crystal Vase"),
-        lambda state: state.has("Paraglider", player)
+        lambda state: (
+            state.has("Paraglider", player) or
+            state.has("Mega Jump", player)
+        )
     )
     add_rule(
         world.get_location("A Tangled Web - Operation: High Road"),
@@ -32,13 +36,53 @@ def set_rules(world: "Sly2World"):
         world.get_location("Menace from the North, Eh! - Thermal Ride"),
         lambda state: state.has("Paraglider", player)
     )
+    add_rule(
+        world.get_location("Menace from the North, Eh! - 30 bottles collected"),
+        lambda state: (
+            state.has("Paraglider", player) or
+            state.has("Feral Pounce", player) or
+            state.has("Mega Jump", player)
+        )
+    )
+    add_rule(
+        world.get_location("Anatomy for Disaster - 30 bottles collected"),
+        lambda state: (
+            state.has("Feral Pounce", player) or
+            state.has("Mega Jump", player)
+        )
+    )
+
+    bottle_n = world.options.bottle_item_bundle_size.value
+    if bottle_n != 0:
+        bundle_count = 30//bottle_n
+        remainder = 30%bottle_n
+        for ep in EPISODES.keys():
+            if bottle_n == 1:
+                bundle_name = f"Bottle - {ep}"
+            else:
+                bundle_name = f"{bottle_n} bottles - {ep}"
+            add_rule(
+                world.get_location(f"{ep} - Vault"),
+                lambda state, bn=bundle_name: state.has(bn, player, bundle_count)
+            )
+
+            if remainder > 0:
+                if remainder == 1:
+                    bundle_name = f"Bottle - {ep}"
+                else:
+                    bundle_name = f"{remainder} bottles - {ep}"
+                add_rule(
+                    world.get_location(f"{ep} - Vault"),
+                    lambda state, bn=bundle_name: state.has(bn, player)
+                )
+
 
     victory_condition = [
         "The Black Chateau - Operation: Thunder Beak",
         "The Predator Awakens - Operation: Wet Tiger",
         "A Tangled Web - Operation: High Road",
         "Menace from the North, Eh! - Operation: Canada Games",
-        "Anatomy for Disaster - Carmelita's Gunner"
+        "Anatomy for Disaster - Carmelita's Gunner/Defeat Clock-la"
     ][world.options.goal.value]
 
     victory_location = world.multiworld.get_location(victory_condition, world.player)

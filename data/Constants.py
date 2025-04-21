@@ -16,7 +16,7 @@ EPISODES = {
             "Disco Demolitions",
         ],
         [
-            "Operation: Thunder Beak"
+            "Operation: Thunder Beak",
         ],
 
     ],
@@ -127,7 +127,7 @@ EPISODES = {
             "Thermal Ride",
         ],
         [
-            "Operation: Canada Games",
+            "Operation: Canada Games"
         ],
     ],
     "Anatomy for Disaster": [
@@ -144,36 +144,36 @@ EPISODES = {
             "Mega-Jump Job",
         ],
         [
-            "Carmelita's Gunner",
+            "Carmelita's Gunner/Defeat Clock-la"
         ],
     ],
 }
 
 TREASURES = {
     "The Black Chateau": [
-        ("Crystal Chalice", 2),
-        ("Ivory Jewel Box", 2),
         ("Jade Vase", 2),
+        ("Ivory Jewel Box", 2),
+        ("Crystal Chalice", 2),
     ],
     "A Starry Eyed Encounter": [
         ("Ancestral Kite", 1),
-        ("Burial Urn", 1),
         ("Ming Vase", 1),
+        ("Burial Urn", 1),
     ],
     "The Predator Awakens": [
         ("Gilded Scepter", 1),
-        ("Crystal Flask", 1),
         ("Golden Scroll Case", 1),
+        ("Crystal Flask", 1),
     ],
     "Jailbreak": [
-        ("Ceremonial Lantern", 1),
-        ("Crystal Ball", 1),
         ("Golden Orb", 1),
+        ("Crystal Ball", 1),
+        ("Ceremonial Lantern", 1),
     ],
     "A Tangled Web": [
-        ("Crystal Vase", 1),
         ("Jeweled Crown", 1),
         ("Royal Tiara", 1),
+        ("Crystal Vase", 1),
     ],
     "He Who Tames the Iron Horse": [
         ("Crystal Bell", 1),
@@ -181,26 +181,40 @@ TREASURES = {
         ("Golden Plate", 1),
     ],
     "Menace from the North, Eh!": [
-        ("Collectible Plate", 1),
-        ("Jade Decanter", 1),
         ("Jeweled Chalice", 1),
+        ("Jade Decanter", 1),
+        ("Collectible Plate", 1),
     ],
     "Anatomy for Disaster": [
-        ("Golden Vase", 1),
-        ("Jeweled Egg", 1),
         ("Golden Headdress", 1),
+        ("Jeweled Egg", 1),
+        ("Golden Vase", 1),
     ],
 }
+
+HUB_MAPS = [
+    2,
+    8,
+    12,
+    14,
+    17,
+    27,
+    32,
+    38
+]
 
 ADDRESSES = {
     "SCUS-97316": {
         "loading": 0x3D3980,
         "world id": 0x3D4A60,
+        "map id": 0x3E1110,
         "job id": 0x2DEB44,
+        "DAG root": 0x3E0B04,
         "episode unlocks": 0x5975E8,
         "reload": 0x3E1080,
         "reload values": 0x3E1088,
         "camera focus": 0x2DE258,
+        "fade type": 0x443798,
         "items received": 0x3D4C08,
         "coins": 0x3D4B00,
         "gadgets": 0x3D4AF8,
@@ -214,41 +228,134 @@ ADDRESSES = {
         "infobox scrolling": 0x3DA0D0,
         "infobox string": 0x3DA0D8,
         "infobox duration": 0x3DA0DC,
-        "infobox text": [
-            0x4c5710,
-            0x4bd990,
-            0x4c11a0,
-            0x4c2f50,
-            0x4c6e40,
-            0x4befd0,
-            0x4cb900,
-            0x4c10f0
-        ],
         "health": [0x3d4ab0,0x3d4ac0,0x3d4ae0],
         "bottle flags": [
-            0,
-            0,
-            0,
-            0x3D5020
+            0x3D4CD8,
+            0x3D4E78,
+            0x3D4F90,
+            0x3D5020,
+            0x3D50F4,
+            0x3D53A4,
+            0x3D5500,
+            0x3D56A0
         ],
         "bottle count": 0x3E1BF4,
         "thiefnet costs": [0x2BCDE8+i*0x20 for i in range(24)],
         "thiefnet unlock": [0x2BCDF0+i*0x20 for i in range(24)],
         "jobs": [
             [
-                [0x828750,0x82c560],
-                [0x831e60,0x840c50,0x831150],
-                [0x82ec70,0x83e5a0,0x83f7a0,0x83a700],
-                [0x841cc0]
+                [4,10],
+                [36,43,75],
+                [31,48,60,63],
+                [83]
             ],
-            [],
-            [],
-            [[0xb2ec90,0xb34d30]]
+            [
+                [2],
+                [16,37,46,25],
+                [29,51,54],
+                [65]
+            ],
+            [
+                [2],
+                [14,17,35],
+                [27,46,56,58],
+                [(67,76)]
+            ],
+            [
+                [1,8,21],
+                [33,37,49,54,68],
+                [78]
+            ],
+            [
+                [1],
+                [16,32,41],
+                [46,62,70],
+                [80]
+            ],
+            [
+                [1],
+                [18,29,26],
+                [44,51,48],
+                [60]
+            ],
+            [
+                [2],
+                [17,34,40],
+                [68,62,55,82],
+                [(90,112)]
+            ],
+            [
+                [1],
+                [25,31,42,52],
+                [80],
+                [86]
+            ]
+        ],
+        "treasures": [
+            [
+                0x3D4C9C,
+                0x3D4CA0,
+                0x3D4CA4,
+            ],
+            [
+                0x3D4E3C,
+                0x3D4E40,
+                0x3D4E44,
+            ],
+            [
+                0x3D4F74,
+                0x3D4F78,
+                0x3D4F7C,
+            ],
+            [
+                0x3D4FE4,
+                0x3D4FE8,
+                0x3D4FEC,
+            ],
+            [
+                0x3D50B8,
+                0x3D50BC,
+                0x3D50C0,
+            ],
+            [
+                0x3D5368,
+                0x3D536C,
+                0x3D5370,
+            ],
+            [
+                0x3D54C4,
+                0x3D54C8,
+                0x3D54CC,
+            ],
+            [
+                0x3D5664,
+                0x3D5668,
+                0x3D566C,
+            ]
+        ],
+        "vaults": [
+            0x3D4D64,
+            0x3D4F04,
+            0x3D4FD8,
+            0x3D50AC,
+            0x3D51C4,
+            0x3D53EC,
+            0x3D558C,
+            0x3D57B4
         ],
         "text": {
-            "Press START (new)": [0x4b3970]+[0x0]*8,
-            "Press START (resume)": [0x4b39a0]+[0x0]*8,
-            "this powerup.": [0x4cdcb8]+[0x0]*8,
+            "infobox": [0x14,0x14,0x1c,0x24,0x24,0x1c,0x1c,0x14],
+            "Press START (new)": 0x4b3970,
+            "Press START (resume)": 0x4b39a0,
+            "Episode 1": 0x4a3fe0,
+            "Episode 2": 0x4a4490,
+            "Episode 3": 0x4a4b10,
+            "Episode 4": 0x4a5530,
+            "Episode 5": 0x4a5b30,
+            "Episode 6": 0x4a3040,
+            "Episode 7": 0x4a3eb0,
+            "Episode 8": 0x4a42e0,
+            "this powerup.": [0x5c]*8,
             "powerups": [
                 {
                     "Trigger Bomb": (0x4cb960,0x4cb9b0),
@@ -494,6 +601,21 @@ POWERUP_TEXT = {
     "Feral Pounce": "Jump over vast distances",
 }
 
+OTHER_POWERUPS = [
+    "Mega Jump",
+    "Tornado Strike",
+    "Knockout Dive",
+    "Insanity Strike",
+    "Voltage Attack",
+    "Long Toss",
+    "Rage Bomb",
+    "Music Box",
+    "Lightning Spin",
+    "Shadow Power",
+    "TOM",
+    "Time Rush"
+]
+
 MENU_RETURN_DATA = (
     "8F1B8DAE"+
     "A19F156B"+
@@ -529,4 +651,46 @@ MENU_RETURN_DATA = (
     "AF5088AE"+
     "F0553493"+
     "9E5F086B"
+)
+
+
+CAIRO_RETURN_DATA = (
+    "C1796865"+
+    "6F8FCA64"+
+    "2C6F2066"+
+    "7320746F"+
+    "20666F72"+
+    "63652077"+
+    "6F726420"+
+    "746F2074"+
+    "72656174"+
+    "20746869"+
+    "7320636F"+
+    "6C756D6E"+
+    "20617320"+
+    "61206D65"+
+    "6D6F2066"+
+    "69656C64"+
+    "89010000"+
+    "FFFFFFFF"+
+    "C1796865"+
+    "6F8FCA64"+
+    "2C6F2066"+
+    "7320746F"+
+    "20666F72"+
+    "63652077"+
+    "6F726420"+
+    "746F2074"+
+    "72656174"+
+    "20746869"+
+    "7320636F"+
+    "6C756D6E"+
+    "20617320"+
+    "61206D65"+
+    "6D6F2066"+
+    "69656C64"+
+    "02000000"+
+    "00000000"+
+    "89010000"+
+    "FFFFFFFF"
 )

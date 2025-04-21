@@ -92,6 +92,7 @@ class Sly2World(World):
 
 
     def get_filler_item_name(self) -> str:
+        # Currently just coins
         return random.choice(list(self.item_name_groups["Filler"]))
 
     def create_regions(self) -> None:
