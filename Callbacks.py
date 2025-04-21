@@ -27,8 +27,10 @@ async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
         in_hub = ctx.game_interface.in_hub()
         current_map = ctx.game_interface.get_current_map()
 
-        set_bottles(ctx)
         replace_text(ctx)
+
+        if ctx.slot_data["bottle_location_bundle_size"] != 0:
+            set_bottles(ctx)
 
         # If the player is in a safehouse, set the thiefnet items
         if in_safehouse and not ctx.in_safehouse:
