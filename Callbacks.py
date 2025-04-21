@@ -339,19 +339,20 @@ async def handle_checks(ctx: 'Sly2Context') -> None:
 
     # Bottles
     bottle_n = ctx.slot_data["bottle_location_bundle_size"]
-    for ep in Sly2Episode:
-        if ep.value == 0:
-            continue
+    if bottle_n != 0:
+        for ep in Sly2Episode:
+            if ep.value == 0:
+                continue
 
-        bottles = ctx.game_interface.get_bottles(ep)
-        for i in range(1,bottles+1):
-            if i%bottle_n == 0 or i == 30:
-                episode_name = ep.name.replace('_',' ')
-                if ep.value == 7:
-                    episode_name = "Menace from the North, Eh!"
-                location_name = f"{episode_name} - {i} bottles collected"
-                location_code = Locations.location_dict[location_name].code
-                ctx.locations_checked.add(location_code)
+            bottles = ctx.game_interface.get_bottles(ep)
+            for i in range(1,bottles+1):
+                if i%bottle_n == 0 or i == 30:
+                    episode_name = ep.name.replace('_',' ')
+                    if ep.value == 7:
+                        episode_name = "Menace from the North, Eh!"
+                    location_name = f"{episode_name} - {i} bottles collected"
+                    location_code = Locations.location_dict[location_name].code
+                    ctx.locations_checked.add(location_code)
 
     # Jobs
     for i, episode in enumerate(ctx.jobs_completed):
