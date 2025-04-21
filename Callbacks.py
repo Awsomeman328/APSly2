@@ -22,7 +22,7 @@ async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
     if ctx.current_episode == Sly2Episode.Title_Screen:
         ctx.game_interface.unlock_episodes()
 
-    if ap_connected:
+    if ap_connected and ctx.slot_data is not None:
         in_safehouse = ctx.game_interface.in_safehouse()
         in_hub = ctx.game_interface.in_hub()
         current_map = ctx.game_interface.get_current_map()
@@ -176,7 +176,9 @@ def boot_from_invalid_episode(ctx: 'Sly2Context', ap_connected: bool) -> None:
         ctx.slot_data["skip_intro"]
     )
 
-    if not_connected or locked_episode or skip_intro:
+    # Skipping the intro breaks saving
+
+    if not_connected or locked_episode:
         ctx.game_interface.to_episode_menu()
         # Sleeping because stuff breaks if we don't
         sleep(1)
@@ -332,6 +334,9 @@ async def handle_checks(ctx: 'Sly2Context') -> None:
         return
 
     # ThiefNet purchases
+    if ctx.game_interface.in_safehouse():
+        ctx.thiefnet_purchases = ctx.game_interface.read_powerups()
+
     purchases = list(ctx.thiefnet_purchases)[:24]
     for i, purchased in enumerate(purchases):
         if purchased:
@@ -389,6 +394,9 @@ async def handle_checks(ctx: 'Sly2Context') -> None:
 
 async def handle_deathlink(ctx: 'Sly2Context') -> None:
     """Receive and send deathlink"""
+    if not ctx.death_link_enabled:
+        return
+
     if time()-ctx.deathlink_timestamp > 10:
         if ctx.game_interface.alive():
             if ctx.queued_deaths > 0:

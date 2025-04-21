@@ -3,9 +3,10 @@ from typing import Optional, NamedTuple, Tuple, Dict, List
 from math import ceil
 import struct
 from logging import Logger
+from time import sleep
 
 from .pcsx2_interface.pine import Pine
-from .data.Constants import MENU_RETURN_DATA, CAIRO_RETURN_DATA, ADDRESSES, POWERUP_TEXT, HUB_MAPS
+from .data.Constants import MENU_RETURN_DATA, ADDRESSES, POWERUP_TEXT, HUB_MAPS
 
 class Sly2Episode(IntEnum):
     Title_Screen = 0
@@ -276,11 +277,17 @@ class Sly2Interface(GameInterface):
         )
         self._write32(self.addresses["reload"], 1)
 
+    def _complete_dag(self) -> None:
+        pointer = self._read32(self.addresses["DAG root"])
+        for _ in range(200):
+            if pointer == 0:
+                return
+
+            self._write32(pointer+0x54,3)
+            pointer = self._read32(pointer+0x20)
+
     def to_episode_menu(self) -> None:
         self.logger.info("Skipping to episode menu")
-        if self.get_current_episode() == Sly2Episode.Title_Screen:
-            self._reload(bytes.fromhex(CAIRO_RETURN_DATA))
-
         self._reload(bytes.fromhex(MENU_RETURN_DATA))
 
     def unlock_episodes(self) -> None:
@@ -425,8 +432,3 @@ class Sly2Interface(GameInterface):
 
         active_character_pointer = self._read32(self.addresses["active character pointer"])
         self._write32(active_character_pointer+0xdf4,8)
-
-if __name__ == "__main__":
-    interf = Sly2Interface(Logger("testing"))
-    interf.connect_to_game()
-    print(interf.get_bottles(Sly2Episode.Menace_from_the_North_Eh))
