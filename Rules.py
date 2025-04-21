@@ -36,21 +36,6 @@ def set_rules(world: "Sly2World"):
         world.get_location("Menace from the North, Eh! - Thermal Ride"),
         lambda state: state.has("Paraglider", player)
     )
-    add_rule(
-        world.get_location("Menace from the North, Eh! - 30 bottles collected"),
-        lambda state: (
-            state.has("Paraglider", player) or
-            state.has("Feral Pounce", player) or
-            state.has("Mega Jump", player)
-        )
-    )
-    add_rule(
-        world.get_location("Anatomy for Disaster - 30 bottles collected"),
-        lambda state: (
-            state.has("Feral Pounce", player) or
-            state.has("Mega Jump", player)
-        )
-    )
 
     bottle_n = world.options.bottle_item_bundle_size.value
     if bottle_n != 0:
@@ -75,6 +60,22 @@ def set_rules(world: "Sly2World"):
                     world.get_location(f"{ep} - Vault"),
                     lambda state, bn=bundle_name: state.has(bn, player)
                 )
+
+        add_rule(
+            world.get_location("Menace from the North, Eh! - 30 bottles collected"),
+            lambda state: (
+                state.has("Paraglider", player) or
+                state.has("Feral Pounce", player) or
+                state.has("Mega Jump", player)
+            )
+        )
+        add_rule(
+            world.get_location("Anatomy for Disaster - 30 bottles collected"),
+            lambda state: (
+                state.has("Feral Pounce", player) or
+                state.has("Mega Jump", player)
+            )
+        )
 
 
     victory_condition = [
