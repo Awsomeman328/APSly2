@@ -28,6 +28,15 @@ Enable PINE in PCSX2
 3. Ensure that the "Press START" message has changed before playing.
 4. Start a new game.
 
+## Skipping the intro
+If you want to skip the intro, do the following:
+- Start a new game. Wait until the first binocucom section is finished.
+- Save and quit the game.
+- Resume the game. You probably need to load it from the menu, as pressing start might load another save file.
+- Use the `/menu` command in the client.
+
+Simply skipping to the menu without saving first will make saving impossible.
+
 ## Troubleshooting
 ### The client won't connect to my PCSX2 instance
 Make sure you have PINE enabled and that you're playing the US version of the game.
