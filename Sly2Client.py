@@ -41,10 +41,10 @@ class Sly2CommandProcessor(ClientCommandProcessor):
         if isinstance(self.ctx, Sly2Context):
             self.ctx.game_interface.to_episode_menu()
 
-    def _cmd_coins(self, amount: str):
-        """Add coins to game."""
-        if isinstance(self.ctx, Sly2Context):
-            self.ctx.game_interface.add_coins(int(amount))
+    # def _cmd_coins(self, amount: str):
+    #     """Add coins to game."""
+    #     if isinstance(self.ctx, Sly2Context):
+    #         self.ctx.game_interface.add_coins(int(amount))
 
 
 class Sly2Context(CommonContext):

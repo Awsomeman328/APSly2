@@ -228,7 +228,7 @@ ADDRESSES = {
         "infobox scrolling": 0x3DA0D0,
         "infobox string": 0x3DA0D8,
         "infobox duration": 0x3DA0DC,
-        "health": [0x3d4ab0,0x3d4ac0,0x3d4ae0],
+        "health": [0x3d4ab0,0x3d4ac8,0x3d4ae0],
         "bottle flags": [
             0x3D4CD8,
             0x3D4E78,
