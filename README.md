@@ -2,7 +2,7 @@
 An archipelago implementation of Sly 2.
 
 ## What does randomization do in this game?
-Each gadget and chapter of each episode is shuffled into the item pool, and optionally the bottles as well. The checks are completing jobs, opening the vaults, purchasing items from ThiefNet, and optionally collecting bottles.
+Each gadget and chapter of each episode is shuffled into the item pool, and optionally the bottles as well. The checks are completing jobs, collecting treasures, opening the vaults, purchasing items from ThiefNet, and optionally collecting bottles.
 
 **Additional features include:**
 - The ability to skip video cutscenes by pressing the X button.
