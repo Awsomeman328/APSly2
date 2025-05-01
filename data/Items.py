@@ -37,8 +37,8 @@ powerup_list = [
     ("Music Box",               ItemClassification.useful,      "Power-Up"),
     ("Lightning Spin",          ItemClassification.useful,      "Power-Up"),
     ("Shadow Power",            ItemClassification.useful,      "Power-Up"),
-    ("TOM",                     ItemClassification.useful,      "Power-UP"),
-    ("Mega Jump",               ItemClassification.useful,      "Power-UP"),
+    ("TOM",                     ItemClassification.useful,      "Power-Up"),
+    ("Mega Jump",               ItemClassification.useful,      "Power-Up"),
 
     ("Trigger Bomb",            ItemClassification.useful,      "Power-Up"),
     ("Size Destabilizer",       ItemClassification.useful,      "Power-Up"),
