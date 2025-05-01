@@ -61,8 +61,7 @@ class Sly2World(World):
 
     thiefnet_costs: List[int] = []
 
-    def generate_early(self) -> None:
-        opt = self.options
+    def validate_options(self, opt: Sly2Options):
         if opt.episode_8_keys and opt.required_keys > opt.keys_in_pool:
             raise OptionError(
                 f"Episode 8 requires {opt.required_keys} keys but only {opt.keys_in_pool} keys in pool"
@@ -82,6 +81,20 @@ class Sly2World(World):
             raise OptionError(
                 f"Bottle item bundle size and bottle location bundle size should either both be zero or both be non-zero"
             )
+
+        if opt.coins_maximum < opt.coins_minimum:
+            raise OptionError(
+                f"Coins minimum cannot be larger than maximum (min: {opt.coins_minimum}, max: {opt.coins_maximum})"
+            )
+
+        if opt.thiefnet_maximum < opt.thiefnet_minimum:
+            raise OptionError(
+                f"Thiefnet minimum cannot be larger than maximum (min: {opt.thiefnet_minimum}, max: {opt.thiefnet_maximum})"
+            )
+
+    def generate_early(self) -> None:
+        opt = self.options
+        self.validate_options(opt)
 
         thiefnet_min = self.options.thiefnet_minimum.value
         thiefnet_max = self.options.thiefnet_maximum.value
