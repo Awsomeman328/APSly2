@@ -288,6 +288,12 @@ class Sly2Interface(GameInterface):
 
     def to_episode_menu(self) -> None:
         self.logger.info("Skipping to episode menu")
+        if (
+            self.get_current_map() == 0 and
+            self.get_current_job() == 1583
+        ):
+            self.set_items_received(0)
+
         self._reload(bytes.fromhex(MENU_RETURN_DATA))
 
     def unlock_episodes(self) -> None:

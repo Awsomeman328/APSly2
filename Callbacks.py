@@ -104,6 +104,11 @@ def set_thiefnet(ctx: 'Sly2Context'):
 
             ctx.thiefnet_items.append(string)
 
+    ctx.thiefnet_purchases = PowerUps(*[
+        Locations.location_dict[f"ThiefNet {i+1}"].code in ctx.checked_locations
+        for i in range(24)
+    ])
+
     # Set which items should be available to purchase and unlock all from the
     # start
     ctx.game_interface.load_powerups(ctx.thiefnet_purchases)

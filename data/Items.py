@@ -82,7 +82,7 @@ clockwerk_parts_list = [
         "Leg (Right)",
         "Leg (Left)",
         "Neck",
-        "Pelvis"
+        "Pelvis",
 
         "Feather"
     ]

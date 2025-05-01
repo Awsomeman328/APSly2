@@ -198,16 +198,13 @@ requires:
   ## Item & Location Options
 
   # Forces these items to be in their native world.
-  local_items:
-    []
+  local_items: []
 
   # Forces these items to be outside their native world.
-  non_local_items:
-    []
+  non_local_items: []
 
   # Start with these items.
-  start_inventory:
-    {}
+  start_inventory: {}
 
   # Start with these items and don't place them in the world.
   #
