@@ -36,9 +36,15 @@ async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
         if in_safehouse and not ctx.in_safehouse:
             ctx.in_safehouse = True
             set_thiefnet(ctx)
-        elif ctx.in_safehouse and in_hub and not in_safehouse:
+        elif ctx.in_hub and not in_hub:
+            ctx.in_hub = False
+            ctx.in_safehouse = False
+        elif ctx.in_safehouse and ctx.in_hub and not in_safehouse:
             ctx.in_safehouse = False
             unset_thiefnet(ctx)
+
+        if in_hub and not ctx.in_hub:
+            ctx.in_hub = True
 
         if ctx.current_episode != Sly2Episode.Title_Screen:
             current_job = ctx.game_interface.get_current_job()

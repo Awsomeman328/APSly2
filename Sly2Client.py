@@ -68,6 +68,7 @@ class Sly2Context(CommonContext):
     # Game state
     is_loading: bool = False
     in_safehouse: bool = False
+    in_hub: bool = False
     current_episode: Optional[Sly2Episode] = None
 
     # Items and checks
