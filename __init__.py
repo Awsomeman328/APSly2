@@ -98,10 +98,10 @@ class Sly2World(World):
 
         thiefnet_min = self.options.thiefnet_minimum.value
         thiefnet_max = self.options.thiefnet_maximum.value
-        self.thiefnet_costs = [
+        self.thiefnet_costs = sorted([
             random.randint(thiefnet_min,thiefnet_max)
             for _ in range(24)
-        ]
+        ])
 
 
     def get_filler_item_name(self) -> str:

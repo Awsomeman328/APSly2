@@ -1,4 +1,5 @@
 import typing
+from math import ceil
 
 from worlds.generic.Rules import add_rule
 from .data.Constants import EPISODES
@@ -74,6 +75,18 @@ def set_rules(world: "Sly2World"):
             lambda state: (
                 state.has("Feral Pounce", player) or
                 state.has("Mega Jump", player)
+            )
+        )
+
+    # Putting ThiefNet stuff out of logic, to make early game less slow.
+    # Divides the items into 8 groups of 3. First groups requires 2 episodes
+    # items to be in logic, second group requires 4, etc.
+    for i in range(1,25):
+        episode_items_n = ceil(i/3)*2
+        add_rule(
+            world.get_location(f"ThiefNet {i}"),
+            lambda state: (
+                state.has_group("Episode", player, episode_items_n)
             )
         )
 
