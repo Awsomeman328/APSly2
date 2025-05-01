@@ -65,13 +65,26 @@ clockwerk_parts_list = [
         "Tail Feathers",
         "Wing (Right)",
         "Wing (Left)",
-        "Heart",
+        "Heart (Right Half)",
+        "Heart (Left Half)",
         "Eye (Right)",
         "Eye (Left)",
         "Lung (Right)",
         "Lung (Left)",
         "Stomach",
         "Talons",
+        "Hate Chip",
+        "Brain",
+
+        "Beak",
+        "Ribcage",
+        "Skull",
+        "Leg (Right)",
+        "Leg (Left)",
+        "Neck",
+        "Pelvis"
+
+        "Feather"
     ]
 ]
 

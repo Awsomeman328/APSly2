@@ -14,7 +14,7 @@ from worlds.LauncherComponents import (
     icon_paths,
 )
 
-from .Sly2Options import Sly2Options, StartingEpisode
+from .Sly2Options import Sly2Options, StartingEpisode, sly2_option_groups
 from .Regions import create_regions
 from .data.Items import item_dict, item_groups, Sly2Item
 from .data.Locations import location_dict, location_groups
@@ -36,6 +36,7 @@ components.append(
 ## The world
 class Sly2Web(WebWorld):
     game = "Sly 2: Band of Thieves"
+    option_groups = sly2_option_groups
 
 
 class Sly2World(World):

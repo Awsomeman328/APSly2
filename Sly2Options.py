@@ -6,6 +6,7 @@ from Options import (
     Toggle,
     DefaultOnToggle,
     Range,
+    OptionGroup
 )
 from dataclasses import dataclass
 
@@ -58,9 +59,9 @@ class RequiredKeys(Range):
     Episode 8 Keys is turned on.
     """
 
-    display_name = "Required Keys"
+    display_name = "Episode 8 Required Keys"
     range_start = 1
-    range_end = 10
+    range_end = 100
     default = 10
 
 
@@ -68,12 +69,12 @@ class KeysInPool(Range):
     """
     How many Clockwerk parts are added to the pool. This number cannot be
     lower than the required number of keys. No Clockwerk parts will be added
-    if Episode 8 Keys is off
+    if Episode 8 Keys is off.
     """
 
-    display_name = "Keys in Pool"
+    display_name = "Clockwerk Parts in Pool"
     range_start = 1
-    range_end = 10
+    range_end = 100
     default = 10
 
 
@@ -189,3 +190,26 @@ class Sly2Options(PerGameCommonOptions):
     bottle_location_bundle_size: BottleLocationBundleSize
     bottle_item_bundle_size: BottleItemBundleSize
     # skip_intro: SkipIntro
+
+sly2_option_groups = [
+    OptionGroup("Goal",[
+        Goal
+    ]),
+    OptionGroup("Clockwerk parts",[
+        Episode8Keys,
+        RequiredKeys,
+        KeysInPool
+    ]),
+    OptionGroup("Items",[
+        IncludeTOM,
+        IncludeMegaJump,
+        CoinsMinimum,
+        CoinsMaximum,
+        BottleItemBundleSize
+    ]),
+    OptionGroup("Locations",[
+        ThiefNetCostMinimum,
+        ThiefNetCostMaximum,
+        BottleLocationBundleSize
+    ])
+]
