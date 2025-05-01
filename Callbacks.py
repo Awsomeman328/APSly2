@@ -59,10 +59,10 @@ async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
                 await handle_notifications(ctx)
                 await handle_deathlink(ctx)
 
-        # If not in the tutorial, do Archipelago stuff.
+        # If not in the tutorial or a cutscene, do Archipelago stuff.
         # This part is separate from the other "handle_*" functions because
         # episodes should be able to be unlocked while in the episode menu
-        if current_map != 0:
+        if current_map != 0 and not ctx.game_interface.in_cutscene():
             await handle_received(ctx)
             if ctx.current_episode != Sly2Episode.Title_Screen:
                 await handle_checks(ctx)
