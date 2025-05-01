@@ -147,6 +147,7 @@ class Sly2World(World):
             "coins_maximum",
             "thiefnet_minimum",
             "thiefnet_maximum",
+            "include_vaults"
             "bottle_location_bundle_size",
             "bottle_item_bundle_size",
             # "skip_intro"

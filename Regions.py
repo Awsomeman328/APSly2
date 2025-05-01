@@ -92,14 +92,15 @@ def create_regions(world: "Sly2World"):
             {f"{episode} - Vault": location_dict[f"{episode} - Vault"].code}
         )
 
-    add_vault("The Black Chateau", "Episode 1 (2)")
-    add_vault("A Starry Eyed Encounter", "Episode 2 (3)")
-    add_vault("The Predator Awakens", "Episode 3 (2)")
-    add_vault("Jailbreak", "Episode 4 (1)")
-    add_vault("A Tangled Web", "Episode 5 (3)")
-    add_vault("He Who Tames the Iron Horse", "Episode 6 (1)")
-    add_vault("Menace from the North, Eh!", "Episode 7 (2)")
-    add_vault("Anatomy for Disaster", "Episode 8 (2)")
+    if world.options.include_vaults:
+        add_vault("The Black Chateau", "Episode 1 (2)")
+        add_vault("A Starry Eyed Encounter", "Episode 2 (3)")
+        add_vault("The Predator Awakens", "Episode 3 (2)")
+        add_vault("Jailbreak", "Episode 4 (1)")
+        add_vault("A Tangled Web", "Episode 5 (3)")
+        add_vault("He Who Tames the Iron Horse", "Episode 6 (1)")
+        add_vault("Menace from the North, Eh!", "Episode 7 (2)")
+        add_vault("Anatomy for Disaster", "Episode 8 (2)")
 
     for i, (ep, t) in enumerate(TREASURES.items()):
         for treasure in t:

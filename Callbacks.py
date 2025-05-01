@@ -55,7 +55,8 @@ async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
             check_jobs(ctx)
 
             if not in_safehouse:
-                check_vaults(ctx)
+                if ctx.slot_data["include_vaults"]:
+                    check_vaults(ctx)
                 await handle_notifications(ctx)
                 await handle_deathlink(ctx)
 

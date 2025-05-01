@@ -139,6 +139,12 @@ class ThiefNetCostMaximum(Range):
     range_end = 10_000
     default = 2000
 
+class IncludeVaults(DefaultOnToggle):
+    """
+    Whether to include vaults as checks.
+    """
+    display_name = "Include Vaults"
+
 
 class BottleLocationBundleSize(Range):
     """
@@ -185,6 +191,7 @@ class Sly2Options(PerGameCommonOptions):
     include_mega_jump: IncludeMegaJump
     coins_minimum: CoinsMinimum
     coins_maximum: CoinsMaximum
+    include_vaults: IncludeVaults
     thiefnet_minimum: ThiefNetCostMinimum
     thiefnet_maximum: ThiefNetCostMaximum
     bottle_location_bundle_size: BottleLocationBundleSize
@@ -210,6 +217,7 @@ sly2_option_groups = [
     OptionGroup("Locations",[
         ThiefNetCostMinimum,
         ThiefNetCostMaximum,
+        IncludeVaults,
         BottleLocationBundleSize
     ])
 ]
