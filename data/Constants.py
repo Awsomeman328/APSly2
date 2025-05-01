@@ -157,8 +157,8 @@ TREASURES = {
     ],
     "A Starry Eyed Encounter": [
         ("Ancestral Kite", 1),
-        ("Ming Vase", 1),
         ("Burial Urn", 1),
+        ("Ming Vase", 1),
     ],
     "The Predator Awakens": [
         ("Gilded Scepter", 1),
