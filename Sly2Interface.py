@@ -6,7 +6,7 @@ from logging import Logger
 from time import sleep
 
 from .pcsx2_interface.pine import Pine
-from .data.Constants import MENU_RETURN_DATA, ADDRESSES, POWERUP_TEXT, HUB_MAPS
+from .data.Constants import MENU_RETURN_DATA, CAIRO_RETURN_DATA, ADDRESSES, POWERUP_TEXT, HUB_MAPS
 
 class Sly2Episode(IntEnum):
     Title_Screen = 0
@@ -241,6 +241,9 @@ class Sly2Interface(GameInterface):
     def get_current_job(self) -> int:
         return self._read32(self.addresses["job id"])
 
+    def set_current_job(self, job: int) -> None:
+        self._write32(self.addresses["job id"], job)
+
     def in_safehouse(self) -> bool:
         # Some of these checks are not necessary, but I absolutely can't be
         # bothered to figure out which ones are
@@ -292,6 +295,9 @@ class Sly2Interface(GameInterface):
             self.get_current_map() == 0 and
             self.get_current_job() == 1583
         ):
+            # self._reload(bytes.fromhex(CAIRO_RETURN_DATA))
+            # sleep(0.5)
+            self.set_current_job(0xffffffff)
             self.set_items_received(0)
 
         self._reload(bytes.fromhex(MENU_RETURN_DATA))
