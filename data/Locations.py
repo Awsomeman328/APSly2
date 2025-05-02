@@ -31,7 +31,7 @@ bottles_list = [
 ]
 
 purchases_list = [
-    (f"ThiefNet {i+1}", "Purchase")
+    (f"ThiefNet {i+1:02}", "Purchase")
     for i in range(24)
 ]
 

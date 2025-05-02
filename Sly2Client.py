@@ -114,7 +114,7 @@ class Sly2Context(CommonContext):
             self.slot_data = args["slot_data"]
 
             self.thiefnet_purchases = PowerUps(*[
-                Locations.location_dict[f"ThiefNet {i+1}"].code in self.checked_locations
+                Locations.location_dict[f"ThiefNet {i+1:02}"].code in self.checked_locations
                 for i in range(24)
             ])
 

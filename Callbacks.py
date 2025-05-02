@@ -96,7 +96,7 @@ def set_thiefnet(ctx: 'Sly2Context'):
         info = ctx.locations_info
         ctx.thiefnet_items = []
         for i in range(24):
-            location_info = info[Locations.location_dict[f"ThiefNet {i+1}"].code]
+            location_info = info[Locations.location_dict[f"ThiefNet {i+1:02}"].code]
 
             player_name = ctx.player_names[location_info.player]
             item_name = ctx.item_names.lookup_in_slot(location_info.item,location_info.player)
@@ -105,7 +105,7 @@ def set_thiefnet(ctx: 'Sly2Context'):
             ctx.thiefnet_items.append(string)
 
     ctx.thiefnet_purchases = PowerUps(*[
-        Locations.location_dict[f"ThiefNet {i+1}"].code in ctx.checked_locations
+        Locations.location_dict[f"ThiefNet {i+1:02}"].code in ctx.checked_locations
         for i in range(24)
     ])
 
@@ -352,7 +352,7 @@ async def handle_checks(ctx: 'Sly2Context') -> None:
     purchases = list(ctx.thiefnet_purchases)[:24]
     for i, purchased in enumerate(purchases):
         if purchased:
-            location_name = f"ThiefNet {i+1}"
+            location_name = f"ThiefNet {i+1:02}"
             location_code = Locations.location_dict[location_name].code
             ctx.locations_checked.add(location_code)
 

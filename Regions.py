@@ -43,7 +43,7 @@ def create_regions(world: "Sly2World"):
     """Creates a region for each chapter of each episode"""
     menu = Region("Menu", world.player, world.multiworld)
     menu.add_locations({
-        f"ThiefNet {i+1}": location_dict[f"ThiefNet {i+1}"].code
+        f"ThiefNet {i+1:02}": location_dict[f"ThiefNet {i+1:02}"].code
         for i in range(24)
     })
 
