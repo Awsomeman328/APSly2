@@ -1,6 +1,8 @@
 import typing
 from math import ceil
 
+from BaseClasses import CollectionState
+
 from worlds.generic.Rules import add_rule
 from .data.Constants import EPISODES
 
@@ -91,15 +93,41 @@ def set_rules(world: "Sly2World"):
         )
 
 
-    victory_condition = [
-        "The Black Chateau - Operation: Thunder Beak",
-        "The Predator Awakens - Operation: Wet Tiger",
-        "A Tangled Web - Operation: High Road",
-        "Menace from the North, Eh! - Operation: Canada Games",
-        "Anatomy for Disaster - Carmelita's Gunner/Defeat Clock-la"
-    ][world.options.goal.value]
+    if world.options.goal.value > 5:
+        victory_condition = [
+            "The Black Chateau - Operation: Thunder Beak",
+            "The Predator Awakens - Operation: Wet Tiger",
+            "A Tangled Web - Operation: High Road",
+            "Menace from the North, Eh! - Operation: Canada Games",
+            "Anatomy for Disaster - Carmelita's Gunner/Defeat Clock-la"
+        ][world.options.goal.value]
 
-    victory_location = world.multiworld.get_location(victory_condition, world.player)
-    victory_location.address = None
-    victory_location.place_locked_item(world.create_event("Victory"))
-    world.multiworld.completion_condition[world.player] = lambda state: state.has("Victory", world.player)
+        victory_location = world.multiworld.get_location(victory_condition, world.player)
+        victory_location.address = None
+        victory_location.place_locked_item(world.create_event("Victory"))
+        world.multiworld.completion_condition[world.player] = lambda state: state.has("Victory", world.player)
+    elif world.options.goal.value == 5:
+        def access_rule(state: CollectionState):
+            victory_conditions = [
+                "The Black Chateau - Operation: Thunder Beak",
+                "The Predator Awakens - Operation: Wet Tiger",
+                "A Tangled Web - Operation: High Road",
+                "Menace from the North, Eh! - Operation: Canada Games",
+                "Anatomy for Disaster - Carmelita's Gunner/Defeat Clock-la"
+            ]
+
+            checked = state.locations_checked
+
+            return all(
+                cond in checked
+                for cond in victory_conditions
+            )
+
+        world.multiworld.completion_condition[world.player] = access_rule
+
+    elif world.options.goal.value == 6:
+        world.multiworld.completion_condition[world.player] = lambda state: state.has_group(
+            "Clockwerk Part",
+            world.player,
+            world.options.required_keys_goal.value
+        )

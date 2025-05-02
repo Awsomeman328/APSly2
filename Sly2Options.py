@@ -31,7 +31,10 @@ class StartingEpisode(Choice):
 
 class Goal(Choice):
     """
-    Which boss you must defeat to goal.
+    Which boss you must defeat to goal, or Clockwerk Hunt.
+
+    Clockwerk Hunt requires you to collect a certain number of Clockwerk
+    parts/keys to goal.
     """
 
     display_name = "Goal"
@@ -40,7 +43,8 @@ class Goal(Choice):
     option_The_Contessa = 2
     option_Jean_Bison = 3
     option_ClockLa = 4
-    # option_All_Bosses = 6
+    option_All_Bosses = 5
+    option_Clockwerk_Hunt = 6
     default = 4
 
 
@@ -51,6 +55,20 @@ class Episode8Keys(DefaultOnToggle):
     """
 
     display_name = "Episode 8 Keys"
+
+
+class KeysInPool(Range):
+    """
+    How many Clockwerk parts are added to the pool. This number cannot be
+    lower than the required number of keys, for either Clockwerk Hunt or
+    Episode 8 unlock. No Clockwerk parts will be added  if Episode 8 Keys
+    and Clockwerk Hunt are both off.
+    """
+
+    display_name = "Clockwerk Parts in Pool"
+    range_start = 1
+    range_end = 100
+    default = 10
 
 
 class RequiredKeys(Range):
@@ -65,14 +83,12 @@ class RequiredKeys(Range):
     default = 10
 
 
-class KeysInPool(Range):
+class RequiredKeysGoal(Range):
     """
-    How many Clockwerk parts are added to the pool. This number cannot be
-    lower than the required number of keys. No Clockwerk parts will be added
-    if Episode 8 Keys is off.
+    How many Clockwerk parts you need to goal, if goal objective is Clockwerk Hunt
     """
 
-    display_name = "Clockwerk Parts in Pool"
+    display_name = "Goal Required Keys"
     range_start = 1
     range_end = 100
     default = 10
@@ -184,9 +200,10 @@ class Sly2Options(PerGameCommonOptions):
     death_link: DeathLink
     starting_episode: StartingEpisode
     goal: Goal
+    keys_in_pool: KeysInPool
     episode_8_keys: Episode8Keys
     required_keys: RequiredKeys
-    keys_in_pool: KeysInPool
+    required_keys_goal: RequiredKeysGoal
     include_tom: IncludeTOM
     include_mega_jump: IncludeMegaJump
     coins_minimum: CoinsMinimum
@@ -203,9 +220,10 @@ sly2_option_groups = [
         Goal
     ]),
     OptionGroup("Clockwerk parts",[
+        KeysInPool,
         Episode8Keys,
         RequiredKeys,
-        KeysInPool
+        RequiredKeysGoal
     ]),
     OptionGroup("Items",[
         IncludeTOM,

@@ -426,14 +426,32 @@ async def handle_check_goal(ctx: 'Sly2Context') -> None:
     if ctx.slot_data is None:
         return
 
-    victory_name = [
-        "The Black Chateau - Operation: Thunder Beak",
-        "The Predator Awakens - Operation: Wet Tiger",
-        "A Tangled Web - Operation: High Road",
-        "Menace from the North, Eh! - Operation: Canada Games",
-        "Anatomy for Disaster - Carmelita's Gunner/Defeat Clock-la"
-    ][ctx.slot_data["goal"]]
-    victory_code = Locations.location_dict[victory_name].code
+    if ctx.slot_data["goal"] > 5:
+        victory_name = [
+            "The Black Chateau - Operation: Thunder Beak",
+            "The Predator Awakens - Operation: Wet Tiger",
+            "A Tangled Web - Operation: High Road",
+            "Menace from the North, Eh! - Operation: Canada Games",
+            "Anatomy for Disaster - Carmelita's Gunner/Defeat Clock-la"
+        ][ctx.slot_data["goal"]]
+        victory_code = Locations.location_dict[victory_name].code
 
-    if victory_code in ctx.locations_checked:
-        await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+        if victory_code in ctx.locations_checked:
+            await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+    elif ctx.slot_data["goal"] == 5:
+        victory_names = [
+            "The Black Chateau - Operation: Thunder Beak",
+            "The Predator Awakens - Operation: Wet Tiger",
+            "A Tangled Web - Operation: High Road",
+            "Menace from the North, Eh! - Operation: Canada Games",
+            "Anatomy for Disaster - Carmelita's Gunner/Defeat Clock-la"
+        ]
+        victory_codes = [Locations.location_dict[name].code for name in victory_names]
+
+        if all(code in ctx.locations_checked for code in victory_codes):
+            await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+    elif ctx.slot_data["goal"] == 6:
+        clockwerk_parts = [i for i in ctx.items_received if Items.from_id(i.item).category == "Clockwerk Part"]
+
+        if clockwerk_parts >= ctx.slot_data["required_keys_goal"]:
+            await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])

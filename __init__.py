@@ -68,6 +68,11 @@ class Sly2World(World):
                 f"Episode 8 requires {opt.required_keys} keys but only {opt.keys_in_pool} keys in pool"
             )
 
+        if opt.goal == 6 and opt.required_keys_goal > opt.keys_in_pool:
+            raise OptionError(
+                f"Clockwerk Hunt goal requires {opt.required_keys_goal} keys but only {opt.keys_in_pool} keys in pool"
+            )
+
         if opt.episode_8_keys and (
             opt.starting_episode == StartingEpisode.option_Anatomy_for_Disaster
         ):
@@ -104,7 +109,6 @@ class Sly2World(World):
             for _ in range(24)
         ])
 
-
     def get_filler_item_name(self) -> str:
         # Currently just coins
         return random.choice(list(self.item_name_groups["Filler"]))
@@ -138,9 +142,10 @@ class Sly2World(World):
             "death_link",
             "starting_episode",
             "goal",
+            "keys_in_pool",
             "episode_8_keys",
             "required_keys",
-            "keys_in_pool",
+            "required_keys_goal",
             "include_tom",
             "include_mega_jump",
             "coins_minimum",
