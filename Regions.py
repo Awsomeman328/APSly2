@@ -71,12 +71,20 @@ def create_regions(world: "Sly2World"):
 
     def add_bottles(episode: str, region: str, n:int):
         """Adds a location for n bottles collected in a specific episode"""
-        location_name = f"{episode} - {n} bottles collected"
+        location_name = f"{episode} - {n:02} bottles collected"
         world.get_region(region).add_locations(
             {location_name: location_dict[location_name].code}
         )
 
-    if world.options.bottle_location_bundle_size > 0:
+    if world.options.bottle_location_bundle_size == 1:
+        for i, episode in enumerate(EPISODES.keys()):
+            for n in range(1,31):
+                location_name = f"{episode} - Bottle #{n:02}"
+                world.get_region(f"Episode {i+1} (1)").add_locations(
+                    {location_name: location_dict[location_name].code}
+                )
+
+    elif world.options.bottle_location_bundle_size > 0:
         for i, episode in enumerate(EPISODES.keys()):
             total_bottles = 0
             while total_bottles+bottle_n <= 30:

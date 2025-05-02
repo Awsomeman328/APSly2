@@ -358,7 +358,22 @@ async def handle_checks(ctx: 'Sly2Context') -> None:
 
     # Bottles
     bottle_n = ctx.slot_data["bottle_location_bundle_size"]
-    if bottle_n != 0:
+    if bottle_n == 1:
+        for ep in Sly2Episode:
+            if ep.value == 0:
+                continue
+
+            bottles = ctx.game_interface.get_bottle_list(ep)
+            for i, b in enumerate(bottles):
+                if b:
+                    episode_name = ep.name.replace('_',' ')
+                    if ep.value == 7:
+                        episode_name = "Menace from the North, Eh!"
+                    location_name = f"{episode_name} - Bottle #{i+1:02}"
+                    location_code = Locations.location_dict[location_name].code
+                    ctx.locations_checked.add(location_code)
+
+    elif bottle_n != 0:
         for ep in Sly2Episode:
             if ep.value == 0:
                 continue
@@ -369,7 +384,7 @@ async def handle_checks(ctx: 'Sly2Context') -> None:
                     episode_name = ep.name.replace('_',' ')
                     if ep.value == 7:
                         episode_name = "Menace from the North, Eh!"
-                    location_name = f"{episode_name} - {i} bottles collected"
+                    location_name = f"{episode_name} - {i:02} bottles collected"
                     location_code = Locations.location_dict[location_name].code
                     ctx.locations_checked.add(location_code)
 

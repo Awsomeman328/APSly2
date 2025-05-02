@@ -25,9 +25,13 @@ treasures_list = [
 ]
 
 bottles_list = [
-    (f"{ep} - {i+1} bottles collected", "Bottle")
-    for i in range(30)
+    (f"{ep} - {i:02} bottles collected", "Bottle")
     for ep in EPISODES.keys()
+    for i in range(1,31)
+] + [
+    (f"{ep} - Bottle #{i:02}", "Bottle")
+    for ep in EPISODES.keys()
+    for i in range(1,31)
 ]
 
 purchases_list = [
