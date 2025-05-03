@@ -441,7 +441,7 @@ async def handle_check_goal(ctx: 'Sly2Context') -> None:
     if ctx.slot_data is None:
         return
 
-    if ctx.slot_data["goal"] > 5:
+    if ctx.slot_data["goal"] < 5:
         victory_name = [
             "The Black Chateau - Operation: Thunder Beak",
             "The Predator Awakens - Operation: Wet Tiger",
@@ -468,5 +468,5 @@ async def handle_check_goal(ctx: 'Sly2Context') -> None:
     elif ctx.slot_data["goal"] == 6:
         clockwerk_parts = [i for i in ctx.items_received if Items.from_id(i.item).category == "Clockwerk Part"]
 
-        if clockwerk_parts >= ctx.slot_data["required_keys_goal"]:
+        if len(clockwerk_parts) >= ctx.slot_data["required_keys_goal"]:
             await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])

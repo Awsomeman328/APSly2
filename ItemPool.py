@@ -102,6 +102,6 @@ def gen_pool(world: "Sly2World") -> list[Item]:
 
     remaining = len(world.multiworld.get_unfilled_locations(world.player))-len(item_pool)
     assert remaining > 1, f"There are more items than locations ({len(item_pool)} items)"
-    item_pool += [world.create_item(world.get_filler_item_name()) for _ in range(remaining-1)]
+    item_pool += [world.create_item(world.get_filler_item_name()) for _ in range(remaining)]
 
     return item_pool

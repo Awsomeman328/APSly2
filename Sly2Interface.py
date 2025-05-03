@@ -380,7 +380,7 @@ class Sly2Interface(GameInterface):
     def get_bottle_list(self, episode: Sly2Episode) -> list[bool]:
         address = self.addresses["bottle flags"][episode.value-1]
         flags = self._read32(address)
-        return [s == "1" for s in format(flags,"032b")[:30]]
+        return [s == "1" for s in format(flags,"032b")[2:]]
 
     def add_coins(self, to_add: int):
         current_amount = self._read32(self.addresses["coins"])

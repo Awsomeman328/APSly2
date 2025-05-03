@@ -64,21 +64,24 @@ def set_rules(world: "Sly2World"):
                     lambda state, bn=bundle_name: state.has(bn, player)
                 )
 
-        add_rule(
-            world.get_location("Menace from the North, Eh! - 30 bottles collected"),
-            lambda state: (
-                state.has("Paraglider", player) or
-                state.has("Feral Pounce", player) or
-                state.has("Mega Jump", player)
+        if world.options.bottle_location_bundle_size.value == 1:
+            # Add the rules for the specific bottle in both worlds
+            pass
+        else:
+            add_rule(
+                world.get_location("Menace from the North, Eh! - 30 bottles collected"),
+                lambda state: (
+                    state.has("Paraglider", player) or
+                    state.has("Mega Jump", player)
+                )
             )
-        )
-        add_rule(
-            world.get_location("Anatomy for Disaster - 30 bottles collected"),
-            lambda state: (
-                state.has("Feral Pounce", player) or
-                state.has("Mega Jump", player)
+            add_rule(
+                world.get_location("Anatomy for Disaster - 30 bottles collected"),
+                lambda state: (
+                    state.has("Feral Pounce", player) or
+                    state.has("Mega Jump", player)
+                )
             )
-        )
 
     # Putting ThiefNet stuff out of logic, to make early game less slow.
     # Divides the items into 8 groups of 3. First groups requires 2 episodes
@@ -87,13 +90,13 @@ def set_rules(world: "Sly2World"):
         episode_items_n = ceil(i/3)*2
         add_rule(
             world.get_location(f"ThiefNet {i:02}"),
-            lambda state: (
-                state.has_group("Episode", player, episode_items_n)
+            lambda state, n=episode_items_n: (
+                state.has_group("Episode", player, n)
             )
         )
 
 
-    if world.options.goal.value > 5:
+    if world.options.goal.value < 5:
         victory_condition = [
             "The Black Chateau - Operation: Thunder Beak",
             "The Predator Awakens - Operation: Wet Tiger",

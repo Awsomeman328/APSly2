@@ -56,15 +56,35 @@ requires:
 
   ## Goal
 
-  # Which boss you must defeat to goal.
+  # Which boss you must defeat to goal, or Clockwerk Hunt.
+  #
+  # Clockwerk Hunt requires you to collect a certain number of Clockwerk
+  # parts/keys to goal.
   goal:
     dimitri: 0
     rajan: 0
     the_contessa: 0
     jean_bison: 0
     clockla: 50
+    all_bosses: 0
+    clockwerk_hunt: 0
 
   ## Clockwerk parts
+
+  # How many Clockwerk parts are added to the pool. This number cannot be
+  # lower than the required number of keys, for either Clockwerk Hunt or
+  # Episode 8 unlock. No Clockwerk parts will be added  if Episode 8 Keys
+  # and Clockwerk Hunt are both off.
+  #
+  # You can define additional values between the minimum and maximum values.
+  # Minimum value is 1
+  # Maximum value is 100
+  keys_in_pool:
+    10: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
 
   # Whether to have Anatomy for Disaster be unlocked with a number of Clockwerk
   # parts, rather than with a single item like the other episodes.
@@ -86,14 +106,12 @@ requires:
     random-high: 0
 
 
-  # How many Clockwerk parts are added to the pool. This number cannot be
-  # lower than the required number of keys. No Clockwerk parts will be added
-  # if Episode 8 Keys is off.
+  # How many Clockwerk parts you need to goal, if goal objective is Clockwerk Hunt
   #
   # You can define additional values between the minimum and maximum values.
   # Minimum value is 1
   # Maximum value is 100
-  keys_in_pool:
+  required_keys_goal:
     10: 50
     random: 0
     random-low: 0
