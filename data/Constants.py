@@ -211,6 +211,7 @@ ADDRESSES = {
         "job id": 0x2DEB44,
         "DAG root": 0x3E0B04,
         "episode unlocks": 0x5975E8,
+        "thiefnet control": 0x3DA160,
         "reload": 0x3E1080,
         "reload values": 0x3E1088,
         "camera focus": 0x2DE258,

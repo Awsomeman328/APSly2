@@ -346,7 +346,7 @@ async def handle_checks(ctx: 'Sly2Context') -> None:
         return
 
     # ThiefNet purchases
-    if ctx.game_interface.in_safehouse():
+    if ctx.in_safehouse:
         ctx.thiefnet_purchases = ctx.game_interface.read_powerups()
 
     purchases = list(ctx.thiefnet_purchases)[:24]

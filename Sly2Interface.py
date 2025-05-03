@@ -437,6 +437,9 @@ class Sly2Interface(GameInterface):
         # For some reason this has to be done sometimes?
         self._write32(self.addresses["infobox scrolling"],1)
 
+    def in_thiefnet(self) -> bool:
+        return self._read32(self.addresses["thiefnet control"]) == 0x2DFC00
+
     def disable_infobox(self):
         infobox_pointer = self._read32(self.addresses["infobox"])
         if self._read32(infobox_pointer+0x64) != 1:
