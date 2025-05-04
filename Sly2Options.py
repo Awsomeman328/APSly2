@@ -48,13 +48,27 @@ class Goal(Choice):
     default = 4
 
 
-class Episode8Keys(DefaultOnToggle):
+class Episode8Keys(Choice):
     """
     Whether to have Anatomy for Disaster be unlocked with a number of Clockwerk
     parts, rather than with a single item like the other episodes.
+
+    - First section: Unlock only the first section of Anatomy for Disaster with
+      the required amount of Clockwerk Parts.
+    - Last section: Unlock only the final mission of Anatomy for Disaster with
+      the required amount of Clockwerk Parts.
+    - Whole episode: Unlock every mission in Anatomy for Disaster with the
+      required amount of Clockwerk Parts.
+    - Off: Unlock Anatomy for Disaster with progressive episode items, like the
+      other episodes.
     """
 
     display_name = "Episode 8 Keys"
+    option_First_section = 0
+    option_Last_section = 1
+    option_Whole_episode = 2
+    option_Off = 3
+    default = 0
 
 
 class KeysInPool(Range):
