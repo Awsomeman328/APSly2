@@ -41,6 +41,15 @@ class Sly2CommandProcessor(ClientCommandProcessor):
         if isinstance(self.ctx, Sly2Context):
             self.ctx.game_interface.to_episode_menu()
 
+    def _cmd_clockwerk_parts(self):
+        """Show the current amount of Clockwerk parts"""
+        if isinstance(self.ctx, Sly2Context):
+            clockwerk_parts = [
+                i for i in self.ctx.items_received
+                if Items.from_id(i.item).category == "Clockwerk Part"
+            ]
+            logger.info(f"Clockwerk parts: {len(clockwerk_parts)}")
+
     # def _cmd_coins(self, amount: str):
     #     """Add coins to game."""
     #     if isinstance(self.ctx, Sly2Context):
