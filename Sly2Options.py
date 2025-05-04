@@ -170,7 +170,7 @@ class BottleLocationBundleSize(Range):
 
     display_name = "Bottle Location Bundle Sizes"
     range_start = 0
-    range_end = 10
+    range_end = 30
     default = 0
 
 
@@ -182,7 +182,7 @@ class BottleItemBundleSize(Range):
 
     display_name = "Bottle Item Bundle Sizes"
     range_start = 0
-    range_end = 10
+    range_end = 30
     default = 0
 
 
