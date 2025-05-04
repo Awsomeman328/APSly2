@@ -100,8 +100,11 @@ def gen_pool(world: "Sly2World") -> list[Item]:
     item_pool += gen_bottles(world)
     item_pool += gen_clockwerk(world)
 
-    remaining = len(world.multiworld.get_unfilled_locations(world.player))-len(item_pool)
-    assert remaining > 1, f"There are more items than locations ({len(item_pool)} items)"
+    unfilled_locations = world.multiworld.get_unfilled_locations(world.player)
+    remaining = len(unfilled_locations)-len(item_pool)
+    if world.options.goal.value != 6:
+        remaining -= 1
+    assert remaining >= 0, f"There are more items than locations ({len(item_pool)} items; {len(unfilled_locations)} locations)"
     item_pool += [world.create_item(world.get_filler_item_name()) for _ in range(remaining)]
 
     return item_pool
