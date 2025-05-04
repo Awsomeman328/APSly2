@@ -63,7 +63,7 @@ class Sly2World(World):
     thiefnet_costs: List[int] = []
 
     def validate_options(self, opt: Sly2Options):
-        if opt.episode_8_keys and opt.required_keys_episode_8 > opt.keys_in_pool:
+        if opt.episode_8_keys.value != 3 and opt.required_keys_episode_8 > opt.keys_in_pool:
             raise OptionError(
                 f"Episode 8 requires {opt.required_keys_episode_8} keys but only {opt.keys_in_pool} keys in pool"
             )
@@ -73,11 +73,11 @@ class Sly2World(World):
                 f"Clockwerk Hunt goal requires {opt.required_keys_goal} keys but only {opt.keys_in_pool} keys in pool"
             )
 
-        if opt.episode_8_keys and (
+        if opt.episode_8_keys.value in [0,2] and (
             opt.starting_episode == StartingEpisode.option_Anatomy_for_Disaster
         ):
             raise OptionError(
-                f"Incompatible options: Episode 8 Keys and Starting Episode: {opt.starting_episode}"
+                f"Incompatible options: Episode 8 Keys: ({opt.episode_8_keys}) and Starting Episode: ({opt.starting_episode})"
             )
 
         if (

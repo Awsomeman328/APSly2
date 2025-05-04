@@ -152,7 +152,7 @@ def replace_text(ctx: 'Sly2Context') -> None:
         if ctx.available_episodes[Sly2Episode(i)] > 0:
             rep_text = "Unlocked"
         else:
-            if i == 8 and ctx.slot_data["episode_8_keys"]:
+            if i == 8 and ctx.slot_data["episode_8_keys"] != 3:
                 obtained_keys = len([
                     i for i in ctx.items_received
                     if Items.from_id(i.item).category == "Clockwerk Part"
@@ -276,10 +276,13 @@ async def handle_received(ctx: 'Sly2Context') -> None:
     available_episodes = {e: 0 for e in Sly2Episode}
     bottles = {e: 0 for e in Sly2Episode}
     network_items = ctx.items_received
-    if ctx.slot_data["episode_8_keys"]:
+    if ctx.slot_data["episode_8_keys"] in [0,2]:
         clockwerk_parts = [i for i in ctx.items_received if Items.from_id(i.item).category == "Clockwerk Part"]
         if len(clockwerk_parts) >= ctx.slot_data["required_keys_episode_8"]:
-            available_episodes[Sly2Episode.Anatomy_for_Disaster] = 1
+            if ctx.slot_data["episode_8_keys"] == 0:
+                available_episodes[Sly2Episode.Anatomy_for_Disaster] = 1
+            else:
+                available_episodes[Sly2Episode.Anatomy_for_Disaster] = 4
 
     for i, network_item in enumerate(network_items):
         item = Items.from_id(network_item.item)
@@ -296,7 +299,7 @@ async def handle_received(ctx: 'Sly2Context') -> None:
 
             if (
                 episode != Sly2Episode.Anatomy_for_Disaster or
-                not ctx.slot_data["episode_8_keys"] or
+                ctx.slot_data["episode_8_keys"] in [1,3] or
                 available_episodes[episode] > 0
             ):
                 available_episodes[episode] += 1
@@ -332,6 +335,11 @@ async def handle_received(ctx: 'Sly2Context') -> None:
                 ctx.slot_data["coins_maximum"]
             )
             ctx.game_interface.add_coins(amount)
+
+    if ctx.slot_data["episode_8_keys"] == 1 and available_episodes[Sly2Episode.Anatomy_for_Disaster] == 3:
+        clockwerk_parts = [i for i in ctx.items_received if Items.from_id(i.item).category == "Clockwerk Part"]
+        if len(clockwerk_parts) >= ctx.slot_data["required_keys_episode_8"]:
+            available_episodes[Sly2Episode.Anatomy_for_Disaster] = 4
 
     if ctx.current_episode != 0 and not ctx.in_safehouse:
         set_powerups(ctx)
