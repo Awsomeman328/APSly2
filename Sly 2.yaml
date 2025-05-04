@@ -99,7 +99,7 @@ requires:
   # You can define additional values between the minimum and maximum values.
   # Minimum value is 1
   # Maximum value is 100
-  required_keys:
+  required_keys_episode_8:
     10: 50
     random: 0
     random-low: 0
@@ -162,7 +162,7 @@ requires:
   #
   # You can define additional values between the minimum and maximum values.
   # Minimum value is 0
-  # Maximum value is 10
+  # Maximum value is 30
   bottle_item_bundle_size:
     0: 50
     random: 0
@@ -206,7 +206,7 @@ requires:
   #
   # You can define additional values between the minimum and maximum values.
   # Minimum value is 0
-  # Maximum value is 10
+  # Maximum value is 30
   bottle_location_bundle_size:
     0: 50
     random: 0
