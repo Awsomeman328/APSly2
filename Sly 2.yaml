@@ -25,7 +25,6 @@ requires:
     normal: 50 # equivalent to 50
     extreme: 0 # equivalent to 99
 
-
   # Set rules for reachability of your items/locations.
   #
   # **Full:** ensure everything can be reached and acquired.
@@ -35,12 +34,10 @@ requires:
     full: 50
     minimal: 0
 
-
   # When you die, everyone who enabled death link dies. Of course, the reverse is true too.
   death_link:
     'false': 50
     'true': 0
-
 
   # Select Which episode to start with. Starting with Anatomy for disaster
   # is not compatible with "Episode 8 Keys".
@@ -85,13 +82,22 @@ requires:
     random-low: 0
     random-high: 0
 
-
   # Whether to have Anatomy for Disaster be unlocked with a number of Clockwerk
   # parts, rather than with a single item like the other episodes.
+  #
+  # - First section: Unlock only the first section of Anatomy for Disaster with
+  #   the required amount of Clockwerk Parts.
+  # - Last section: Unlock only the final mission of Anatomy for Disaster with
+  #   the required amount of Clockwerk Parts.
+  # - Whole episode: Unlock every mission in Anatomy for Disaster with the
+  #   required amount of Clockwerk Parts.
+  # - Off: Unlock Anatomy for Disaster with progressive episode items, like the
+  #   other episodes.
   episode_8_keys:
-    'false': 0
-    'true': 50
-
+    first_section: 50
+    last_section: 0
+    whole_episode: 0
+    'off': 0
 
   # How many Clockwerk parts you need to unlock Anatomy for Disaster, if
   # Episode 8 Keys is turned on.
@@ -104,7 +110,6 @@ requires:
     random: 0
     random-low: 0
     random-high: 0
-
 
   # How many Clockwerk parts you need to goal, if goal objective is Clockwerk Hunt
   #
@@ -124,12 +129,10 @@ requires:
     'false': 50
     'true': 0
 
-
   # Add the Mega Jump ability to the pool.
   include_mega_jump:
     'false': 50
     'true': 0
-
 
   # The minimum number of coins you'll receive when you get a "Coins" filler
   # item.
@@ -143,7 +146,6 @@ requires:
     random-low: 0
     random-high: 0
 
-
   # The maximum number of coins you'll receive when you get a "Coins" filler
   # item.
   #
@@ -155,7 +157,6 @@ requires:
     random: 0
     random-low: 0
     random-high: 0
-
 
   # How many bottles you receive from an item. Set to 0 to disable bottles
   # as items.
@@ -182,7 +183,6 @@ requires:
     random-low: 0
     random-high: 0
 
-
   # The maximum number of coins items on ThiefNet will cost.
   #
   # You can define additional values between the minimum and maximum values.
@@ -194,12 +194,10 @@ requires:
     random-low: 0
     random-high: 0
 
-
   # Whether to include vaults as checks.
   include_vaults:
     'false': 0
     'true': 50
-
 
   # How many bottles you need to collect for each check. Set to 0 to disable
   # bottles as checks.
