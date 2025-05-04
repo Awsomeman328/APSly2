@@ -19,7 +19,7 @@ def create_access_rule(episode: str, n: int, options: "Sly2Options", player: int
         if episode == "Anatomy for Disaster" and options.episode_8_keys:
             access = (
                 access and
-                state.count_group("Clockwerk Part", player) >= options.required_keys and
+                state.count_group("Clockwerk Part", player) >= options.required_keys_episode_8 and
                 state.count(item_name, player) >= n-1
             )
         else:
