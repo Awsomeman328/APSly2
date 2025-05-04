@@ -65,8 +65,20 @@ def set_rules(world: "Sly2World"):
                 )
 
         if world.options.bottle_location_bundle_size.value == 1:
-            # Add the rules for the specific bottle in both worlds
-            pass
+            add_rule(
+                world.get_location("Menace from the North, Eh! - Bottle #04"),
+                lambda state: (
+                    state.has("Paraglider", player) or
+                    state.has("Mega Jump", player)
+                )
+            )
+            add_rule(
+                world.get_location("Anatomy for Disaster - Bottle #03"),
+                lambda state: (
+                    state.has("Feral Pounce", player) or
+                    state.has("Mega Jump", player)
+                )
+            )
         else:
             add_rule(
                 world.get_location("Menace from the North, Eh! - 30 bottles collected"),
