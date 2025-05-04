@@ -22,13 +22,13 @@ def create_access_rule(episode: str, n: int, options: "Sly2Options", player: int
                 state.count_group("Clockwerk Part", player) >= options.required_keys_episode_8 and
                 state.count(item_name, player) >= n-1
             )
-        if episode == "Anatomy for Disaster" and options.episode_8_keys.value == 1 and n == 4:
+        elif episode == "Anatomy for Disaster" and options.episode_8_keys.value == 1 and n == 4:
             access = (
                 access and
                 state.count_group("Clockwerk Part", player) >= options.required_keys_episode_8 and
                 state.count(item_name, player) >= n-1
             )
-        if episode == "Anatomy for Disaster" and options.episode_8_keys.value == 2:
+        elif episode == "Anatomy for Disaster" and options.episode_8_keys.value == 2:
             access = (
                 access and
                 state.count_group("Clockwerk Part", player) >= options.required_keys_episode_8

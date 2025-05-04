@@ -134,7 +134,7 @@ def set_rules(world: "Sly2World"):
             checked = state.locations_checked
 
             return all(
-                cond in checked
+                world.multiworld.get_location(cond,world.player) in checked
                 for cond in victory_conditions
             )
 
