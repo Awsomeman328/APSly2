@@ -63,9 +63,9 @@ class Sly2World(World):
     thiefnet_costs: List[int] = []
 
     def validate_options(self, opt: Sly2Options):
-        if opt.episode_8_keys and opt.required_keys > opt.keys_in_pool:
+        if opt.episode_8_keys and opt.required_keys_episode_8 > opt.keys_in_pool:
             raise OptionError(
-                f"Episode 8 requires {opt.required_keys} keys but only {opt.keys_in_pool} keys in pool"
+                f"Episode 8 requires {opt.required_keys_episode_8} keys but only {opt.keys_in_pool} keys in pool"
             )
 
         if opt.goal == 6 and opt.required_keys_goal > opt.keys_in_pool:
@@ -144,7 +144,7 @@ class Sly2World(World):
             "goal",
             "keys_in_pool",
             "episode_8_keys",
-            "required_keys",
+            "required_keys_episode_8",
             "required_keys_goal",
             "include_tom",
             "include_mega_jump",

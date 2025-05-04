@@ -202,7 +202,7 @@ class Sly2Options(PerGameCommonOptions):
     goal: Goal
     keys_in_pool: KeysInPool
     episode_8_keys: Episode8Keys
-    required_keys: RequiredKeys
+    required_keys_episode_8: RequiredKeys
     required_keys_goal: RequiredKeysGoal
     include_tom: IncludeTOM
     include_mega_jump: IncludeMegaJump

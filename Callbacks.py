@@ -157,7 +157,7 @@ def replace_text(ctx: 'Sly2Context') -> None:
                     i for i in ctx.items_received
                     if Items.from_id(i.item).category == "Clockwerk Part"
                 ])
-                required_keys = ctx.slot_data["required_keys"]
+                required_keys = ctx.slot_data["required_keys_episode_8"]
                 rep_text = f"{obtained_keys}/{required_keys} Clockwerk parts"
             else:
                 rep_text = "Locked"
@@ -278,7 +278,7 @@ async def handle_received(ctx: 'Sly2Context') -> None:
     network_items = ctx.items_received
     if ctx.slot_data["episode_8_keys"]:
         clockwerk_parts = [i for i in ctx.items_received if Items.from_id(i.item).category == "Clockwerk Part"]
-        if len(clockwerk_parts) >= ctx.slot_data["required_keys"]:
+        if len(clockwerk_parts) >= ctx.slot_data["required_keys_episode_8"]:
             available_episodes[Sly2Episode.Anatomy_for_Disaster] = 1
 
     for i, network_item in enumerate(network_items):
