@@ -93,7 +93,7 @@ bottle_list = [
     for e in EPISODES.keys()
 ] + [
     (f"{i} bottles - {e}",      ItemClassification.progression, "Bottles")
-    for e in EPISODES.keys() for i in range(2,11)
+    for e in EPISODES.keys() for i in range(2,31)
 ]
 
 progressive_episode_list = [
