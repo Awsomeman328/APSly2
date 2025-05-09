@@ -58,6 +58,14 @@ class Sly2CommandProcessor(ClientCommandProcessor):
             if self.ctx.slot_data["goal"] == 6:
                 logger.info(f"Clockwerk parts needed to complete Clockwerk Hunt goal: {self.ctx.slot_data['required_keys_goal']}")
 
+    def _cmd_goal(self):
+        """Show what the goal is set to"""
+        if isinstance(self.ctx, Sly2Context):
+            if self.ctx.slot_data is None:
+                return
+
+            logger.info(f"Goal: {self.ctx.slot_data['goal']}")
+
     # def _cmd_coins(self, amount: str):
     #     """Add coins to game."""
     #     if isinstance(self.ctx, Sly2Context):
