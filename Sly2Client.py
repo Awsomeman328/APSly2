@@ -49,6 +49,14 @@ class Sly2CommandProcessor(ClientCommandProcessor):
                 if Items.from_id(i.item).category == "Clockwerk Part"
             ]
             logger.info(f"Clockwerk parts: {len(clockwerk_parts)}")
+            if self.ctx.slot_data is None:
+                return
+
+            if self.ctx.slot_data["episode_8_keys"] != 3:
+                logger.info(f"Clockwerk parts needed to unlock episode 8: {self.ctx.slot_data['required_keys_episode_8']}")
+
+            if self.ctx.slot_data["goal"] == 6:
+                logger.info(f"Clockwerk parts needed to complete Clockwerk Hunt goal: {self.ctx.slot_data['required_keys_goal']}")
 
     # def _cmd_coins(self, amount: str):
     #     """Add coins to game."""
