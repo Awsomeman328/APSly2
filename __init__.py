@@ -62,6 +62,14 @@ class Sly2World(World):
 
     thiefnet_costs: List[int] = []
 
+    # this is how we tell the Universal Tracker we want to use re_gen_passthrough
+    @staticmethod
+    def interpret_slot_data(slot_data: Dict[str, Any]) -> Dict[str, Any]:
+        return slot_data
+
+    # and this is how we tell Universal Tracker we don't need the yaml
+    ut_can_gen_without_yaml = True
+
     def validate_options(self, opt: Sly2Options):
         if opt.episode_8_keys.value != 3 and opt.required_keys_episode_8 > opt.keys_in_pool:
             raise OptionError(
@@ -99,8 +107,34 @@ class Sly2World(World):
             )
 
     def generate_early(self) -> None:
-        opt = self.options
-        self.validate_options(opt)
+
+        # implement .yaml-less Universal Tracker support
+        if hasattr(self.multiworld, "generation_is_fake"):
+            if hasattr(self.multiworld, "re_gen_passthrough"):
+                # I'm doing getattr purely so pylance stops being mad at me
+                re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough")
+
+                if "Sly 2" in re_gen_passthrough:
+                    slot_data = re_gen_passthrough["Sly 2"]
+                    self.thiefnet_costs = slot_data["thiefnet_costs"]
+                    self.options.starting_episode.value = slot_data["starting_episode"]
+                    self.options.goal.value = slot_data["goal"]
+                    self.options.keys_in_pool.value = slot_data["keys_in_pool"]
+                    self.options.episode_8_keys.value = slot_data["episode_8_keys"]
+                    self.options.required_keys_episode_8.value = slot_data["required_keys_episode_8"]
+                    self.options.required_keys_goal.value = slot_data["required_keys_goal"]
+                    self.options.include_tom.value = slot_data["include_tom"]
+                    self.options.include_mega_jump.value = slot_data["include_mega_jump"]
+                    self.options.coins_minimum.value = slot_data["coins_minimum"]
+                    self.options.coins_maximum.value = slot_data["coins_maximum"]
+                    self.options.thiefnet_minimum.value = slot_data["thiefnet_minimum"]
+                    self.options.thiefnet_maximum.value = slot_data["thiefnet_maximum"]
+                    self.options.include_vaults.value = slot_data["include_vaults"]
+                    self.options.bottle_location_bundle_size.value = slot_data["bottle_location_bundle_size"]
+                    self.options.bottle_item_bundle_size.value = slot_data["bottle_item_bundle_size"]
+            return
+
+        self.validate_options(self.options)
 
         thiefnet_min = self.options.thiefnet_minimum.value
         thiefnet_max = self.options.thiefnet_maximum.value
