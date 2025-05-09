@@ -33,7 +33,9 @@ If you want to skip the intro, do the following:
 - Start a new game. Wait until the first binocucom section is finished.
 - Save and quit the game.
 - Resume the game. You probably need to load it from the menu, as pressing start might load another save file.
+  - It's okay if the game loads into the start menu. The game should be loaded.
 - Use the `/menu` command in the client.
+- Double check that the pause menu has the "Save and Exit" option.
 
 Simply skipping to the menu without saving first will make saving impossible.
 
