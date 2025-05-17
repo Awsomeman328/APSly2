@@ -49,7 +49,7 @@ def gen_episodes(world: "Sly2World") -> list[Item]:
 
 def gen_clockwerk(world: "Sly2World") -> list[Item]:
     """Generate the clockwerk part items for the item pool"""
-    if world.options.episode_8_keys.value != 3:
+    if (world.options.episode_8_keys.value != 3 or world.options.goal.value == 6):
         num_keys = world.options.keys_in_pool.value
     else:
         num_keys = 0
