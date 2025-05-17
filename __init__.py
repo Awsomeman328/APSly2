@@ -68,7 +68,7 @@ class Sly2World(World):
         return slot_data
 
     # and this is how we tell Universal Tracker we don't need the yaml
-    ut_can_gen_without_yaml = True
+    ut_can_gen_without_yaml = False
 
     def validate_options(self, opt: Sly2Options):
         if opt.episode_8_keys.value != 3 and opt.required_keys_episode_8 > opt.keys_in_pool:
