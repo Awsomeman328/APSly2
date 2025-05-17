@@ -64,7 +64,17 @@ class Sly2CommandProcessor(ClientCommandProcessor):
             if self.ctx.slot_data is None:
                 return
 
-            logger.info(f"Goal: {self.ctx.slot_data['goal']}")
+            goal = [
+                "Beat Dimitri",
+                "Beat Rajan",
+                "Beat The Contessa",
+                "Beat Jean Bison",
+                "Beat ClockLa",
+                "Beat All Bosses",
+                "Clockwerk Hunt",
+            ][self.ctx.slot_data['goal']]
+
+            logger.info(f"Goal: {goal}")
 
     # def _cmd_coins(self, amount: str):
     #     """Add coins to game."""
