@@ -6,6 +6,7 @@ Each gadget and chapter of each episode is shuffled into the item pool, and opti
 
 **Additional features include:**
 - The ability to skip video cutscenes by pressing the X button.
+- The ability to skip in-game dialogue by pressing r1+r2+l1+l2
 
 ## Setup
 
@@ -25,17 +26,13 @@ Enable PINE in PCSX2
 ### Playing a game
 1. Start the game in PCSX2.
 2. Start the Sly 2 client from the Archipelago launcher, and connect to the multiworld.
-3. Ensure that the "Press START" message has changed before playing.
+3. Ensure that the "Press START ..." message has changed before playing.
 4. Start a new game.
 
 ## Skipping the intro
 If you want to skip the intro, do the following:
-- Start a new game. Wait until the first binocucom section is finished.
-- Save and quit the game.
-- Resume the game. You probably need to load it from the menu, as pressing start might load another save file.
-  - It's okay if the game loads into the start menu. The game should be loaded.
 - Use the `/menu` command in the client.
-- Double check that the pause menu has the "Save and Exit" option.
+- In the Options menu, use the "Save Game..." option to re-enable the save file.
 
 Simply skipping to the menu without saving first will make saving impossible.
 
@@ -47,5 +44,4 @@ Make sure you have PINE enabled and that you're playing the US version of the ga
 Type `/menu` command in the client and you should be taken to the menu.
 
 ## Acknowledgment
-
 This project was heavily inspired by and built upon the structure and PINE code from [Evilwb's Archipelago Ratchet and Clank 2 implementation](https://github.com/evilwb/APRac2).

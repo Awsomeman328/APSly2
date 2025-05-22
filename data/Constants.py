@@ -223,7 +223,7 @@ ADDRESSES = {
         "active character pointer": 0x2DE2F0,
         "string table": 0x3e1ad4,
         "frame counter": 0x2F67D0,
-        "pressing x": 0x2DFC0E,
+        "input": 0x2E0CB4,
         "skip cutscene": 0x2F6810,
         "infobox": 0x3DA0E8,
         "infobox scrolling": 0x3DA0D0,

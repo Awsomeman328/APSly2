@@ -268,10 +268,19 @@ class Sly2Interface(GameInterface):
         return self.get_current_map() in HUB_MAPS
 
     def skip_cutscene(self) -> None:
-        pressing_x = self._read8(self.addresses["pressing x"]) == 255
+        pressing_x = self._read8(self.addresses["input"]) == 64
 
         if self.in_cutscene() and pressing_x:
             self._write32(self.addresses["skip cutscene"],0)
+
+    def skip_dialogue(self) -> None:
+        pressing_buttons = self._read8(self.addresses["input"]) == 15
+
+        if pressing_buttons:
+            for offset in [0x30+i*0xF0 for i in range(9)]:
+                a1 = self._read32(0x3E1574)
+                a2 = self._read32(a1+offset)
+                self._write32(a2+4,1)
 
     def _reload(self, reload_data: bytes):
         self._write_bytes(
