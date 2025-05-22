@@ -131,6 +131,7 @@ class Sly2World(World):
                     self.options.thiefnet_maximum.value = slot_data["thiefnet_maximum"]
                     self.options.include_vaults.value = slot_data["include_vaults"]
                     self.options.bottle_location_bundle_size.value = slot_data["bottle_location_bundle_size"]
+                    self.options.bottlesanity.value = slot_data["bottlesanity"]
                     self.options.bottle_item_bundle_size.value = slot_data["bottle_item_bundle_size"]
             return
 
@@ -188,6 +189,7 @@ class Sly2World(World):
             "thiefnet_maximum",
             "include_vaults",
             "bottle_location_bundle_size",
+            "bottlesanity",
             "bottle_item_bundle_size",
             # "skip_intro"
         )

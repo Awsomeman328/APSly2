@@ -41,6 +41,8 @@ def set_rules(world: "Sly2World"):
     )
 
     bottle_n = world.options.bottle_item_bundle_size.value
+    bottlesanity = world.options.bottlesanity
+    print(bottle_n, bottlesanity)
     if bottle_n != 0:
         bundle_count = 30//bottle_n
         remainder = 30%bottle_n
@@ -64,7 +66,7 @@ def set_rules(world: "Sly2World"):
                     lambda state, bn=bundle_name: state.has(bn, player)
                 )
 
-        if world.options.bottle_location_bundle_size.value == 1:
+        if world.options.bottle_location_bundle_size.value == 1 and bottlesanity:
             add_rule(
                 world.get_location("Menace from the North, Eh! - Bottle #04"),
                 lambda state: (

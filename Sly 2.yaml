@@ -211,6 +211,10 @@ requires:
     random-low: 0
     random-high: 0
 
+  bottlesanity:
+    'false': 50
+    'true': 0
+
   ## Item & Location Options
 
   # Forces these items to be in their native world.

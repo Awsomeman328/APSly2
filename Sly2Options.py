@@ -200,6 +200,15 @@ class BottleItemBundleSize(Range):
     default = 0
 
 
+class BottleSanity(Toggle):
+    """
+    Each bottle is its own check, rather than counting the number of bottles
+    collected. Only takes effect if bottle_location_bundle_size is 1.
+    """
+
+    display_name = "Bottlesanity"
+
+
 class SkipIntro(DefaultOnToggle):
     """
     Whether the Cairo intro should be skipped.
@@ -227,6 +236,7 @@ class Sly2Options(PerGameCommonOptions):
     thiefnet_maximum: ThiefNetCostMaximum
     bottle_location_bundle_size: BottleLocationBundleSize
     bottle_item_bundle_size: BottleItemBundleSize
+    bottlesanity: BottleSanity
     # skip_intro: SkipIntro
 
 sly2_option_groups = [
@@ -250,6 +260,7 @@ sly2_option_groups = [
         ThiefNetCostMinimum,
         ThiefNetCostMaximum,
         IncludeVaults,
-        BottleLocationBundleSize
+        BottleLocationBundleSize,
+        BottleSanity
     ])
 ]

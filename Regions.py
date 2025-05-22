@@ -78,7 +78,8 @@ def create_regions(world: "Sly2World"):
                 create_access_rule(episode, n, world.options, world.player)
             )
 
-    bottle_n = world.options.bottle_location_bundle_size
+    bottle_n = world.options.bottle_location_bundle_size.value
+    bottlesanity = world.options.bottlesanity
 
     def add_bottles(episode: str, region: str, n:int):
         """Adds a location for n bottles collected in a specific episode"""
@@ -87,7 +88,7 @@ def create_regions(world: "Sly2World"):
             {location_name: location_dict[location_name].code}
         )
 
-    if world.options.bottle_location_bundle_size == 1:
+    if bottle_n == 1 and bottlesanity:
         for i, episode in enumerate(EPISODES.keys()):
             for n in range(1,31):
                 location_name = f"{episode} - Bottle #{n:02}"
@@ -95,7 +96,7 @@ def create_regions(world: "Sly2World"):
                     {location_name: location_dict[location_name].code}
                 )
 
-    elif world.options.bottle_location_bundle_size > 0:
+    elif bottle_n > 0:
         for i, episode in enumerate(EPISODES.keys()):
             total_bottles = 0
             while total_bottles+bottle_n <= 30:

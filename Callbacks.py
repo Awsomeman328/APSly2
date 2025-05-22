@@ -366,7 +366,8 @@ async def handle_checks(ctx: 'Sly2Context') -> None:
 
     # Bottles
     bottle_n = ctx.slot_data["bottle_location_bundle_size"]
-    if bottle_n == 1:
+    bottlesanity = ctx.slot_data["bottlesanity"]
+    if bottle_n == 1 and bottlesanity:
         for ep in Sly2Episode:
             if ep.value == 0:
                 continue
