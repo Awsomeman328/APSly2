@@ -276,7 +276,7 @@ class Sly2Interface(GameInterface):
     def skip_dialogue(self) -> None:
         pressing_buttons = self._read8(self.addresses["input"]) == 15
 
-        if pressing_buttons:
+        if pressing_buttons and not self.is_loading():
             for offset in [0x30+i*0xF0 for i in range(9)]:
                 a1 = self._read32(0x3E1574)
                 a2 = self._read32(a1+offset)

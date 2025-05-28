@@ -211,6 +211,8 @@ requires:
     random-low: 0
     random-high: 0
 
+  # Each bottle is its own check, rather than counting the number of bottles
+  # collected. Only takes effect if bottle_location_bundle_size is 1.
   bottlesanity:
     'false': 50
     'true': 0
