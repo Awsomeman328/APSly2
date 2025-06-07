@@ -71,7 +71,8 @@ def set_rules(world: "Sly2World"):
                 world.get_location("Menace from the North, Eh! - Bottle #04"),
                 lambda state: (
                     state.has("Paraglider", player) or
-                    state.has("Mega Jump", player)
+                    state.has("Mega Jump", player) or
+                    state.has("Feral Pounce", player)
                 )
             )
             add_rule(
@@ -86,7 +87,8 @@ def set_rules(world: "Sly2World"):
                 world.get_location("Menace from the North, Eh! - 30 bottles collected"),
                 lambda state: (
                     state.has("Paraglider", player) or
-                    state.has("Mega Jump", player)
+                    state.has("Mega Jump", player) or
+                    state.has("Feral Pounce", player)
                 )
             )
             add_rule(
