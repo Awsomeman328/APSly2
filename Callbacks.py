@@ -35,14 +35,13 @@ async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
         # If the player is in a safehouse, set the thiefnet items
         if in_safehouse and not ctx.in_safehouse:
             ctx.in_safehouse = True
-            set_thiefnet(ctx)
+            await set_thiefnet(ctx)
         elif ctx.in_hub and not in_hub:
             ctx.in_hub = False
             ctx.in_safehouse = False
         elif ctx.in_safehouse and ctx.in_hub and not in_safehouse:
             ctx.in_safehouse = False
             unset_thiefnet(ctx)
-            set_bottles_collected(ctx)
 
         if in_hub and not ctx.in_hub:
             ctx.in_hub = True
@@ -53,6 +52,7 @@ async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
             if in_hub and current_job == 0xffffffff:
                 set_jobs(ctx)
 
+            set_bottles_collected(ctx)
             check_jobs(ctx)
 
             if not in_safehouse:
@@ -94,7 +94,7 @@ def set_bottles(ctx: 'Sly2Context'):
     bottles = ctx.all_bottles[ctx.current_episode]
     ctx.game_interface.set_bottles(bottles)
 
-def set_thiefnet(ctx: 'Sly2Context'):
+async def set_thiefnet(ctx: 'Sly2Context'):
     """Sets the randomized ThiefNet items"""
     if ctx.slot_data is None:
         return
@@ -116,6 +116,15 @@ def set_thiefnet(ctx: 'Sly2Context'):
         Locations.location_dict[f"ThiefNet {i+1:02}"].code in ctx.checked_locations
         for i in range(24)
     ])
+
+    await ctx.send_msgs([{
+        "cmd": "LocationScouts",
+        "locations": [
+            Locations.location_dict[f"ThiefNet {i+1:02}"].code
+            for i in range(24)
+        ],
+        "create_as_hint": 2
+    }])
 
     # Set which items should be available to purchase and unlock all from the
     # start
