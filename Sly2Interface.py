@@ -3,7 +3,7 @@ from typing import Optional, NamedTuple, Tuple, Dict, List
 from math import ceil
 import struct
 from logging import Logger
-from time import sleep
+from time import sleep, time
 
 from .pcsx2_interface.pine import Pine
 from .data.Constants import MENU_RETURN_DATA, CAIRO_RETURN_DATA, ADDRESSES, POWERUP_TEXT, HUB_MAPS
@@ -142,6 +142,8 @@ class GameInterface():
             return False
 
 class Sly2Interface(GameInterface):
+    last_skip = time()
+
     def _collect_all_bottles(self, bottle_flags_address: int):
         self._write32(bottle_flags_address,2**30-1)
         self._write32(0x3E1BF4,30)
@@ -275,9 +277,27 @@ class Sly2Interface(GameInterface):
 
     def skip_dialogue(self) -> None:
         pressing_buttons = self._read8(self.addresses["input"]) == 15
-
         if pressing_buttons and not self.is_loading():
-            for offset in [0x30+i*0xF0 for i in range(9)]:
+            current_time = time()
+            if current_time-self.last_skip < 0.5:
+                return
+
+            print("skip")
+            self.last_skip = current_time
+
+            # for offset in [0x30+i*0xF0 for i in range(9)]:
+            # for offset in [48, 288, 528, 768, 1008, 1248, 1488, 1728, 1968]:
+            for offset in [
+                    0x00000030,
+                    0x00000120,
+                    0x20000210,
+                    0x20000300,
+                    0x200003f0,
+                    0x200004e0,
+                    0x200005d0,
+                    0x200006c0,
+                    0x200007b0
+                ]:
                 a1 = self._read32(0x3E1574)
                 a2 = self._read32(a1+offset)
                 self._write32(a2+4,1)
@@ -461,3 +481,10 @@ class Sly2Interface(GameInterface):
 
         active_character_pointer = self._read32(self.addresses["active character pointer"])
         self._write32(active_character_pointer+0xdf4,8)
+
+if __name__ == "__main__":
+    interf = Sly2Interface(Logger("test"))
+    interf.connect_to_game()
+    while True:
+        interf.skip_dialogue()
+        sleep(0.1)
