@@ -30,11 +30,7 @@ Enable PINE in PCSX2
 4. Start a new game.
 
 ## Skipping the intro
-If you want to skip the intro, do the following:
-- Use the `/menu` command in the client.
-- In the Options menu, use the "Save Game..." option to re-enable the save file.
-
-Simply skipping to the menu without saving first will make saving impossible.
+You can skip the intro with the `\menu` command in the client. This might disable saving, so refer to "There's no "save and quit" option in the pause menu" in the Troubleshooting section.
 
 ## Troubleshooting
 ### The client won't connect to my PCSX2 instance
@@ -42,6 +38,9 @@ Make sure you have PINE enabled and that you're playing the US version of the ga
 
 ### I'm stuck in the tutorial
 Type `/menu` command in the client and you should be taken to the menu.
+
+### There's no "save and quit" option in the pause menu
+You can save the game manually in Options.
 
 ## Acknowledgment
 This project was heavily inspired by and built upon the structure and PINE code from [Evilwb's Archipelago Ratchet and Clank 2 implementation](https://github.com/evilwb/APRac2).
