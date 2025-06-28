@@ -207,7 +207,7 @@ async def _handle_game_ready(ctx: Sly2Context) -> None:
     current_episode = ctx.game_interface.get_current_episode()
 
     ctx.game_interface.skip_cutscene()
-    ctx.game_interface.skip_dialogue()
+    # ctx.game_interface.skip_dialogue()
 
     if ctx.is_loading:
         if not ctx.game_interface.is_loading():
