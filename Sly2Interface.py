@@ -482,9 +482,3 @@ class Sly2Interface(GameInterface):
         active_character_pointer = self._read32(self.addresses["active character pointer"])
         self._write32(active_character_pointer+0xdf4,8)
 
-if __name__ == "__main__":
-    interf = Sly2Interface(Logger("test"))
-    interf.connect_to_game()
-    while True:
-        interf.skip_dialogue()
-        sleep(0.1)

@@ -357,6 +357,16 @@ ADDRESSES = {
             "Episode 7": 0x4a3eb0,
             "Episode 8": 0x4a42e0,
             "this powerup.": [0x5c]*8,
+            "right back": [
+                0x504,
+                0x474,
+                0x4e4,
+                0x4c4,
+                0x62c,
+                0x584,
+                0x4ec,
+                0x3bc,
+            ],
             "powerups": [
                 {
                     "Trigger Bomb": (0x4cb960,0x4cb9b0),

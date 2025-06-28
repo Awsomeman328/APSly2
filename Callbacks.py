@@ -42,6 +42,7 @@ async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
         elif ctx.in_safehouse and ctx.in_hub and not in_safehouse:
             ctx.in_safehouse = False
             unset_thiefnet(ctx)
+            set_bottles_collected(ctx)
 
         if in_hub and not ctx.in_hub:
             ctx.in_hub = True
@@ -77,6 +78,13 @@ async def init(ctx: 'Sly2Context', ap_connected: bool) -> None:
     if ap_connected:
         if ctx.current_episode != 0:
             fix_jobs(ctx)
+
+def set_bottles_collected(ctx: 'Sly2Context'):
+    """Sets the "Bottles Collected" text in the pause menu"""
+    ep = ctx.game_interface.get_current_episode()
+    bottles = ctx.game_interface.get_bottles(ep)
+    ctx.game_interface.set_text("right back",f"Bottles Collected: {bottles}")
+
 
 def set_bottles(ctx: 'Sly2Context'):
     """Sets the bottles in the episode"""
