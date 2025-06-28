@@ -483,7 +483,7 @@ ADDRESSES = {
                     "Combat Dodge": (0x4cd850,0x4cd890),
                     "Stealth Slide": (0x4cd8d0,0x4cd960),
                     "Alarm Clock": (0x4cda10,0x4cdac0),
-                    "Paraglide": (0x4c7960,0x4cdc00),
+                    "Paraglide": (0x4cdb40,0x4cdc00),
                     "Silent Obliteration": (0x4cdc70,0x4cdd60),
                     "Thief Reflexes": (0x4cde30,0x4cdef0),
                     "Feral Pounce": (0x4cdf30,0x4cdf80),
