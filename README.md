@@ -6,7 +6,6 @@ Each gadget and chapter of each episode is shuffled into the item pool, and opti
 
 **Additional features include:**
 - The ability to skip video cutscenes by pressing the X button.
-- The ability to skip in-game dialogue by pressing r1+r2+l1+l2
 
 ## Setup
 
