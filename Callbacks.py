@@ -52,7 +52,6 @@ async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
             if in_hub and current_job == 0xffffffff:
                 set_jobs(ctx)
 
-            set_bottles_collected(ctx)
             check_jobs(ctx)
 
             if not in_safehouse:
@@ -60,6 +59,8 @@ async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
                     check_vaults(ctx)
                 await handle_notifications(ctx)
                 await handle_deathlink(ctx)
+                if in_hub:
+                    set_bottles_collected(ctx)
 
         # If not in the tutorial or a cutscene, do Archipelago stuff.
         # This part is separate from the other "handle_*" functions because
