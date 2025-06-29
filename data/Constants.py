@@ -182,8 +182,8 @@ TREASURES = {
     ],
     "Menace from the North, Eh!": [
         ("Jeweled Chalice", 1),
-        ("Jade Decanter", 1),
         ("Collectible Plate", 1),
+        ("Jade Decanter", 1),
     ],
     "Anatomy for Disaster": [
         ("Golden Headdress", 1),
