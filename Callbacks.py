@@ -478,7 +478,7 @@ async def handle_check_goal(ctx: 'Sly2Context') -> None:
         ][ctx.slot_data["goal"]]
         victory_code = Locations.location_dict[victory_name].code
 
-        if victory_code in ctx.locations_checked:
+        if victory_code in ctx.checked_locations:
             await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
     elif ctx.slot_data["goal"] == 5:
         victory_names = [
@@ -490,7 +490,7 @@ async def handle_check_goal(ctx: 'Sly2Context') -> None:
         ]
         victory_codes = [Locations.location_dict[name].code for name in victory_names]
 
-        if all(code in ctx.locations_checked for code in victory_codes):
+        if all(code in ctx.checked_locations for code in victory_codes):
             await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
     elif ctx.slot_data["goal"] == 6:
         clockwerk_parts = [i for i in ctx.items_received if Items.from_id(i.item).category == "Clockwerk Part"]
