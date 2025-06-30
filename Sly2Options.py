@@ -200,7 +200,7 @@ class BottleItemBundleSize(Range):
     default = 0
 
 
-class BottleSanity(Toggle):
+class BottleSanity(DefaultOnToggle):
     """
     Each bottle is its own check, rather than counting the number of bottles
     collected. Only takes effect if bottle_location_bundle_size is 1.
