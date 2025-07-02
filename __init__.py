@@ -1,7 +1,6 @@
 from typing import Dict, Optional, Mapping, Any, List
 import typing
 import logging
-import random
 
 from BaseClasses import Item, ItemClassification
 from Options import OptionError
@@ -140,13 +139,13 @@ class Sly2World(World):
         thiefnet_min = self.options.thiefnet_minimum.value
         thiefnet_max = self.options.thiefnet_maximum.value
         self.thiefnet_costs = sorted([
-            random.randint(thiefnet_min,thiefnet_max)
+            self.random.randint(thiefnet_min,thiefnet_max)
             for _ in range(24)
         ])
 
     def get_filler_item_name(self) -> str:
         # Currently just coins
-        return random.choice(list(self.item_name_groups["Filler"]))
+        return self.random.choice(list(self.item_name_groups["Filler"]))
 
     def create_regions(self) -> None:
         create_regions(self)
