@@ -10,6 +10,7 @@ from worlds.LauncherComponents import (
     Type,
     components,
     launch_subprocess,
+    launch,
     icon_paths,
 )
 
@@ -24,7 +25,7 @@ from .Rules import set_rules
 ## Client stuff
 def run_client():
     from .Sly2Client import launch_client
-    launch_subprocess(launch_client, name="Sly2Client")
+    launch(launch_client, name="Sly2Client")
 
 icon_paths["sly2_ico"] = f"ap:{__name__}/icon.png"
 components.append(

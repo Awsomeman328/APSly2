@@ -251,13 +251,11 @@ async def _handle_game_not_ready(ctx: Sly2Context):
     await asyncio.sleep(3)
 
 def launch_client():
-    Utils.init_logging("Sly2 Client")
+    Utils.init_logging("Sly 2 Client")
 
-    async def main():
+    async def main(args):
         multiprocessing.freeze_support()
         logger.info("main")
-        parser = get_base_parser()
-        args = parser.parse_args()
         ctx = Sly2Context(args.connect, args.password)
 
         logger.info("Connecting to server...")
@@ -282,7 +280,11 @@ def launch_client():
 
     colorama.init()
 
-    asyncio.run(main())
+
+    parser = get_base_parser()
+    args, _ = parser.parse_known_args()
+
+    asyncio.run(main(args))
     colorama.deinit()
 
 if __name__ == "__main__":
