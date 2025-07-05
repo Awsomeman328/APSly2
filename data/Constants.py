@@ -203,6 +203,15 @@ HUB_MAPS = [
     38
 ]
 
+DEATH_TYPES = {
+    0x200: "{player} was killed",
+    0x400: "{player} was flattened",
+    0x800: "{player} was electrocuted",
+    0x1000: "{player} was burned to death",
+    0x2000: "{player} drowned",
+    0x1000: "{player} fell to their death",
+}
+
 ADDRESSES = {
     "SCUS-97316": {
         "loading": 0x3D3980,

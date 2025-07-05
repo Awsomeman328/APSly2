@@ -214,6 +214,11 @@ class Sly2Interface(GameInterface):
         health = self._read32(self.addresses["health"][active_character])
         return health != 0
 
+    def get_damage_type(self) -> int:
+        active_character = self._read32(self.addresses["active character pointer"])
+        damage_type = self._read32(active_character + 0xe2c)
+        return damage_type
+
     def activate_job(self, task: int) -> None:
         status = self._read_job_status(task)
         if status == 0 and self._task_parents_finished(task):

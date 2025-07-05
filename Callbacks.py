@@ -5,7 +5,7 @@ from random import randint
 from NetUtils import ClientStatus
 
 from .data import Items, Locations
-from .data.Constants import EPISODES, POWERUP_TEXT, OTHER_POWERUPS, TREASURES
+from .data.Constants import EPISODES, POWERUP_TEXT, OTHER_POWERUPS, TREASURES, DEATH_TYPES
 from .Sly2Interface import Sly2Episode, PowerUps
 
 if TYPE_CHECKING:
@@ -451,15 +451,18 @@ async def handle_deathlink(ctx: 'Sly2Context') -> None:
     if not ctx.death_link_enabled:
         return
 
-    if time()-ctx.deathlink_timestamp > 10:
+    if time()-ctx.deathlink_timestamp > 20:
         if ctx.game_interface.alive():
             if ctx.queued_deaths > 0:
                 ctx.game_interface.kill_player()
-                ctx.queued_deaths -= 1
+                ctx.queued_deaths = 0
                 ctx.deathlink_timestamp = time()
         else:
-            # Maybe add something that writes a cause?
-            await ctx.send_death()
+            damage_type = ctx.game_interface.get_damage_type()
+            player_name = ctx.player_names[ctx.slot if ctx.slot else 0]
+            death_message = DEATH_TYPES.get(damage_type, "{player} died").format(player=player_name)
+
+            await ctx.send_death(death_message)
             ctx.deathlink_timestamp = time()
 
 
