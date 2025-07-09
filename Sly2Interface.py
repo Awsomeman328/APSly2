@@ -287,7 +287,6 @@ class Sly2Interface(GameInterface):
             if current_time-self.last_skip < 0.5:
                 return
 
-            print("skip")
             self.last_skip = current_time
 
             # for offset in [0x30+i*0xF0 for i in range(9)]:

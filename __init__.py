@@ -72,39 +72,75 @@ class Sly2World(World):
 
     def validate_options(self, opt: Sly2Options):
         if opt.episode_8_keys.value != 3 and opt.required_keys_episode_8 > opt.keys_in_pool:
-            raise OptionError(
-                f"Episode 8 requires {opt.required_keys_episode_8} keys but only {opt.keys_in_pool} keys in pool"
+            logging.warning(
+                f"{self.player_name}: " +
+                f"Episode 8 requires {opt.required_keys_episode_8} keys but only {opt.keys_in_pool} keys in pool. Increasing number of keys in pool."
             )
+            opt.keys_in_pool.value = opt.required_keys_episode_8.value
+            # raise OptionError(
+            #     f"Episode 8 requires {opt.required_keys_episode_8} keys but only {opt.keys_in_pool} keys in pool"
+            # )
 
         if opt.goal == 6 and opt.required_keys_goal > opt.keys_in_pool:
-            raise OptionError(
-                f"Clockwerk Hunt goal requires {opt.required_keys_goal} keys but only {opt.keys_in_pool} keys in pool"
+            logging.warning(
+                f"{self.player_name}: " +
+                f"Clockwerk Hunt goal requires {opt.required_keys_goal} keys but only {opt.keys_in_pool} keys in pool. Increasing number of keys in pool."
             )
+            opt.keys_in_pool.value = opt.required_keys_goal.value
+
+            # raise OptionError(
+            #     f"Clockwerk Hunt goal requires {opt.required_keys_goal} keys but only {opt.keys_in_pool} keys in pool"
+            # )
 
         if opt.episode_8_keys.value in [0,2] and (
             opt.starting_episode == StartingEpisode.option_Anatomy_for_Disaster
         ):
-            raise OptionError(
-                f"Incompatible options: Episode 8 Keys: ({opt.episode_8_keys}) and Starting Episode: ({opt.starting_episode})"
+            logging.warning(
+                f"{self.player_name}: " +
+                f"Incompatible options: Episode 8 Keys: ({opt.episode_8_keys}) and Starting Episode: ({opt.starting_episode}). Changing Episode 8 Keys to \"Last Section\"."
             )
+            opt.episode_8_keys.value = 1
+            # raise OptionError(
+            #     f"Incompatible options: Episode 8 Keys: ({opt.episode_8_keys}) and Starting Episode: ({opt.starting_episode})"
+            # )
 
         if (
             (opt.bottle_item_bundle_size == 0 and opt.bottle_location_bundle_size != 0) or
             (opt.bottle_item_bundle_size != 0 and opt.bottle_location_bundle_size == 0)
         ):
-            raise OptionError(
-                f"Bottle item bundle size and bottle location bundle size should either both be zero or both be non-zero"
+            logging.warning(
+                f"{self.player_name}: " +
+                f"Bottle item bundle size and bottle location bundle size should either both be zero or both be non-zero. Setting both to 0."
             )
+            opt.bottle_item_bundle_size.value = 0
+            opt.bottle_location_bundle_size.value = 0
+            # raise OptionError(
+            #     f"Bottle item bundle size and bottle location bundle size should either both be zero or both be non-zero"
+            # )
 
         if opt.coins_maximum < opt.coins_minimum:
-            raise OptionError(
-                f"Coins minimum cannot be larger than maximum (min: {opt.coins_minimum}, max: {opt.coins_maximum})"
+            logging.warning(
+                f"{self.player_name}: " +
+                f"Coins minimum cannot be larger than maximum (min: {opt.coins_minimum}, max: {opt.coins_maximum}). Swapping values."
             )
+            temp = opt.coins_minimum.value
+            opt.coins_minimum.value = opt.coins_maximum.value
+            opt.coins_maximum.value = temp
+            # raise OptionError(
+            #     f"Coins minimum cannot be larger than maximum (min: {opt.coins_minimum}, max: {opt.coins_maximum})"
+            # )
 
         if opt.thiefnet_maximum < opt.thiefnet_minimum:
-            raise OptionError(
-                f"Thiefnet minimum cannot be larger than maximum (min: {opt.thiefnet_minimum}, max: {opt.thiefnet_maximum})"
+            logging.warning(
+                f"{self.player_name}: " +
+                f"Thiefnet minimum cannot be larger than maximum (min: {opt.thiefnet_minimum}, max: {opt.thiefnet_maximum}). Swapping values."
             )
+            temp = opt.thiefnet_minimum.value
+            opt.thiefnet_minimum.value = opt.thiefnet_maximum.value
+            opt.thiefnet_maximum.value = temp
+            # raise OptionError(
+            #     f"Thiefnet minimum cannot be larger than maximum (min: {opt.thiefnet_minimum}, max: {opt.thiefnet_maximum})"
+            # )
 
     def generate_early(self) -> None:
 

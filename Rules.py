@@ -42,29 +42,29 @@ def set_rules(world: "Sly2World"):
 
     bottle_n = world.options.bottle_item_bundle_size.value
     bottlesanity = world.options.bottlesanity
-    print(bottle_n, bottlesanity)
     if bottle_n != 0:
         bundle_count = 30//bottle_n
         remainder = 30%bottle_n
-        for ep in EPISODES.keys():
-            if bottle_n == 1:
-                bundle_name = f"Bottle - {ep}"
-            else:
-                bundle_name = f"{bottle_n} bottles - {ep}"
-            add_rule(
-                world.get_location(f"{ep} - Vault"),
-                lambda state, bn=bundle_name: state.has(bn, player, bundle_count)
-            )
-
-            if remainder > 0:
-                if remainder == 1:
+        if world.options.include_vaults:
+            for ep in EPISODES.keys():
+                if bottle_n == 1:
                     bundle_name = f"Bottle - {ep}"
                 else:
-                    bundle_name = f"{remainder} bottles - {ep}"
+                    bundle_name = f"{bottle_n} bottles - {ep}"
                 add_rule(
                     world.get_location(f"{ep} - Vault"),
-                    lambda state, bn=bundle_name: state.has(bn, player)
+                    lambda state, bn=bundle_name: state.has(bn, player, bundle_count)
                 )
+
+                if remainder > 0:
+                    if remainder == 1:
+                        bundle_name = f"Bottle - {ep}"
+                    else:
+                        bundle_name = f"{remainder} bottles - {ep}"
+                    add_rule(
+                        world.get_location(f"{ep} - Vault"),
+                        lambda state, bn=bundle_name: state.has(bn, player)
+                    )
 
         if world.options.bottle_location_bundle_size.value == 1 and bottlesanity:
             add_rule(
@@ -135,10 +135,8 @@ def set_rules(world: "Sly2World"):
                 "Anatomy for Disaster - Carmelita's Gunner/Defeat Clock-la"
             ]
 
-            checked = state.locations_checked
-
             return all(
-                world.multiworld.get_location(cond,world.player) in checked
+                world.multiworld.get_location(cond,world.player).access_rule(state)
                 for cond in victory_conditions
             )
 
