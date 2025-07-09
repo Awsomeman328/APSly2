@@ -31,6 +31,9 @@ Enable PINE in PCSX2
 ## Skipping the intro
 You can skip the intro with the `\menu` command in the client. This might disable saving, so refer to "There's no "save and quit" option in the pause menu" in the Troubleshooting section.
 
+## Skipping Cutscenes
+I recommend using [this patch](https://github.com/andshrew/Sly2-Cutscene-Skip/tree/main) to enable cutscene skipping.
+
 ## Troubleshooting
 ### The client won't connect to my PCSX2 instance
 Make sure you have PINE enabled and that you're playing the US version of the game.
