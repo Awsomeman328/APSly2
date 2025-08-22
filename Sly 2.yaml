@@ -176,7 +176,7 @@ requires:
   #
   # You can define additional values between the minimum and maximum values.
   # Minimum value is 0
-  # Maximum value is 10000
+  # Maximum value is 9999
   thiefnet_minimum:
     200: 50
     random: 0
@@ -187,7 +187,7 @@ requires:
   #
   # You can define additional values between the minimum and maximum values.
   # Minimum value is 0
-  # Maximum value is 10000
+  # Maximum value is 9999
   thiefnet_maximum:
     2000: 50
     random: 0

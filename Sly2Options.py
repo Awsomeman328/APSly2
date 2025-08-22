@@ -155,7 +155,7 @@ class ThiefNetCostMinimum(Range):
 
     display_name = "ThiefNet Cost Minimum"
     range_start = 0
-    range_end = 10_000
+    range_end = 9999
     default = 200
 
 
@@ -166,7 +166,7 @@ class ThiefNetCostMaximum(Range):
 
     display_name = "ThiefNet Cost Maximum"
     range_start = 0
-    range_end = 10_000
+    range_end = 9999
     default = 2000
 
 class IncludeVaults(DefaultOnToggle):
