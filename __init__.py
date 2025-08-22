@@ -150,8 +150,8 @@ class Sly2World(World):
                 # I'm doing getattr purely so pylance stops being mad at me
                 re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough")
 
-                if "Sly 2" in re_gen_passthrough:
-                    slot_data = re_gen_passthrough["Sly 2"]
+                if "Sly 2: Band of Thieves" in re_gen_passthrough:
+                    slot_data = re_gen_passthrough["Sly 2: Band of Thieves"]
                     self.thiefnet_costs = slot_data["thiefnet_costs"]
                     self.options.starting_episode.value = slot_data["starting_episode"]
                     self.options.goal.value = slot_data["goal"]
