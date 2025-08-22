@@ -22,6 +22,9 @@ Enable PINE in PCSX2
 - In PCSX2, under `Tools`, check `Show Advanced Settings`.
 - In PCSX2, `System -> Settings -> Advanced -> PINE Settings`, check `Enable` and ensure `Slot` is set to `28011`.
 
+### Generating and hosting a multiworld
+Refer to [the official guide](https://archipelago.gg/tutorial/Archipelago/setup_en) on how to set up your game.
+
 ### Playing a game
 1. Start the game in PCSX2.
 2. Start the Sly 2 client from the Archipelago launcher, and connect to the multiworld.
@@ -33,6 +36,9 @@ You can skip the intro with the `\menu` command in the client. This might disabl
 
 ## Skipping Cutscenes
 I recommend using [this patch](https://github.com/andshrew/Sly2-Cutscene-Skip/tree/main) to enable cutscene skipping.
+
+## Poptracker
+Check out lastingParadox's [tracker pack](https://github.com/lastingParadox/Sly2-Poptracker) for poptracker.
 
 ## Troubleshooting
 ### The client won't connect to my PCSX2 instance
