@@ -486,3 +486,24 @@ class Sly2Interface(GameInterface):
         active_character_pointer = self._read32(self.addresses["active character pointer"])
         self._write32(active_character_pointer+0xdf4,8)
 
+
+if __name__ == "__main__":
+    interf = Sly2Interface(Logger("test"))
+    interf.connect_to_game()
+    print(interf._read32(interf.addresses["clock-la defeated"]))
+
+    # chapters = interf.addresses["jobs"][interf.get_current_episode()-1]
+    # print_string = []
+    # for c in chapters:
+    #     chapter_string = []
+    #     for job in c:
+    #         if isinstance(job,tuple):
+    #             state1 = interf.job_completed(job[0])
+    #             state2 = interf.job_completed(job[1])
+    #             chapter_string.append(f"({state1},{state2})")
+    #         else:
+    #             chapter_string.append(str(interf.job_completed(job)))
+
+    #     print_string.append("["+",".join(chapter_string)+"]")
+
+    # print("[\n    "+",\n    ".join(print_string)+"\n],")

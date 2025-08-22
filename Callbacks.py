@@ -46,6 +46,10 @@ async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
         if in_hub and not ctx.in_hub:
             ctx.in_hub = True
 
+        # The DAG unloads before the client can see that the clock-la mission
+        # is finished. That's why we need to check it directly.
+        check_clockla(ctx)
+
         if ctx.current_episode != Sly2Episode.Title_Screen:
             current_job = ctx.game_interface.get_current_job()
             in_hub = ctx.game_interface.in_hub()
@@ -64,12 +68,12 @@ async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
 
         # If not in the tutorial or a cutscene, do Archipelago stuff.
         # This part is separate from the other "handle_*" functions because
-        # episodes should be able to be unlocked while in the episode menu
+        # episodes should be able to be unlocked and victory should be able
+        # to be sent while in the episode menu
         if current_map != 0 and not ctx.game_interface.in_cutscene():
             await handle_received(ctx)
-            if ctx.current_episode != Sly2Episode.Title_Screen:
-                await handle_checks(ctx)
-                await handle_check_goal(ctx)
+            await handle_checks(ctx)
+            await handle_check_goal(ctx)
 
     boot_from_invalid_episode(ctx, ap_connected)
 
@@ -213,6 +217,13 @@ def boot_from_invalid_episode(ctx: 'Sly2Context', ap_connected: bool) -> None:
         # Sleeping because stuff breaks if we don't
         sleep(1)
 
+def check_clockla(ctx: 'Sly2Context') -> None:
+    address = ctx.game_interface.addresses["clock-la defeated"]
+    ctx.jobs_completed[7][3][0] = (
+        ctx.jobs_completed[7][3][0] or
+        (ctx.game_interface._read32(address) == 3)
+    )
+
 def check_jobs(ctx: 'Sly2Context') -> None:
     """Checks if the jobs are completed"""
     episode = ctx.current_episode
@@ -226,8 +237,10 @@ def check_jobs(ctx: 'Sly2Context') -> None:
             if isinstance(job, tuple):
                 job = job[1]
 
-            completed = ctx.game_interface.job_completed(job)
-            ctx.jobs_completed[episode-1][j][k] = completed
+            ctx.jobs_completed[episode-1][j][k] = (
+                ctx.jobs_completed[episode-1][j][k] or
+                ctx.game_interface.job_completed(job)
+            )
 
 def set_jobs(ctx: 'Sly2Context') -> None:
     """Sets jobs to available/unavailable"""
@@ -465,7 +478,6 @@ async def handle_deathlink(ctx: 'Sly2Context') -> None:
             await ctx.send_death(death_message)
             ctx.deathlink_timestamp = time()
 
-
 async def handle_check_goal(ctx: 'Sly2Context') -> None:
     """Checks if the goal is completed"""
     if ctx.slot_data is None:
@@ -480,9 +492,9 @@ async def handle_check_goal(ctx: 'Sly2Context') -> None:
             "Anatomy for Disaster - Carmelita's Gunner/Defeat Clock-la"
         ][ctx.slot_data["goal"]]
         victory_code = Locations.location_dict[victory_name].code
-
-        if victory_code in ctx.checked_locations:
+        if victory_code in ctx.locations_checked:
             await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+
     elif ctx.slot_data["goal"] == 5:
         victory_names = [
             "The Black Chateau - Operation: Thunder Beak",
@@ -493,7 +505,7 @@ async def handle_check_goal(ctx: 'Sly2Context') -> None:
         ]
         victory_codes = [Locations.location_dict[name].code for name in victory_names]
 
-        if all(code in ctx.checked_locations for code in victory_codes):
+        if all(code in ctx.locations_checked for code in victory_codes):
             await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
     elif ctx.slot_data["goal"] == 6:
         clockwerk_parts = [i for i in ctx.items_received if Items.from_id(i.item).category == "Clockwerk Part"]

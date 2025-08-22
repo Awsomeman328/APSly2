@@ -252,6 +252,7 @@ ADDRESSES = {
         "bottle count": 0x3E1BF4,
         "thiefnet costs": [0x2BCDE8+i*0x20 for i in range(24)],
         "thiefnet unlock": [0x2BCDF0+i*0x20 for i in range(24)],
+        "clock-la defeated": 0x3D9AF0,
         "jobs": [
             [
                 [4,10],
