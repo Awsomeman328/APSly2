@@ -37,8 +37,8 @@ You can skip the intro with the `\menu` command in the client. This might disabl
 ## Skipping Cutscenes
 I recommend using [this patch](https://github.com/andshrew/Sly2-Cutscene-Skip/tree/main) to enable cutscene skipping.
 
-## Poptracker
-Check out lastingParadox's [tracker pack](https://github.com/lastingParadox/Sly2-Poptracker) for poptracker.
+## Tracker
+The randomizer has full support for [Universal Tracker](https://github.com/FarisTheAncient/Archipelago/blob/tracker/worlds/tracker/docs/setup.md), based on lastingParadox's [tracker pack](https://github.com/lastingParadox/Sly2-Poptracker) for poptracker.
 
 ## Troubleshooting
 ### The client won't connect to my PCSX2 instance
