@@ -1,0 +1,377 @@
+[
+  {
+    "name": "Anatomy for Disaster",
+    "children": [
+        {
+        "name": "Blimp HQ Recon",
+        "sections": [{"name": "Anatomy for Disaster - Blimp HQ Recon"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 315,
+          "y": 202
+        }]
+      },
+        {
+        "name": "Charged TNT Run",
+        "sections": [{"name": "Anatomy for Disaster - Charged TNT Run"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 469,
+          "y": 568
+        }]
+      },
+        {
+        "name": "Murray/Sly Tag Team",
+        "sections": [{"name": "Anatomy for Disaster - Murray/Sly Tag Team"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 1035,
+          "y": 254
+        }]
+      },
+        {
+        "name": "Sly/Bentley Conspire",
+        "sections": [{"name": "Anatomy for Disaster - Sly/Bentley Conspire"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 966,
+          "y": 572
+        }]
+      },
+        {
+        "name": "Bentley/Murray Team Up",
+        "sections": [{"name": "Anatomy for Disaster - Bentley/Murray Team Up"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 1032,
+          "y": 657
+        }]
+      },
+      {
+        "name": "Mega-Jump Job + Carmelita's Gunner",
+        "sections": [
+          {"name": "Anatomy for Disaster - Mega-Jump Job"},
+          {"name": "Anatomy for Disaster - Carmelita's Gunner/Defeat Clock-la"}
+        ],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 1117,
+          "y": 373
+        }]
+      },
+      {
+        "name": "Golden Headdress Treasure",
+        "sections": [{ "name": "Anatomy for Disaster - Golden Headdress" }],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 374,
+          "y": 732
+        }]
+      },
+      {
+        "name": "Jeweled Egg Treasure",
+        "sections": [{ "name": "Anatomy for Disaster - Jeweled Egg" }],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 184,
+          "y": 321
+        }]
+      },
+      {
+        "name": "Golden Vase Treasure",
+        "sections": [{ "name": "Anatomy for Disaster - Golden Vase" }],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 391,
+          "y": 420
+        }]
+      },
+      {
+        "name": "Anatomy for Disaster Vault",
+        "visibility_rules": ["include_vaultson"],
+        "sections": [{ "name": "Anatomy for Disaster - Vault" }],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 584,
+          "y": 203
+        }]
+      }
+    ]
+  },
+  {
+    "name": "Anatomy for Disaster Bottles",
+    "visibility_rules": ["bottlesanityon"],
+    "children": [
+        {
+        "name": "Clue Bottle 1",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #01"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 237,
+          "y": 286
+        }]
+      },
+        {
+        "name": "Clue Bottle 2",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #02"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 129,
+          "y": 380
+        }]
+      },
+        {
+        "name": "Clue Bottle 3",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #03"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 872,
+          "y": 470
+        }]
+      },
+        {
+        "name": "Clue Bottle 4",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #04"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 1099,
+          "y": 476
+        }]
+      },
+        {
+        "name": "Clue Bottle 5",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #05"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 1184,
+          "y": 453
+        }]
+      },
+        {
+        "name": "Clue Bottle 6",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #06"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 1184,
+          "y": 585
+        }]
+      },
+        {
+        "name": "Clue Bottle 7",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #07"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 1051,
+          "y": 246
+        }]
+      },
+        {
+        "name": "Clue Bottle 8",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #08"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 1004,
+          "y": 181
+        }]
+      },
+        {
+        "name": "Clue Bottle 9",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #09"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 898,
+          "y": 322
+        }]
+      },
+        {
+        "name": "Clue Bottle 10",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #10"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 968,
+          "y": 590
+        }]
+      },
+        {
+        "name": "Clue Bottle 11",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #11"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 974,
+          "y": 644
+        }]
+      },
+        {
+        "name": "Clue Bottle 12",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #12"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 664,
+          "y": 492
+        }]
+      },
+        {
+        "name": "Clue Bottle 13",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #13"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 482,
+          "y": 332
+        }]
+      },
+        {
+        "name": "Clue Bottle 14",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #14"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 687,
+          "y": 731
+        }]
+      },
+        {
+        "name": "Clue Bottle 15",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #15"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 154,
+          "y": 714
+        }]
+      },
+        {
+        "name": "Clue Bottle 16",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #16"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 208,
+          "y": 583
+        }]
+      },
+        {
+        "name": "Clue Bottle 17",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #17"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 330,
+          "y": 226
+        }]
+      },
+        {
+        "name": "Clue Bottle 18",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #18"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 328,
+          "y": 667
+        }]
+      },
+        {
+        "name": "Clue Bottle 19",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #19"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 482,
+          "y": 516
+        }]
+      },
+        {
+        "name": "Clue Bottle 20",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #20"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 550,
+          "y": 584
+        }]
+      },
+        {
+        "name": "Clue Bottle 21",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #21"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 383,
+          "y": 493
+        }]
+      },
+        {
+        "name": "Clue Bottle 22",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #22"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 697,
+          "y": 550
+        }]
+      },
+        {
+        "name": "Clue Bottle 23",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #23"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 588,
+          "y": 502
+        }]
+      },
+        {
+        "name": "Clue Bottle 24",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #24"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 770,
+          "y": 598
+        }]
+      },
+        {
+        "name": "Clue Bottle 25",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #25"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 777,
+          "y": 354
+        }]
+      },
+        {
+        "name": "Clue Bottle 26",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #26"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 626,
+          "y": 382
+        }]
+      },
+        {
+        "name": "Clue Bottle 27",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #27"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 515,
+          "y": 408
+        }]
+      },
+        {
+        "name": "Clue Bottle 28",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #28"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 693,
+          "y": 209
+        }]
+      },
+        {
+        "name": "Clue Bottle 29",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #29"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 529,
+          "y": 204
+        }]
+      },
+        {
+        "name": "Clue Bottle 30",
+        "sections": [{"name": "Anatomy for Disaster - Bottle #30"}],
+        "map_locations": [{
+          "map": "Anatomy for Disaster",
+          "x": 603,
+          "y": 839
+        }]
+      }
+    ]
+  }
+]

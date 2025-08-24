@@ -1,4 +1,4 @@
-from typing import Dict, Optional, Mapping, Any, List
+from typing import Dict, Optional, Mapping, Any, List, ClassVar
 import typing
 import logging
 
@@ -18,6 +18,7 @@ from .Sly2Options import Sly2Options, StartingEpisode, sly2_option_groups
 from .Regions import create_regions
 from .data.Items import item_dict, item_groups, Sly2Item
 from .data.Locations import location_dict, location_groups
+from .data.Constants import EPISODES
 from .ItemPool import gen_pool
 from .Rules import set_rules
 
@@ -32,6 +33,12 @@ components.append(
     Component("Sly 2 Client", func=run_client, component_type=Type.CLIENT, icon="sly2_ico")
 )
 
+
+## UT Stuff
+def map_page_index(episode: str) -> int:
+    mapping = {k: i for i,k in enumerate(EPISODES.keys())}
+
+    return mapping.get(episode,0)
 
 ## The world
 class Sly2Web(WebWorld):
@@ -69,6 +76,24 @@ class Sly2World(World):
 
     # and this is how we tell Universal Tracker we don't need the yaml
     ut_can_gen_without_yaml = True
+
+    # For setting up the maps for UT
+    tracker_world: ClassVar = {
+        "map_page_folder" : "tracker",
+        "map_page_maps" : "maps.json",
+        "map_page_locations" : [
+            "locations/the_black_chateau.json",
+            "locations/a_starry_eyed_encounter.json",
+            "locations/the_predator_awakes.json",
+            "locations/jailbreak.json",
+            "locations/a_tangled_web.json",
+            "locations/he_who_tames_the_iron_horse.json",
+            "locations/anatomy_for_disaster.json",
+            "locations/menace_from_the_north_eh.json"
+        ],
+        "map_page_setting_key": "Slot:{player}:Episode",
+        "map_page_index": map_page_index
+    }
 
     def validate_options(self, opt: Sly2Options):
         if opt.episode_8_keys.value != 3 and opt.required_keys_episode_8 > opt.keys_in_pool:

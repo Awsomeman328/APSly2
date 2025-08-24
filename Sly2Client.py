@@ -81,7 +81,6 @@ class Sly2CommandProcessor(ClientCommandProcessor):
     #     if isinstance(self.ctx, Sly2Context):
     #         self.ctx.game_interface.add_coins(int(amount))
 
-
 class Sly2Context(CommonContext):
     # Client variables
     command_processor = Sly2CommandProcessor

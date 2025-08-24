@@ -210,9 +210,60 @@ class Sly2Interface(GameInterface):
                     self._write_job_status(job+i,0)
 
     def alive(self) -> bool:
-        active_character = self._read32(self.addresses["active character"])-7
-        health = self._read32(self.addresses["health"][active_character])
-        return health != 0
+        active_character = self._read32(self.addresses["active character"])
+
+        character_alive = True
+        episode = self.get_current_episode()
+        current_map = self.get_current_map()
+
+        if active_character == 7:
+            character_alive = character_alive and (self._read32(self.addresses["health"]["Sly"]) != 0)
+            if episode == Sly2Episode.He_Who_Tames_the_Iron_Horse and current_map == 30:
+                character_alive = character_alive and (self._read32(self.addresses["health"]["ChopperCanada2"]) != 0)
+            elif episode == Sly2Episode.Anatomy_for_Disaster and current_map == 38:
+                character_alive = character_alive and (self._read32(self.addresses["health"]["ChopperCarmelita"]) != 0)
+        elif active_character == 8:
+            character_alive = character_alive and (self._read32(self.addresses["health"]["Bentley"]) != 0)
+            if episode == Sly2Episode.Jailbreak and current_map == 14:
+                character_alive = character_alive and (self._read32(self.addresses["health"]["ChopperPrague"]) != 0)
+            elif episode == Sly2Episode.A_Tangled_Web and current_map == 17:
+                character_alive = character_alive and (self._read32(self.addresses["health"]["Blimp"]) != 0)
+            elif episode == Sly2Episode.He_Who_Tames_the_Iron_Horse and current_map == 29:
+                character_alive = character_alive and (self._read32(self.addresses["health"]["ChopperCanada1"]) != 0)
+            elif episode == Sly2Episode.A_Starry_Eyed_Encounter and current_map == 8:
+                character_alive = character_alive and (self._read32(self.addresses["health"]["ChopperIndia"]) != 0)
+                character_alive = character_alive and (self._read32(self.addresses["health"]["Murray"]) != 0)
+            elif episode == Sly2Episode.The_Predator_Awakens and current_map == 12:
+                character_alive = character_alive and (self._read32(self.addresses["health"]["TurretIndia2"]) != 0)
+        elif active_character == 9:
+            character_alive = character_alive and (self._read32(self.addresses["health"]["Murray"]) != 0)
+            if episode == Sly2Episode.A_Starry_Eyed_Encounter and current_map == 8:
+                character_alive = character_alive and (self._read32(self.addresses["health"]["TurretIndia"]) != 0)
+            elif episode == Sly2Episode.A_Tangled_Web and current_map == 17:
+                character_alive = character_alive and (self._read32(self.addresses["health"]["Tank"]) != 0)
+            elif episode == Sly2Episode.Menace_from_the_North_Eh and current_map == 33:
+                character_alive = character_alive and (self._read32(self.addresses["health"]["RCTank"]) != 0)
+
+        if (
+            (
+                episode == Sly2Episode.Jailbreak and
+                current_map in [14,15]
+            ) or
+            (
+                episode == Sly2Episode.A_Tangled_Web and
+                current_map == 22
+            ) or
+            (
+                episode == Sly2Episode.Menace_from_the_North_Eh and
+                current_map == 32
+            ) or
+            (
+                episode == Sly2Episode.Anatomy_for_Disaster and
+                current_map == 38
+            )
+            ):
+            character_alive = character_alive and (self._read32(self._read32(self.addresses["hackpack"])+0x184) != 0)
+        return character_alive
 
     def get_damage_type(self) -> int:
         active_character = self._read32(self.addresses["active character pointer"])
@@ -485,25 +536,3 @@ class Sly2Interface(GameInterface):
 
         active_character_pointer = self._read32(self.addresses["active character pointer"])
         self._write32(active_character_pointer+0xdf4,8)
-
-
-if __name__ == "__main__":
-    interf = Sly2Interface(Logger("test"))
-    interf.connect_to_game()
-    print(interf._read32(interf.addresses["clock-la defeated"]))
-
-    # chapters = interf.addresses["jobs"][interf.get_current_episode()-1]
-    # print_string = []
-    # for c in chapters:
-    #     chapter_string = []
-    #     for job in c:
-    #         if isinstance(job,tuple):
-    #             state1 = interf.job_completed(job[0])
-    #             state2 = interf.job_completed(job[1])
-    #             chapter_string.append(f"({state1},{state2})")
-    #         else:
-    #             chapter_string.append(str(interf.job_completed(job)))
-
-    #     print_string.append("["+",".join(chapter_string)+"]")
-
-    # print("[\n    "+",\n    ".join(print_string)+"\n],")

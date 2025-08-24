@@ -214,6 +214,7 @@ DEATH_TYPES = {
 
 ADDRESSES = {
     "SCUS-97316": {
+        "unload mega jump": 0x20ECD4,
         "loading": 0x3D3980,
         "world id": 0x3D4A60,
         "map id": 0x3E1110,
@@ -238,7 +239,22 @@ ADDRESSES = {
         "infobox scrolling": 0x3DA0D0,
         "infobox string": 0x3DA0D8,
         "infobox duration": 0x3DA0DC,
-        "health": [0x3d4ab0,0x3d4ac8,0x3d4ae0],
+        "hackpack": 0x3E0828,
+        "health": {
+            "Sly": 0x3d4ab0,
+            "Bentley": 0x3d4ac8,
+            "Murray": 0x3d4ae0,
+            "ChopperPrague": 0x52A560,
+            "TurretIndia": 0x5A5BA0,
+            "RCTank": 0xDF0AE0,
+            "Tank": 0x5616C0,
+            "Blimp": 0x563F10,
+            "ChopperCanada1": 0x5523D0,
+            "ChopperCanada2": 0x500618,
+            "ChopperIndia": 0x5A68F0,
+            "TurretIndia2": 0x525600,
+            "ChopperCarmelita": 0x50EE50
+          },
         "bottle flags": [
             0x3D4CD8,
             0x3D4E78,

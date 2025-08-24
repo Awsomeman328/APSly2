@@ -1,0 +1,481 @@
+[
+  {
+    "name": "The Predator Awakes",
+    "children": [
+      {
+        "name": "Spice Room Recon",
+        "sections": [
+          {"name": "The Predator Awakens - Spice Room Recon"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 212,
+          "y": 168
+        }]
+      },
+      {
+        "name": "Water Bug Run",
+        "sections": [
+          {"name": "The Predator Awakens - Water Bug Run"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 217,
+          "y": 627
+        }]
+      },
+      {
+        "name": "Freeing the Elephant",
+        "sections": [
+          {"name": "The Predator Awakens - Freeing the Elephant"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 334,
+          "y": 828
+        }]
+      },
+      {
+        "name": "Leading Rajan",
+        "sections": [
+          {"name": "The Predator Awakens - Leading Rajan"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 830,
+          "y": 445
+        }]
+      },
+      {
+        "name": "Neyla's Secret",
+        "sections": [
+          {"name": "The Predator Awakens - Neyla's Secret"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 300,
+          "y": 355
+        }]
+      },
+      {
+        "name": "Spice Grinder Destruction",
+        "sections": [
+          {"name": "The Predator Awakens - Spice Grinder Destruction"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 873,
+          "y": 551
+        }]
+      },
+      {
+        "name": "Blow the Dam",
+        "sections": [
+          {"name": "The Predator Awakens - Blow the Dam"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 1081,
+          "y": 584
+        }]
+      },
+      {
+        "name": "Rip-Off the Ruby",
+        "sections": [
+          {"name": "The Predator Awakens - Rip-Off the Ruby"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 670,
+          "y": 270
+        }]
+      },
+      {
+        "name": "Operation: Wet Tiger",
+        "sections": [
+          {"name": "The Predator Awakens - Operation: Wet Tiger"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 871,
+          "y": 846
+        }]
+      },
+      {
+        "name": "Golden Scroll Case Treasure",
+        "sections": [{ "name": "The Predator Awakens - Golden Scroll Case" }],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 377,
+          "y": 106
+        }]
+      },
+      {
+        "name": "Gilded Scepter Treasure",
+        "sections": [{ "name": "The Predator Awakens - Gilded Scepter" }],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 594,
+          "y": 246
+        }]
+      },
+      {
+        "name": "Crystal Flask Treasure",
+        "sections": [{ "name": "The Predator Awakens - Crystal Flask" }],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 1010,
+          "y": 104
+        }]
+      },
+      {
+        "name": "The Predator Awakes Vault",
+        "visibility_rules": ["include_vaultson"],
+        "sections": [{ "name": "The Predator Awakens - Vault" }],
+        "map_locations": [
+          {
+            "map": "The Predator Awakes",
+            "x": 863,
+            "y": 112
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "The Predator Awakes Bottles",
+    "visibility_rules": ["bottlesanityon"],
+    "children": [
+  {
+        "name": "Clue Bottle 1",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #01"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 549,
+          "y": 287
+        }]
+      },
+  {
+        "name": "Clue Bottle 2",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #02"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 1127,
+          "y": 227
+        }]
+      },
+  {
+        "name": "Clue Bottle 3",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #03"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 546,
+          "y": 903
+        }]
+      },
+  {
+        "name": "Clue Bottle 4",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #04"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 400,
+          "y": 688
+        }]
+      },
+  {
+        "name": "Clue Bottle 5",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #05"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 441,
+          "y": 111
+        }]
+      },
+  {
+        "name": "Clue Bottle 6",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #06"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 869,
+          "y": 290
+        }]
+      },
+  {
+        "name": "Clue Bottle 7",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #07"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 1052,
+          "y": 193
+        }]
+      },
+  {
+        "name": "Clue Bottle 8",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #08"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 806,
+          "y": 271
+        }]
+      },
+  {
+        "name": "Clue Bottle 9",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #09"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 313,
+          "y": 816
+        }]
+      },
+  {
+        "name": "Clue Bottle 10",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #10"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 389,
+          "y": 582
+        }]
+      },
+  {
+        "name": "Clue Bottle 11",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #11"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 405,
+          "y": 432
+        }]
+      },
+  {
+        "name": "Clue Bottle 12",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #12"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 699,
+          "y": 671
+        }]
+      },
+  {
+        "name": "Clue Bottle 13",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #13"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 277,
+          "y": 547
+        }]
+      },
+  {
+        "name": "Clue Bottle 14",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #14"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 157,
+          "y": 538
+        }]
+      },
+  {
+        "name": "Clue Bottle 15",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #15"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 811,
+          "y": 880
+        }]
+      },
+  {
+        "name": "Clue Bottle 16",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #16"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 1217,
+          "y": 425
+        }]
+      },
+  {
+        "name": "Clue Bottle 17",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #17"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 811,
+          "y": 622
+        }]
+      },
+  {
+        "name": "Clue Bottle 18",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #18"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 1065,
+          "y": 793
+        }]
+      },
+  {
+        "name": "Clue Bottle 19",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #19"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 903,
+          "y": 428
+        }]
+      },
+  {
+        "name": "Clue Bottle 20",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #20"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 668,
+          "y": 326
+        }]
+      },
+  {
+        "name": "Clue Bottle 21",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #21"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 696,
+          "y": 327
+        }]
+      },
+  {
+        "name": "Clue Bottle 22",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #22"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 195,
+          "y": 490
+        }]
+      },
+  {
+        "name": "Clue Bottle 23",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #23"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 1075,
+          "y": 645
+        }]
+      },
+  {
+        "name": "Clue Bottle 24",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #24"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 828,
+          "y": 495
+        }]
+      },
+  {
+        "name": "Clue Bottle 25",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #25"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 221,
+          "y": 422
+        }]
+      },
+  {
+        "name": "Clue Bottle 26",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #26"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 274,
+          "y": 194
+        }]
+      },
+  {
+        "name": "Clue Bottle 27",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #27"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 146,
+          "y": 360
+        }]
+      },
+  {
+        "name": "Clue Bottle 28",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #28"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 374,
+          "y": 189
+        }]
+      },
+  {
+        "name": "Clue Bottle 29",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #29"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 491,
+          "y": 190
+        }]
+      },
+  {
+        "name": "Clue Bottle 30",
+        "sections": [
+          {"name": "The Predator Awakens - Bottle #30"}
+        ],
+        "map_locations": [{
+          "map": "The Predator Awakes",
+          "x": 524,
+          "y": 499
+        }]
+      }
+    ]
+  }
+]

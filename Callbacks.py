@@ -13,6 +13,8 @@ if TYPE_CHECKING:
 
 async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
     """Called continuously"""
+    if ctx.current_episode is None:
+        return
 
     # Quite a lot of stuff ended up in this function, even though it might
     # have fit better in init(). It just didn't work when I put it there,
@@ -66,6 +68,16 @@ async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
                 if in_hub:
                     set_bottles_collected(ctx)
 
+            await ctx.send_msgs([{
+                "cmd": "Set",
+                "key": f"Slot:{ctx.slot}:Episode",
+                "default": {},
+                "want_reply": False,
+                "operations": [
+                    {"operation": "replace",  "value": list(EPISODES.keys())[ctx.current_episode-1]}
+                ]
+            }])
+
         # If not in the tutorial or a cutscene, do Archipelago stuff.
         # This part is separate from the other "handle_*" functions because
         # episodes should be able to be unlocked and victory should be able
@@ -78,9 +90,18 @@ async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
     boot_from_invalid_episode(ctx, ap_connected)
 
 
+def fix_mega_jump(ctx: 'Sly2Context'):
+    if ctx.powerups.mega_jump:
+        address = ctx.game_interface.addresses["unload mega jump"]
+        ctx.game_interface._write32(address,0)
+
 async def init(ctx: 'Sly2Context', ap_connected: bool) -> None:
     """Called when the player connects to the AP server or enters a new episode"""
-    if ap_connected:
+    if ap_connected and ctx.current_episode:
+
+        # Stop mega jump from being unselected
+        fix_mega_jump(ctx)
+
         if ctx.current_episode != 0:
             fix_jobs(ctx)
 
@@ -505,7 +526,7 @@ async def handle_check_goal(ctx: 'Sly2Context') -> None:
         ]
         victory_codes = [Locations.location_dict[name].code for name in victory_names]
 
-        if all(code in ctx.locations_checked for code in victory_codes):
+        if all(code in ctx.checked_locations for code in victory_codes):
             await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
     elif ctx.slot_data["goal"] == 6:
         clockwerk_parts = [i for i in ctx.items_received if Items.from_id(i.item).category == "Clockwerk Part"]

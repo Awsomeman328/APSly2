@@ -1,0 +1,430 @@
+[
+  {
+    "name": "The Black Chateau",
+    "children": [
+      {
+        "name": "Satellite Sabotage",
+        "sections": [
+          {"name": "The Black Chateau - Satellite Sabotage"}
+        ],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 219,
+          "y": 441
+        }]
+      },
+      {
+        "name": "Breaking and Entering",
+        "sections": [
+          {"name": "The Black Chateau - Breaking and Entering"}
+        ],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 1153,
+          "y": 594
+        }]
+      },
+      {
+        "name": "Bug Dimitri's Office",
+        "sections": [
+          {"name": "The Black Chateau - Bug Dimitri's Office"}
+        ],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 827,
+          "y": 807
+        }]
+      },
+      {
+        "name": "Follow Dimitri",
+        "sections": [
+          {"name": "The Black Chateau - Follow Dimitri"}
+        ],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 387,
+          "y": 864
+        }]
+      },
+      {
+        "name": "Waterpump Destruction",
+        "sections": [
+          {"name": "The Black Chateau - Waterpump Destruction"}
+        ],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 238,
+          "y": 325
+        }]
+      },
+      {
+        "name": "Silence the Alarms",
+        "sections": [
+          {"name": "The Black Chateau - Silence the Alarms"}
+        ],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 398,
+          "y": 169
+        }]
+      },
+      {
+        "name": "Theater Pickpocketing",
+        "sections": [
+          {"name": "The Black Chateau - Theater Pickpocketing"}
+        ],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 861,
+          "y": 354
+        }]
+      },
+      {
+        "name": "Moonlight Rendezvous",
+        "sections": [
+          {"name": "The Black Chateau - Moonlight Rendezvous"}
+        ],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 1009,
+          "y": 880
+        }]
+      },
+      {
+        "name": "Disco Demolitions",
+        "sections": [
+          {"name": "The Black Chateau - Disco Demolitions"}
+        ],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 533,
+          "y": 217
+        }]
+      },
+      {
+        "name": "Operation: Thunder Beak",
+        "sections": [
+          {"name": "The Black Chateau - Operation: Thunder Beak"}
+        ],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 492,
+          "y": 785
+        }]
+      },
+      {
+        "name": "Jade Vase Treasure",
+        "sections": [{ "name": "The Black Chateau - Jade Vase" }],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 408,
+          "y": 136
+        }]
+      },
+      {
+        "name": "Crystal Chalice Treasure",
+        "sections": [{ "name": "The Black Chateau - Crystal Chalice" }],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 526,
+          "y": 176
+        }]
+      },
+      {
+        "name": "Ivory Jewel Box Treasure",
+        "sections": [{ "name": "The Black Chateau - Ivory Jewel Box" }],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 813,
+          "y": 238
+        }]
+      },
+      {
+        "name": "The Black Chateau Vault",
+        "visibility_rules": ["include_vaultson"],
+        "sections": [{ "name": "The Black Chateau - Vault" }],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 431,
+          "y": 227
+        }]
+      }
+    ]
+  },
+  {
+    "name": "The Black Chateau Bottlesanity",
+    "visibility_rules": ["bottlesanityon"],
+    "children": [
+      {
+        "name": "Clue Bottle 1",
+        "sections": [{"name": "The Black Chateau - Bottle #01"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 420,
+          "y": 344
+        }]
+      },
+      {
+        "name": "Clue Bottle 2",
+        "sections": [{"name": "The Black Chateau - Bottle #02"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 398,
+          "y": 126
+        }]
+      },
+      {
+        "name": "Clue Bottle 3",
+        "sections": [{"name": "The Black Chateau - Bottle #03"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 434,
+          "y": 469
+        }]
+      },
+      {
+        "name": "Clue Bottle 4",
+        "sections": [{"name": "The Black Chateau - Bottle #04"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 691,
+          "y": 542
+        }]
+      },
+      {
+        "name": "Clue Bottle 5",
+        "sections": [{"name": "The Black Chateau - Bottle #05"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 276,
+          "y": 580
+        }]
+      },
+      {
+        "name": "Clue Bottle 6",
+        "sections": [{"name": "The Black Chateau - Bottle #06"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 371,
+          "y": 889
+        }]
+      },
+      {
+        "name": "Clue Bottle 7",
+        "sections": [{"name": "The Black Chateau - Bottle #07"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 747,
+          "y": 922
+        }]
+      },
+      {
+        "name": "Clue Bottle 8",
+        "sections": [{"name": "The Black Chateau - Bottle #08"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 935,
+          "y": 588
+        }]
+      },
+      {
+        "name": "Clue Bottle 9",
+        "sections": [{"name": "The Black Chateau - Bottle #09"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 1114,
+          "y": 644
+        }]
+      },
+      {
+        "name": "Clue Bottle 10",
+        "sections": [{"name": "The Black Chateau - Bottle #10"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 790,
+          "y": 535
+        }]
+      },
+      {
+        "name": "Clue Bottle 11",
+        "sections": [{"name": "The Black Chateau - Bottle #11"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 541,
+          "y": 573
+        }]
+      },
+      {
+        "name": "Clue Bottle 12",
+        "sections": [{"name": "The Black Chateau - Bottle #12"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 962,
+          "y": 192
+        }]
+      },
+      {
+        "name": "Clue Bottle 13",
+        "sections": [{"name": "The Black Chateau - Bottle #13"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 848,
+          "y": 318
+        }]
+      },
+      {
+        "name": "Clue Bottle 14",
+        "sections": [{"name": "The Black Chateau - Bottle #14"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 1044,
+          "y": 304
+        }]
+      },
+      {
+        "name": "Clue Bottle 15",
+        "sections": [{"name": "The Black Chateau - Bottle #15"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 1023,
+          "y": 264
+        }]
+      },
+      {
+        "name": "Clue Bottle 16",
+        "sections": [{"name": "The Black Chateau - Bottle #16"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 797,
+          "y": 245
+        }]
+      },
+      {
+        "name": "Clue Bottle 17",
+        "sections": [{"name": "The Black Chateau - Bottle #17"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 661,
+          "y": 279
+        }]
+      },
+      {
+        "name": "Clue Bottle 18",
+        "sections": [{"name": "The Black Chateau - Bottle #18"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 740,
+          "y": 110
+        }]
+      },
+      {
+        "name": "Clue Bottle 19",
+        "sections": [{"name": "The Black Chateau - Bottle #19"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 520,
+          "y": 107
+        }]
+      },
+      {
+        "name": "Clue Bottle 20",
+        "sections": [{"name": "The Black Chateau - Bottle #20"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 711,
+          "y": 754
+        }]
+      },
+      {
+        "name": "Clue Bottle 21",
+        "sections": [{"name": "The Black Chateau - Bottle #21"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 1090,
+          "y": 458
+        }]
+      },
+      {
+        "name": "Clue Bottle 22",
+        "sections": [{"name": "The Black Chateau - Bottle #22"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 458,
+          "y": 383
+        }]
+      },
+      {
+        "name": "Clue Bottle 23",
+        "sections": [{"name": "The Black Chateau - Bottle #23"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 374,
+          "y": 693
+        }]
+      },
+      {
+        "name": "Clue Bottle 24",
+        "sections": [{"name": "The Black Chateau - Bottle #24"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 1138,
+          "y": 297
+        }]
+      },
+      {
+        "name": "Clue Bottle 25",
+        "sections": [{"name": "The Black Chateau - Bottle #25"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 1192,
+          "y": 580
+        }]
+      },
+      {
+        "name": "Clue Bottle 26",
+        "sections": [{"name": "The Black Chateau - Bottle #26"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 1073,
+          "y": 798
+        }]
+      },
+      {
+        "name": "Clue Bottle 27",
+        "sections": [{"name": "The Black Chateau - Bottle #27"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 535,
+          "y": 908
+        }]
+      },
+      {
+        "name": "Clue Bottle 28",
+        "sections": [{"name": "The Black Chateau - Bottle #28"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 682,
+          "y": 192
+        }]
+      },
+      {
+        "name": "Clue Bottle 29",
+        "sections": [{"name": "The Black Chateau - Bottle #29"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 451,
+          "y": 858
+        }]
+      },
+      {
+        "name": "Clue Bottle 30",
+        "sections": [{"name": "The Black Chateau - Bottle #30"}],
+        "map_locations": [{
+          "map": "The Black Chateau",
+          "x": 841,
+          "y": 397
+        }]
+      }
+    ]
+  }
+]

@@ -1,0 +1,471 @@
+[
+  {
+    "name": "He Who Tames the Iron Horse",
+    "children": [
+      {
+        "name": "Cabin Crimes",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Cabin Crimes"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 625,
+          "y": 213
+        }]
+      },
+      {
+        "name": "Spice in the Sky",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Spice in the Sky"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 819,
+          "y": 96
+        }]
+      },
+      {
+        "name": "A Friend in Need",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - A Friend in Need"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 286,
+          "y": 356
+        }]
+      },
+      {
+        "name": "Ride the Iron Horse",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Ride the Iron Horse"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 602,
+          "y": 497
+        }]
+      },
+      {
+        "name": "Aerial Assault",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Aerial Assault"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 728,
+          "y": 359
+        }]
+      },
+      {
+        "name": "Bear Cub Kidnapping",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bear Cub Kidnapping"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 993,
+          "y": 520
+        }]
+      },
+      {
+        "name": "Theft on the Rails",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Theft on the Rails"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 159,
+          "y": 415
+        }]
+      },
+      {
+        "name": "Operation: Choo-Choo",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Operation: Choo-Choo"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 705,
+          "y": 725
+        }]
+      },
+      {
+        "name": "Crystal Bell Treasure",
+        "sections": [{ "name": "He Who Tames the Iron Horse - Crystal Bell" }],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 939,
+          "y": 347
+        }]
+      },
+      {
+        "name": "Alabaster Chalice Treasure",
+        "sections": [{ "name": "He Who Tames the Iron Horse - Alabaster Chalice" }],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 1081,
+          "y": 450
+        }]
+      },
+      {
+        "name": "Golden Plate Treasure",
+        "sections": [{ "name": "He Who Tames the Iron Horse - Golden Plate" }],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 809,
+          "y": 431
+        }]
+      },
+      {
+        "name": "He Who Tames the Iron Horse Vault",
+        "visibility_rules": ["include_vaultson"],
+        "sections": [{ "name": "He Who Tames the Iron Horse - Vault" }],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 185,
+          "y": 406
+        }]
+      }
+    ]
+  },
+  {
+    "name": "He Who Tames the Iron Horse Bottles",
+    "access_rules": ["@He Who Tames the Iron Horse"],
+    "chest_opened_img": "images/icons/cluebottle.png",
+    "chest_unopened_img": "images/icons/cluebottle_uncollected.png",
+    "visibility_rules": ["bottlesanityon"],
+    "children": [
+      {
+        "name": "Clue Bottle 1",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #01"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 343,
+          "y": 849
+        }]
+      },
+      {
+        "name": "Clue Bottle 2",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #02"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 721,
+          "y": 570
+        }]
+      },
+      {
+        "name": "Clue Bottle 3",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #03"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 453,
+          "y": 876
+        }]
+      },
+      {
+        "name": "Clue Bottle 4",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #04"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 536,
+          "y": 989
+        }]
+      },
+      {
+        "name": "Clue Bottle 5",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #05"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 604,
+          "y": 929
+        }]
+      },
+      {
+        "name": "Clue Bottle 6",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #06"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 719,
+          "y": 876
+        }]
+      },
+      {
+        "name": "Clue Bottle 7",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #07"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 526,
+          "y": 953
+        }]
+      },
+      {
+        "name": "Clue Bottle 8",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #08"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 520,
+          "y": 723
+        }]
+      },
+      {
+        "name": "Clue Bottle 9",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #09"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 598,
+          "y": 678
+        }]
+      },
+      {
+        "name": "Clue Bottle 10",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #10"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 574,
+          "y": 593
+        }]
+      },
+      {
+        "name": "Clue Bottle 11",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #11"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 470,
+          "y": 657
+        }]
+      },
+      {
+        "name": "Clue Bottle 12",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #12"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 305,
+          "y": 528
+        }]
+      },
+      {
+        "name": "Clue Bottle 13",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #13"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 201,
+          "y": 312
+        }]
+      },
+      {
+        "name": "Clue Bottle 14",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #14"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 374,
+          "y": 290
+        }]
+      },
+      {
+        "name": "Clue Bottle 15",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #15"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 475,
+          "y": 330
+        }]
+      },
+      {
+        "name": "Clue Bottle 16",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #16"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 258,
+          "y": 448
+        }]
+      },
+      {
+        "name": "Clue Bottle 17",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #17"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 439,
+          "y": 448
+        }]
+      },
+      {
+        "name": "Clue Bottle 18",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #18"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 425,
+          "y": 824
+        }]
+      },
+      {
+        "name": "Clue Bottle 19",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #19"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 554,
+          "y": 475
+        }]
+      },
+      {
+        "name": "Clue Bottle 20",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #20"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 740,
+          "y": 437
+        }]
+      },
+      {
+        "name": "Clue Bottle 21",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #21"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 787,
+          "y": 444
+        }]
+      },
+      {
+        "name": "Clue Bottle 22",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #22"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 753,
+          "y": 385
+        }]
+      },
+      {
+        "name": "Clue Bottle 23",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #23"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 825,
+          "y": 68
+        }]
+      },
+      {
+        "name": "Clue Bottle 24",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #24"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 805,
+          "y": 97
+        }]
+      },
+      {
+        "name": "Clue Bottle 25",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #25"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 823,
+          "y": 208
+        }]
+      },
+      {
+        "name": "Clue Bottle 26",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #26"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 940,
+          "y": 167
+        }]
+      },
+      {
+        "name": "Clue Bottle 27",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #27"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 1197,
+          "y": 371
+        }]
+      },
+      {
+        "name": "Clue Bottle 28",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #28"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 1017,
+          "y": 808
+        }]
+      },
+      {
+        "name": "Clue Bottle 29",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #29"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 1036,
+          "y": 667
+        }]
+      },
+      {
+        "name": "Clue Bottle 30",
+        "sections": [
+          {"name": "He Who Tames the Iron Horse - Bottle #30"}
+        ],
+        "map_locations": [{
+          "map": "He Who Tames the Iron Horse",
+          "x": 957,
+          "y": 481
+        }]
+      }
+    ]
+  }
+]

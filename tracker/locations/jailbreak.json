@@ -1,0 +1,481 @@
+[
+  {
+    "name": "Jailbreak",
+    "children": [
+      {
+        "name": "Eavesdrop on Contessa",
+        "sections": [
+          {"name": "Jailbreak - Eavesdrop on Contessa"}
+        ],
+        "map_locations": [{
+          "map": "Jailbreak",
+          "x": 1039,
+          "y": 303
+        }]
+      },
+      {
+        "name": "Train Hack",
+        "sections": [
+          {"name": "Jailbreak - Train Hack"}
+        ],
+        "map_locations": [{
+          "map": "Jailbreak",
+          "x": 397,
+          "y": 770
+        }]
+      },
+      {
+        "name": "Wall Bombing",
+        "sections": [
+          {"name": "Jailbreak - Wall Bombing"}
+        ],
+        "map_locations": [{
+          "map": "Jailbreak",
+          "x": 1012,
+          "y": 822
+        }]
+      },
+      {
+        "name": "Big House Brawl",
+        "sections": [
+          {"name": "Jailbreak - Big House Brawl"}
+        ],
+        "map_locations": [{
+          "map": "Jailbreak",
+          "x": 610,
+          "y": 653
+        }]
+      },
+      {
+        "name": "Lightning Action",
+        "sections": [
+          {"name": "Jailbreak - Lightning Action"}
+        ],
+        "map_locations": [{
+          "map": "Jailbreak",
+          "x": 625,
+          "y": 240
+        }]
+      },
+      {
+        "name": "Disguise Bridge",
+        "sections": [
+          {"name": "Jailbreak - Disguise Bridge"}
+        ],
+        "map_locations": [{
+          "map": "Jailbreak",
+          "x": 1018,
+          "y": 528
+        }]
+      },
+      {
+        "name": "Code Capture",
+        "sections": [
+          {"name": "Jailbreak - Code Capture"}
+        ],
+        "map_locations": [{
+          "map": "Jailbreak",
+          "x": 612,
+          "y": 300
+        }]
+      },
+      {
+        "name": "Close to Contessa",
+        "sections": [
+          {"name": "Jailbreak - Close to Contessa"}
+        ],
+        "map_locations": [{
+          "map": "Jailbreak",
+          "x": 922,
+          "y": 445
+        }]
+      },
+      {
+        "name": "Operation: Trojan Tank",
+        "sections": [
+          {"name": "Jailbreak - Operation: Trojan Tank"}
+        ],
+        "map_locations": [{
+          "map": "Jailbreak",
+          "x": 430,
+          "y": 780
+        }]
+      },
+      {
+        "name": "Golden Orb Treasure",
+        "sections": [
+          {"name": "Jailbreak - Golden Orb" }
+        ],
+        "map_locations": [{
+          "map": "Jailbreak",
+          "x": 387,
+          "y": 355
+        }]
+      },
+      {
+        "name": "Ceremonial Lantern Treasure",
+        "sections": [
+          {"name": "Jailbreak - Ceremonial Lantern"}
+        ],
+        "map_locations": [ {
+          "map": "Jailbreak",
+          "x": 593,
+          "y": 183
+        }]
+      },
+      {
+        "name": "Crystal Ball Treasure",
+        "sections": [{"name": "Jailbreak - Crystal Ball"}],
+        "map_locations": [{
+          "map": "Jailbreak",
+          "x": 753,
+          "y": 344
+        }]
+      },
+      {
+        "name": "Jailbreak Vault",
+        "visibility_rules": ["include_vaultson"],
+        "sections": [{"name": "Jailbreak - Vault"}],
+        "map_locations": [{
+          "map": "Jailbreak",
+          "x": 1005,
+          "y": 284
+        }]
+      }
+    ]
+  },
+  {
+    "name": "Jailbreak Bottles",
+    "visibility_rules": ["bottlesanityon"],
+    "children": [
+      {
+        "name": "Clue Bottle 1",
+        "sections": [{"name": "Jailbreak - Bottle #01"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 994,
+            "y": 929
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 2",
+        "sections": [{"name": "Jailbreak - Bottle #02"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 819,
+            "y": 368
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 3",
+        "sections": [{"name": "Jailbreak - Bottle #03"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 382,
+            "y": 201
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 4",
+        "sections": [{"name": "Jailbreak - Bottle #04"}],
+        "map_locations": [{
+          "map": "Jailbreak",
+          "x": 422,
+          "y": 862
+        }]
+      },
+      {
+        "name": "Clue Bottle 5",
+        "sections": [{"name": "Jailbreak - Bottle #05"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 520,
+            "y": 271
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 6",
+        "sections": [{"name": "Jailbreak - Bottle #06"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 628,
+            "y": 173
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 7",
+        "sections": [{"name": "Jailbreak - Bottle #07"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 293,
+            "y": 226
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 8",
+        "sections": [{"name": "Jailbreak - Bottle #08"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 487,
+            "y": 448
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 9",
+        "sections": [{"name": "Jailbreak - Bottle #09"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 274,
+            "y": 598
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 10",
+        "sections": [{"name": "Jailbreak - Bottle #10"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 855,
+            "y": 565
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 11",
+        "sections": [{"name": "Jailbreak - Bottle #11"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 919,
+            "y": 412
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 12",
+        "sections": [{"name": "Jailbreak - Bottle #12"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 843,
+            "y": 64
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 13",
+        "sections": [{"name": "Jailbreak - Bottle #13"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 541,
+            "y": 60
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 14",
+        "sections": [{"name": "Jailbreak - Bottle #14"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 660,
+            "y": 900
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 15",
+        "sections": [{"name": "Jailbreak - Bottle #15"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 1011,
+            "y": 796
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 16",
+        "sections": [{"name": "Jailbreak - Bottle #16"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 797,
+            "y": 687
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 17",
+        "sections": [{"name": "Jailbreak - Bottle #17"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 701,
+            "y": 503
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 18",
+        "sections": [{"name": "Jailbreak - Bottle #18"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 877,
+            "y": 207
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 19",
+        "sections": [{"name": "Jailbreak - Bottle #19"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 625,
+            "y": 435
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 20",
+        "sections": [{"name": "Jailbreak - Bottle #20"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 745,
+            "y": 841
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 21",
+        "sections": [{"name": "Jailbreak - Bottle #21"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 973,
+            "y": 567
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 22",
+        "sections": [{"name": "Jailbreak - Bottle #22"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 1019,
+            "y": 220
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 23",
+        "sections": [{"name": "Jailbreak - Bottle #23"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 929,
+            "y": 214
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 24",
+        "sections": [{"name": "Jailbreak - Bottle #24"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 653,
+            "y": 59
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 25",
+        "sections": [{"name": "Jailbreak - Bottle #25"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 786,
+            "y": 173
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 26",
+        "sections": [{"name": "Jailbreak - Bottle #26"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 803,
+            "y": 430
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 27",
+        "sections": [{"name": "Jailbreak - Bottle #27"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 317,
+            "y": 420
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 28",
+        "sections": [{"name": "Jailbreak - Bottle #28"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 229,
+            "y": 304
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 29",
+        "sections": [{"name": "Jailbreak - Bottle #29"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 606,
+            "y": 689
+          }
+        ]
+      },
+      {
+        "name": "Clue Bottle 30",
+        "sections": [{"name": "Jailbreak - Bottle #30"}],
+        "map_locations": [
+          {
+            "map": "Jailbreak",
+            "x": 1018,
+            "y": 439
+          }
+        ]
+      }
+    ]
+  }
+]
