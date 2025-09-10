@@ -32,7 +32,7 @@ Refer to [the official guide](https://archipelago.gg/tutorial/Archipelago/setup_
 4. Start a new game.
 
 ## Skipping the intro
-You can skip the intro with the `\menu` command in the client. This might disable saving, so refer to "There's no "save and quit" option in the pause menu" in the Troubleshooting section.
+You can skip the intro with the `/menu` command in the client. This might disable saving, so refer to "There's no "save and quit" option in the pause menu" in the Troubleshooting section.
 
 ## Skipping Cutscenes
 I recommend using [this patch](https://github.com/andshrew/Sly2-Cutscene-Skip/tree/main) to enable cutscene skipping.
