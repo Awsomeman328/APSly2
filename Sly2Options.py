@@ -177,25 +177,53 @@ class IncludeVaults(DefaultOnToggle):
     display_name = "Include Vaults"
 
 
-class BottleLocationBundleSize(Range):
+class BottleLocationBundleMinimum(Range):
     """
-    How many bottles you need to collect for each check. Set to 0 to disable
-    bottles as checks.
+    The minimum number of bottles you need to collect for each check. Set 
+    this and bottle_location_bundle_maximum to the same value to have your 
+    bundles be a fixed size. Set both to 0 to disable bottles as checks.
     """
 
-    display_name = "Bottle Location Bundle Sizes"
+    display_name = "Bottle Location Bundle Minimum"
     range_start = 0
     range_end = 30
     default = 0
 
 
-class BottleItemBundleSize(Range):
+class BottleLocationBundleMaximum(Range):
     """
-    How many bottles you receive from an item. Set to 0 to disable bottles
-    as items.
+    The maximum number of bottles you need to collect for each check. Set 
+    this and bottle_location_bundle_minimum to the same value to have your 
+    bundles be a fixed size. Set both to 0 to disable bottles as checks.
     """
 
-    display_name = "Bottle Item Bundle Sizes"
+    display_name = "Bottle Location Bundle Maximum"
+    range_start = 0
+    range_end = 30
+    default = 0
+
+
+class BottleItemBundleMinimum(Range):
+    """
+    The minimum number of bottles you receive from an item. Set this and 
+    bottle_item_bundle_maximum to the same value to have your bundles be a 
+    fixed size. Set them both to 0 to disable bottles as items.
+    """
+
+    display_name = "Bottle Item Bundle Minimum"
+    range_start = 0
+    range_end = 30
+    default = 0
+
+
+class BottleItemBundleMaximum(Range):
+    """
+    The maximum number of bottles you receive from an item. Set this and 
+    bottle_item_bundle_minimum to the same value to have your bundles be a 
+    fixed size. Set them both to 0 to disable bottles as items.
+    """
+
+    display_name = "Bottle Item Bundle Maximum"
     range_start = 0
     range_end = 30
     default = 0
@@ -204,7 +232,8 @@ class BottleItemBundleSize(Range):
 class BottleSanity(DefaultOnToggle):
     """
     Each bottle is its own check, rather than counting the number of bottles
-    collected. Only takes effect if bottle_location_bundle_size is 1.
+    collected. Only takes effect if both bottle_location_bundle_minimum and 
+    bottle_location_bundle_maximum are 1.
     """
 
     display_name = "Bottlesanity"
@@ -235,8 +264,12 @@ class Sly2Options(PerGameCommonOptions):
     include_vaults: IncludeVaults
     thiefnet_minimum: ThiefNetCostMinimum
     thiefnet_maximum: ThiefNetCostMaximum
-    bottle_location_bundle_size: BottleLocationBundleSize
-    bottle_item_bundle_size: BottleItemBundleSize
+    # bottle_location_bundle_size: BottleLocationBundleSize
+    bottle_location_bundle_minimum: BottleLocationBundleMinimum
+    bottle_location_bundle_maximum: BottleLocationBundleMaximum
+    # bottle_item_bundle_size: BottleItemBundleSize
+    bottle_item_bundle_minimum: BottleItemBundleMinimum
+    bottle_item_bundle_maximum: BottleItemBundleMaximum
     bottlesanity: BottleSanity
     # skip_intro: SkipIntro
 
@@ -255,13 +288,17 @@ sly2_option_groups = [
         IncludeMegaJump,
         CoinsMinimum,
         CoinsMaximum,
-        BottleItemBundleSize
+        # BottleItemBundleSize,
+        BottleItemBundleMinimum,
+        BottleItemBundleMaximum
     ]),
     OptionGroup("Locations",[
         ThiefNetCostMinimum,
         ThiefNetCostMaximum,
         IncludeVaults,
-        BottleLocationBundleSize,
+        # BottleLocationBundleSize,
+        BottleLocationBundleMinimum,
+        BottleLocationBundleMaximum,
         BottleSanity
     ])
 ]
