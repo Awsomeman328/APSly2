@@ -66,20 +66,31 @@ def set_rules(world: "Sly2World"):
                         lambda state, bn=bundle_name: state.has(bn, player)
                     )
 
-        if world.options.bottle_location_bundle_size.value == 1 and bottlesanity:
+        # TODO: Need to double check if these bottle locations can be access by using 
+        # the Hover Pack & Turnbuckle Launch Gadgets. If so, then delete this comment 
+        # and remove the '#' characters below. Also make sure each of the gadgets 
+        # listed below are all classified as progressive in data/items.py.
+        # 
+        # if world.options.bottle_location_bundle_size.value == 1 and bottlesanity:
+        if (world.options.bottle_location_bundle_minimum.value == 1 and 
+            world.options.bottle_location_bundle_maximum.value == 1 and bottlesanity):
             add_rule(
                 world.get_location("Menace from the North, Eh! - Bottle #04"),
                 lambda state: (
                     state.has("Paraglider", player) or
                     state.has("Mega Jump", player) or
-                    state.has("Feral Pounce", player)
+                    state.has("Feral Pounce", player) or
+                    state.has("Hover Pack", player) or
+                    state.has("Turnbuckle Launch", player)
                 )
             )
             add_rule(
                 world.get_location("Anatomy for Disaster - Bottle #03"),
                 lambda state: (
                     state.has("Feral Pounce", player) or
-                    state.has("Mega Jump", player)
+                    state.has("Mega Jump", player) or
+                    state.has("Hover Pack", player) or
+                    state.has("Turnbuckle Launch", player)
                 )
             )
         else:
@@ -88,14 +99,18 @@ def set_rules(world: "Sly2World"):
                 lambda state: (
                     state.has("Paraglider", player) or
                     state.has("Mega Jump", player) or
-                    state.has("Feral Pounce", player)
+                    state.has("Feral Pounce", player) or
+                    state.has("Hover Pack", player) or
+                    state.has("Turnbuckle Launch", player)
                 )
             )
             add_rule(
                 world.get_location("Anatomy for Disaster - 30 bottles collected"),
                 lambda state: (
                     state.has("Feral Pounce", player) or
-                    state.has("Mega Jump", player)
+                    state.has("Mega Jump", player) or
+                    state.has("Hover Pack", player) or
+                    state.has("Turnbuckle Launch", player)
                 )
             )
 

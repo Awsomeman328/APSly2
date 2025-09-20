@@ -62,6 +62,7 @@ def create_regions(world: "Sly2World"):
 
     for i, episode in enumerate(EPISODES.keys()):
         for n in range(1,5):
+            # TODO: Double-check if episode 8 also only has 3 parts.
             if n == 4 and episode == "Jailbreak":
                 break
 
