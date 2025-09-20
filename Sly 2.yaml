@@ -158,13 +158,27 @@ requires:
     random-low: 0
     random-high: 0
 
-  # How many bottles you receive from an item. Set to 0 to disable bottles
-  # as items.
+  # The minimum number of bottles you receive from an item. Set this and 
+  # bottle_item_bundle_maximum to the same value to have your bundles be a 
+  # fixed size. Set them both to 0 to disable bottles as items.
   #
   # You can define additional values between the minimum and maximum values.
   # Minimum value is 0
   # Maximum value is 30
-  bottle_item_bundle_size:
+  bottle_item_bundle_minimum:
+    0: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  # The maximum number of bottles you receive from an item. Set this and 
+  # bottle_item_bundle_minimum to the same value to have your bundles be a 
+  # fixed size. Set them both to 0 to disable bottles as items.
+  #
+  # You can define additional values between the minimum and maximum values.
+  # Minimum value is 0
+  # Maximum value is 30
+  bottle_item_bundle_maximum:
     0: 50
     random: 0
     random-low: 0
@@ -199,20 +213,35 @@ requires:
     'false': 0
     'true': 50
 
-  # How many bottles you need to collect for each check. Set to 0 to disable
-  # bottles as checks.
+  # The minimum number of bottles you need to collect for each check. Set 
+  # this and bottle_location_bundle_maximum to the same value to have your 
+  # bundles be a fixed size. Set both to 0 to disable bottles as checks.
   #
   # You can define additional values between the minimum and maximum values.
   # Minimum value is 0
   # Maximum value is 30
-  bottle_location_bundle_size:
+  bottle_location_bundle_minimum:
+    0: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  # The maximum number of bottles you need to collect for each check. Set 
+  # this and bottle_location_bundle_minimum to the same value to have your 
+  # bundles be a fixed size. Set both to 0 to disable bottles as checks.
+  #
+  # You can define additional values between the minimum and maximum values.
+  # Minimum value is 0
+  # Maximum value is 30
+  bottle_location_bundle_maximum:
     0: 50
     random: 0
     random-low: 0
     random-high: 0
 
   # Each bottle is its own check, rather than counting the number of bottles
-  # collected. Only takes effect if bottle_location_bundle_size is 1.
+  # collected. Only takes effect if both bottle_location_bundle_minimum and 
+  # bottle_location_bundle_maximum are 1.
   bottlesanity:
     'false': 0
     'true': 50

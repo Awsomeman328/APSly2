@@ -71,14 +71,31 @@ def gen_clockwerk(world: "Sly2World") -> list[Item]:
 
 def gen_bottles(world: "Sly2World"):
     """Generate the bottle items for the item pool"""
-    if world.options.bottle_item_bundle_size == 0:
+    # if world.options.bottle_item_bundle_size == 0:
+    #     return []
+    if world.options.bottle_item_bundle_minimum == 0 and world.options.bottle_item_bundle_maximum == 0:
         return []
 
     bottles = []
-    bottle_n = world.options.bottle_item_bundle_size
+    #bottle_n = world.options.bottle_item_bundle_size
+    bottle_min = world.options.bottle_item_bundle_minimum
+    bottle_max = world.options.bottle_item_bundle_maximum
     for ep in EPISODES.keys():
         total_bottles = 30
-        while total_bottles >= bottle_n:
+        while total_bottles >= bottle_min and total_bottles > 0:
+            bottle_n = world.randint(bottle_min,bottle_max)
+            if bottle_n == 0 and bottle_max > 0:
+                bottle_n += 1
+            else:
+                # In this case, this is likely an infinite loop, but idk how 
+                # we would have gotten here in the first place anyway. Regardless,
+                # outside of maybe logging a warning, idk what we should do in 
+                # case, or if we should even consider this case at all.
+                continue
+            # current_bottle_count += temp
+            if bottle_n > total_bottles:
+                bottle_n = total_bottles
+
             total_bottles -= bottle_n
             if bottle_n == 1:
                 item_name = f"Bottle - {ep}"

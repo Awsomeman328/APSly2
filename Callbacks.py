@@ -31,7 +31,9 @@ async def update(ctx: 'Sly2Context', ap_connected: bool) -> None:
 
         replace_text(ctx)
 
-        if ctx.slot_data["bottle_location_bundle_size"] != 0:
+        # if ctx.slot_data["bottle_location_bundle_size"] != 0:
+        #     set_bottles(ctx)
+        if ctx.slot_data["bottle_location_bundle_minimum"] != 0 and ctx.slot_data["bottle_location_bundle_maximum"] != 0:
             set_bottles(ctx)
 
         # If the player is in a safehouse, set the thiefnet items
@@ -417,9 +419,12 @@ async def handle_checks(ctx: 'Sly2Context') -> None:
             ctx.locations_checked.add(location_code)
 
     # Bottles
-    bottle_n = ctx.slot_data["bottle_location_bundle_size"]
+    # bottle_n = ctx.slot_data["bottle_location_bundle_size"]
+    bottle_min = ctx.slot_data["bottle_location_bundle_minimum"]
+    bottle_max = ctx.slot_data["bottle_location_bundle_maximum"]
     bottlesanity = ctx.slot_data["bottlesanity"]
-    if bottle_n == 1 and bottlesanity:
+    # if bottle_n == 1 and bottlesanity:
+    if bottle_min == 1 and bottle_max == 1 and bottlesanity:
         for ep in Sly2Episode:
             if ep.value == 0:
                 continue
@@ -434,13 +439,17 @@ async def handle_checks(ctx: 'Sly2Context') -> None:
                     location_code = Locations.location_dict[location_name].code
                     ctx.locations_checked.add(location_code)
 
-    elif bottle_n != 0:
+    # elif bottle_n != 0:
+    elif bottle_min != 0 or bottle_max != 0:
         for ep in Sly2Episode:
             if ep.value == 0:
                 continue
 
             bottles = ctx.game_interface.get_bottles(ep)
             for i in range(1,bottles+1):
+                # TODO: Need to find some way to access the currently generated 
+                # world to get the specific bottle amounts to apply the code
+                # below.
                 if i%bottle_n == 0 or i == 30:
                     episode_name = ep.name.replace('_',' ')
                     if ep.value == 7:

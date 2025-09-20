@@ -40,11 +40,19 @@ def set_rules(world: "Sly2World"):
         lambda state: state.has("Paraglider", player)
     )
 
-    bottle_n = world.options.bottle_item_bundle_size.value
+    # bottle_n = world.options.bottle_item_bundle_size.value
+    bottle_min = world.options.bottle_item_bundle_minimum.value
+    bottle_max = world.options.bottle_item_bundle_maximum.value
     bottlesanity = world.options.bottlesanity
-    if bottle_n != 0:
-        bundle_count = 30//bottle_n
-        remainder = 30%bottle_n
+    #if bottle_n != 0:
+    if bottle_min != 0 or bottle_max != 0:
+        # bundle_count = 30//bottle_n
+        # remainder = 30%bottle_n
+
+        # TODO: Need to find some way to access either the currently generated or the 
+        # to be generated world to get the specific bottle amounts to apply the rules
+        # below.
+
         if world.options.include_vaults:
             for ep in EPISODES.keys():
                 if bottle_n == 1:
@@ -66,7 +74,10 @@ def set_rules(world: "Sly2World"):
                         lambda state, bn=bundle_name: state.has(bn, player)
                     )
 
-        if world.options.bottle_location_bundle_size.value == 1 and bottlesanity:
+        # TODO: Need to double check if these bottle locations can be access by using 
+        # if world.options.bottle_location_bundle_size.value == 1 and bottlesanity:
+        if (world.options.bottle_location_bundle_minimum.value == 1 and 
+            world.options.bottle_location_bundle_maximum.value == 1 and bottlesanity):
             add_rule(
                 world.get_location("Menace from the North, Eh! - Bottle #04"),
                 lambda state: (

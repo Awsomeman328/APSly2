@@ -169,6 +169,7 @@ class ThiefNetCostMaximum(Range):
     range_end = 9999
     default = 2000
 
+
 class IncludeVaults(DefaultOnToggle):
     """
     Whether to include vaults as checks.

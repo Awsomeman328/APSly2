@@ -68,6 +68,8 @@ class Sly2World(World):
     location_name_groups = location_groups
 
     thiefnet_costs: List[int] = []
+    # bottle_item_bundles: List[int] = []
+    # bottle_location_bundles: List[int] = []
 
     # this is how we tell the Universal Tracker we want to use re_gen_passthrough
     @staticmethod
@@ -129,18 +131,42 @@ class Sly2World(World):
             #     f"Incompatible options: Episode 8 Keys: ({opt.episode_8_keys}) and Starting Episode: ({opt.starting_episode})"
             # )
 
-        if (
-            (opt.bottle_item_bundle_size == 0 and opt.bottle_location_bundle_size != 0) or
-            (opt.bottle_item_bundle_size != 0 and opt.bottle_location_bundle_size == 0)
-        ):
+        # if (
+        #     (opt.bottle_item_bundle_size == 0 and opt.bottle_location_bundle_size != 0) or
+        #     (opt.bottle_item_bundle_size != 0 and opt.bottle_location_bundle_size == 0)
+        # ):
+        #     logging.warning(
+        #         f"{self.player_name}: " +
+        #         f"Bottle item bundle size and bottle location bundle size should either both be zero or both be non-zero. Setting both to 0."
+        #     )
+        #     opt.bottle_item_bundle_size.value = 0
+        #     opt.bottle_location_bundle_size.value = 0
+        #     # raise OptionError(
+        #     #     f"Bottle item bundle size and bottle location bundle size should either both be zero or both be non-zero"
+        #     # )
+
+        if opt.bottle_item_bundle_maximum < opt.bottle_item_bundle_minimum:
             logging.warning(
                 f"{self.player_name}: " +
-                f"Bottle item bundle size and bottle location bundle size should either both be zero or both be non-zero. Setting both to 0."
+                f"Bottle item bundle minimum cannot be larger than maximum (min: {opt.bottle_item_bundle_minimum}, max: {opt.bottle_item_bundle_maximum}). Swapping values."
             )
-            opt.bottle_item_bundle_size.value = 0
-            opt.bottle_location_bundle_size.value = 0
+            temp = opt.bottle_item_bundle_minimum.value
+            opt.bottle_item_bundle_minimum.value = opt.bottle_item_bundle_maximum.value
+            opt.bottle_item_bundle_maximum.value = temp
             # raise OptionError(
-            #     f"Bottle item bundle size and bottle location bundle size should either both be zero or both be non-zero"
+            #     f"Bottle item bundle minimum cannot be larger than maximum (min: {opt.bottle_item_bundle_minimum}, max: {opt.bottle_item_bundle_maximum})"
+            # )
+
+        if opt.bottle_location_bundle_maximum < opt.bottle_location_bundle_minimum:
+            logging.warning(
+                f"{self.player_name}: " +
+                f"Bottle location bundle minimum cannot be larger than maximum (min: {opt.bottle_location_bundle_minimum}, max: {opt.bottle_location_bundle_maximum}). Swapping values."
+            )
+            temp = opt.bottle_location_bundle_minimum.value
+            opt.bottle_location_bundle_minimum.value = opt.bottle_location_bundle_maximum.value
+            opt.bottle_location_bundle_maximum.value = temp
+            # raise OptionError(
+            #     f"Bottle location bundle minimum cannot be larger than maximum (min: {opt.bottle_location_bundle_minimum}, max: {opt.bottle_location_bundle_maximum})"
             # )
 
         if opt.coins_maximum < opt.coins_minimum:
@@ -178,6 +204,8 @@ class Sly2World(World):
                 if "Sly 2: Band of Thieves" in re_gen_passthrough:
                     slot_data = re_gen_passthrough["Sly 2: Band of Thieves"]
                     self.thiefnet_costs = slot_data["thiefnet_costs"]
+                    # self.bottle_item_bundles = slot_data["bottle_item_bundles"]
+                    # self.bottle_location_bundles = slot_data["bottle_location_bundles"]
                     self.options.starting_episode.value = slot_data["starting_episode"]
                     self.options.goal.value = slot_data["goal"]
                     self.options.keys_in_pool.value = slot_data["keys_in_pool"]
@@ -191,9 +219,13 @@ class Sly2World(World):
                     self.options.thiefnet_minimum.value = slot_data["thiefnet_minimum"]
                     self.options.thiefnet_maximum.value = slot_data["thiefnet_maximum"]
                     self.options.include_vaults.value = slot_data["include_vaults"]
-                    self.options.bottle_location_bundle_size.value = slot_data["bottle_location_bundle_size"]
+                    # self.options.bottle_location_bundle_size.value = slot_data["bottle_location_bundle_size"]
+                    self.options.bottle_location_bundle_minimum.value = slot_data["bottle_location_bundle_minimum"]
+                    self.options.bottle_location_bundle_maximum.value = slot_data["bottle_location_bundle_maximum"]
                     self.options.bottlesanity.value = slot_data["bottlesanity"]
-                    self.options.bottle_item_bundle_size.value = slot_data["bottle_item_bundle_size"]
+                    # self.options.bottle_item_bundle_size.value = slot_data["bottle_item_bundle_size"]
+                    self.options.bottle_item_bundle_minimum.value = slot_data["bottle_item_bundle_minimum"]
+                    self.options.bottle_item_bundle_maximum.value = slot_data["bottle_item_bundle_maximum"]
             return
 
         self.validate_options(self.options)
@@ -204,6 +236,42 @@ class Sly2World(World):
             self.random.randint(thiefnet_min,thiefnet_max)
             for _ in range(24)
         ])
+        
+        # DONE: Impliment similar logic for bottle item & location bundles as the thiefnet costs, 
+        # except we use a while loop instead of a for loop by adding each new random value onto 
+        # the previous value until we reach the maximum value of 30 for the final element. 
+        # 
+        # Note: Need to ignore 0's as they could cause near infinite loops. For items this would
+        # likely result in duplicate items in the pool that would do nothing after the first; For 
+        # locations this would likely result in duplicate locations causing a single bottle check
+        # to send out multiple items.
+        # 
+        # TODO: Look into the proper place in this codebase to generate the bottle items & 
+        # locations, as I get the feeling that this is not the place for it. At least I'm fairly
+        # sure this is not the place for the items, but I'm not sure about the locations.
+        bottle_item_bundle_min = self.options.bottle_item_bundle_minimum.value
+        bottle_item_bundle_max = self.options.bottle_item_bundle_maximum.value
+        current_bottle_count = 0
+        while current_bottle_count < 30:
+            temp = self.random.randint(bottle_item_bundle_min,bottle_item_bundle_max)
+            if temp == 0:
+                continue
+            current_bottle_count += temp
+            if current_bottle_count > 30:
+                current_bottle_count = 30
+            self.bottle_item_bundles.append(current_bottle_count)
+
+        bottle_location_bundle_min = self.options.bottle_location_bundle_minimum.value
+        bottle_location_bundle_max = self.options.bottle_location_bundle_maximum.value
+        current_bottle_count = 0
+        while current_bottle_count < 30:
+            temp = self.random.randint(bottle_location_bundle_min,bottle_location_bundle_max)
+            if temp == 0:
+                continue
+            current_bottle_count += temp
+            if current_bottle_count > 30:
+                current_bottle_count = 30
+            self.bottle_location_bundles.append(current_bottle_count)
 
     def get_filler_item_name(self) -> str:
         # Currently just coins
@@ -249,9 +317,13 @@ class Sly2World(World):
             "thiefnet_minimum",
             "thiefnet_maximum",
             "include_vaults",
-            "bottle_location_bundle_size",
+            # "bottle_location_bundle_size",
+            "bottle_location_bundle_minimum",
+            "bottle_location_bundle_maximum",
             "bottlesanity",
-            "bottle_item_bundle_size",
+            # "bottle_item_bundle_size",
+            "bottle_item_bundle_minimum",
+            "bottle_item_bundle_maximum",
             # "skip_intro"
         )
 
