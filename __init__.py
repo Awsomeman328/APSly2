@@ -198,12 +198,31 @@ class Sly2World(World):
 
         self.validate_options(self.options)
 
+        # TODO: Bring in the thiefnet_randomness_type from the yaml file and check if it's valid in the above 
+        # section. If it's not, log a warning and change it to the default regular 'random'.
         thiefnet_min = self.options.thiefnet_minimum.value
         thiefnet_max = self.options.thiefnet_maximum.value
-        self.thiefnet_costs = sorted([
-            self.random.randint(thiefnet_min,thiefnet_max)
-            for _ in range(24)
-        ])
+        randomness_type = self.options.thiefnet_randomness_type.value
+        if randomness_type == "random":
+            self.thiefnet_costs = sorted([
+                self.random.randint(thiefnet_min,thiefnet_max)
+                for _ in range(24)
+            ])
+        elif randomness_type == "random-low":
+            self.thiefnet_costs = sorted([
+                self.random.triangular(thiefnet_min,thiefnet_max,0.0)
+                for _ in range(24)
+            ])
+        elif randomness_type == "random-medium":
+            self.thiefnet_costs = sorted([
+                self.random.triangular(thiefnet_min,thiefnet_max)
+                for _ in range(24)
+            ])
+        elif randomness_type == "random-high":
+            self.thiefnet_costs = sorted([
+                self.random.triangular(thiefnet_min,thiefnet_max,1.0)
+                for _ in range(24)
+            ])
 
     def get_filler_item_name(self) -> str:
         # Currently just coins

@@ -157,6 +157,15 @@ requires:
     random: 0
     random-low: 0
     random-high: 0
+  
+  # The type of randomness that will be used when you get a "Coins" filler
+  # item. The allowed values are 'random', 'random-low', 'random-middle', 
+  # and 'random-high'.
+  coins_randomness_type:
+    'random': 50
+    'random-low': 0
+    'random-middle': 0
+    'random-high': 0
 
   # How many bottles you receive from an item. Set to 0 to disable bottles
   # as items.
@@ -193,6 +202,15 @@ requires:
     random: 0
     random-low: 0
     random-high: 0
+  
+  # The type of randomness that will be used when generating the cost of
+  # items on ThiefNet. The allowed values are 'random', 'random-low', 'random-middle', 
+  # and 'random-high'.
+  thiefnet_randomness_type:
+    'random': 50
+    'random-low': 0
+    'random-middle': 0
+    'random-high': 0
 
   # Whether to include vaults as checks.
   include_vaults:
