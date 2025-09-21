@@ -12,11 +12,20 @@ if typing.TYPE_CHECKING:
 def set_rules(world: "Sly2World"):
     player = world.player
 
+    # In both the base game and the randomizer (as it is currently implemented, as 
+    # this could be a change made later) every episode starts as only being able 
+    # to play as Sly until you beat the first job to advance to the 2nd day. We 
+    # only need 1 progressive episode item to be able to access the first job and 
+    # then once it is beaten Bently and Murry become playable, even without a 2nd 
+    # progressive episode item.
+
     add_rule(
         world.get_location("A Tangled Web - Crystal Vase"),
         lambda state: (
             state.has("Paraglider", player) or
-            state.has("Mega Jump", player)
+            state.has("Mega Jump", player) or 
+            state.has("Hover Pack", player) or
+            state.has("Turnbuckle Launch", player)
         )
     )
     add_rule(
@@ -33,7 +42,11 @@ def set_rules(world: "Sly2World"):
     )
     add_rule(
         world.get_location("Menace from the North, Eh! - Jeweled Chalice"),
-        lambda state: state.has("Paraglider", player)
+        lambda state: (
+            state.has("Paraglider", player) or
+            state.has("Mega Jump", player) or
+            state.has("Feral Pounce", player)
+        )
     )
     add_rule(
         world.get_location("Menace from the North, Eh! - Thermal Ride"),
@@ -66,14 +79,13 @@ def set_rules(world: "Sly2World"):
                         lambda state, bn=bundle_name: state.has(bn, player)
                     )
 
-        # TODO: Need to double check if these bottle locations can be access by using 
-        # the Hover Pack & Turnbuckle Launch Gadgets. If so, then delete this comment 
-        # and remove the '#' characters below. Also make sure each of the gadgets 
-        # listed below are all classified as progressive in data/items.py.
-        # 
-        # if world.options.bottle_location_bundle_size.value == 1 and bottlesanity:
-        if (world.options.bottle_location_bundle_minimum.value == 1 and 
-            world.options.bottle_location_bundle_maximum.value == 1 and bottlesanity):
+        # Added Progressive Anatomy for Disaster (3) as a possible way to get the 
+        # bottle in Ep8, as the "Mega Jump Job" just gives you Mega Jump during the job 
+        # which can then be used to get the bottle. But b/c you need to get the bottle 
+        # during the job, as you lose Mega Jump afterward if you didn't already have it, 
+        # I could see getting rid of this part of the rule out of concerns for possible 
+        # soft-locks for certain goals and settups, as well as it maybe being confusing.
+        if world.options.bottle_location_bundle_size.value == 1 and bottlesanity:
             add_rule(
                 world.get_location("Menace from the North, Eh! - Bottle #04"),
                 lambda state: (
@@ -87,10 +99,11 @@ def set_rules(world: "Sly2World"):
             add_rule(
                 world.get_location("Anatomy for Disaster - Bottle #03"),
                 lambda state: (
-                    state.has("Feral Pounce", player) or
                     state.has("Mega Jump", player) or
-                    state.has("Hover Pack", player) or
-                    state.has("Turnbuckle Launch", player)
+                    state.has("Feral Pounce", player) or
+                    state.has("Hover Pack", player)  or
+                    state.has("Turnbuckle Launch", player) or 
+                    state.has("Progressive Anatomy for Disaster", player, 3) # Obtainable during Mega Jump Job
                 )
             )
         else:
@@ -107,10 +120,12 @@ def set_rules(world: "Sly2World"):
             add_rule(
                 world.get_location("Anatomy for Disaster - 30 bottles collected"),
                 lambda state: (
-                    state.has("Feral Pounce", player) or
                     state.has("Mega Jump", player) or
+                    state.has("Feral Pounce", player) or
                     state.has("Hover Pack", player) or
-                    state.has("Turnbuckle Launch", player)
+                    state.has("Turnbuckle Launch", player)  or 
+                    state.has("Progressive Anatomy for Disaster", player, 3) # Obtainable during Mega Jump Job
+                    
                 )
             )
 
