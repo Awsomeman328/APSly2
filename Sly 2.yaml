@@ -194,6 +194,28 @@ requires:
     random-low: 0
     random-high: 0
 
+  # The checks in the ThiefNet shop are grouped together during generation.
+  # This setting controls the number of checks in each group.
+  #
+  # Minimum value is 1
+  # Maximum value is 24
+  thiefnet_groups_size:
+    3: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  # The number of additional progressive episode items required for each 
+  # group within logic. The first group starts at 0 required.
+  # 
+  # Minimum value is 0
+  # Maximum value is 27
+  thiefnet_episode_items_required:
+    4: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
   # Whether to include vaults as checks.
   include_vaults:
     'false': 0
