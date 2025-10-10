@@ -12,13 +12,6 @@ if typing.TYPE_CHECKING:
 def set_rules(world: "Sly2World"):
     player = world.player
 
-    # In both the base game and the randomizer (as it is currently implemented, as 
-    # this could be a change made later) every episode starts as only being able 
-    # to play as Sly until you beat the first job to advance to the 2nd day. We 
-    # only need 1 progressive episode item to be able to access the first job and 
-    # then once it is beaten Bently and Murry become playable, even without a 2nd 
-    # progressive episode item.
-
     add_rule(
         world.get_location("A Tangled Web - Crystal Vase"),
         lambda state: (
@@ -40,6 +33,12 @@ def set_rules(world: "Sly2World"):
         world.get_location("He Who Tames the Iron Horse - Ride the Iron Horse"),
         lambda state: state.has("Paraglider", player)
     )
+    """ 
+        TODO: Determine if the location check below is too hard w/o any of these gadgets for players.
+        If so, then keep this location's logic to require at least 1 of these gadgets and maybe
+        make an option in the yaml for players to turn this logic on or off.
+        If it is not too difficult, then just delete this rule entirely.
+    """
     add_rule(
         world.get_location("Menace from the North, Eh! - Jeweled Chalice"),
         lambda state: (
@@ -79,12 +78,13 @@ def set_rules(world: "Sly2World"):
                         lambda state, bn=bundle_name: state.has(bn, player)
                     )
 
-        # Added Progressive Anatomy for Disaster (3) as a possible way to get the 
-        # bottle in Ep8, as the "Mega Jump Job" just gives you Mega Jump during the job 
-        # which can then be used to get the bottle. But b/c you need to get the bottle 
-        # during the job, as you lose Mega Jump afterward if you didn't already have it, 
-        # I could see getting rid of this part of the rule out of concerns for possible 
-        # soft-locks for certain goals and settups, as well as it maybe being confusing.
+        """
+            For the Ep8 bottles below, although it is technically possible to get them 
+            during the job, "Mega Jump Job", because this availability is only temporary 
+            and there is currently no way of replaying completed jobs in Sly 2, this 
+            specific corner-case has not been included as part of legitimate logic, in 
+            order to avoid soft-lock situations.
+        """
         if world.options.bottle_location_bundle_size.value == 1 and bottlesanity:
             add_rule(
                 world.get_location("Menace from the North, Eh! - Bottle #04"),
@@ -102,8 +102,8 @@ def set_rules(world: "Sly2World"):
                     state.has("Mega Jump", player) or
                     state.has("Feral Pounce", player) or
                     state.has("Hover Pack", player)  or
-                    state.has("Turnbuckle Launch", player) or 
-                    state.has("Progressive Anatomy for Disaster", player, 3) # Obtainable during Mega Jump Job
+                    state.has("Turnbuckle Launch", player) # or
+                    # state.has("Progressive Anatomy for Disaster", player, 3) # Obtainable during Mega Jump Job
                 )
             )
         else:
@@ -123,8 +123,8 @@ def set_rules(world: "Sly2World"):
                     state.has("Mega Jump", player) or
                     state.has("Feral Pounce", player) or
                     state.has("Hover Pack", player) or
-                    state.has("Turnbuckle Launch", player)  or 
-                    state.has("Progressive Anatomy for Disaster", player, 3) # Obtainable during Mega Jump Job
+                    state.has("Turnbuckle Launch", player) # or
+                    # state.has("Progressive Anatomy for Disaster", player, 3) # Obtainable during Mega Jump Job
                     
                 )
             )
