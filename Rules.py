@@ -33,20 +33,6 @@ def set_rules(world: "Sly2World"):
         world.get_location("He Who Tames the Iron Horse - Ride the Iron Horse"),
         lambda state: state.has("Paraglider", player)
     )
-    """ 
-        TODO: Determine if the location check below is too hard w/o any of these gadgets for players.
-        If so, then keep this location's logic to require at least 1 of these gadgets and maybe
-        make an option in the yaml for players to turn this logic on or off.
-        If it is not too difficult, then just delete this rule entirely.
-    """
-    add_rule(
-        world.get_location("Menace from the North, Eh! - Jeweled Chalice"),
-        lambda state: (
-            state.has("Paraglider", player) or
-            state.has("Mega Jump", player) or
-            state.has("Feral Pounce", player)
-        )
-    )
     add_rule(
         world.get_location("Menace from the North, Eh! - Thermal Ride"),
         lambda state: state.has("Paraglider", player)
