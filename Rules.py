@@ -16,7 +16,9 @@ def set_rules(world: "Sly2World"):
         world.get_location("A Tangled Web - Crystal Vase"),
         lambda state: (
             state.has("Paraglider", player) or
-            state.has("Mega Jump", player)
+            state.has("Mega Jump", player) or 
+            state.has("Hover Pack", player) or
+            state.has("Turnbuckle Launch", player)
         )
     )
     add_rule(
@@ -29,10 +31,6 @@ def set_rules(world: "Sly2World"):
     )
     add_rule(
         world.get_location("He Who Tames the Iron Horse - Ride the Iron Horse"),
-        lambda state: state.has("Paraglider", player)
-    )
-    add_rule(
-        world.get_location("Menace from the North, Eh! - Jeweled Chalice"),
         lambda state: state.has("Paraglider", player)
     )
     add_rule(
@@ -66,20 +64,32 @@ def set_rules(world: "Sly2World"):
                         lambda state, bn=bundle_name: state.has(bn, player)
                     )
 
+        """
+            For the Ep8 bottles below, although it is technically possible to get them 
+            during the job, "Mega Jump Job", because this availability is only temporary 
+            and there is currently no way of replaying completed jobs in Sly 2, this 
+            specific corner-case has not been included as part of legitimate logic, in 
+            order to avoid soft-lock situations.
+        """
         if world.options.bottle_location_bundle_size.value == 1 and bottlesanity:
             add_rule(
                 world.get_location("Menace from the North, Eh! - Bottle #04"),
                 lambda state: (
                     state.has("Paraglider", player) or
                     state.has("Mega Jump", player) or
-                    state.has("Feral Pounce", player)
+                    state.has("Feral Pounce", player) or
+                    state.has("Hover Pack", player) or
+                    state.has("Turnbuckle Launch", player)
                 )
             )
             add_rule(
                 world.get_location("Anatomy for Disaster - Bottle #03"),
                 lambda state: (
+                    state.has("Mega Jump", player) or
                     state.has("Feral Pounce", player) or
-                    state.has("Mega Jump", player)
+                    state.has("Hover Pack", player)  or
+                    state.has("Turnbuckle Launch", player) # or
+                    # state.has("Progressive Anatomy for Disaster", player, 3) # Obtainable during Mega Jump Job
                 )
             )
         else:
@@ -88,14 +98,20 @@ def set_rules(world: "Sly2World"):
                 lambda state: (
                     state.has("Paraglider", player) or
                     state.has("Mega Jump", player) or
-                    state.has("Feral Pounce", player)
+                    state.has("Feral Pounce", player) or
+                    state.has("Hover Pack", player) or
+                    state.has("Turnbuckle Launch", player)
                 )
             )
             add_rule(
                 world.get_location("Anatomy for Disaster - 30 bottles collected"),
                 lambda state: (
+                    state.has("Mega Jump", player) or
                     state.has("Feral Pounce", player) or
-                    state.has("Mega Jump", player)
+                    state.has("Hover Pack", player) or
+                    state.has("Turnbuckle Launch", player) # or
+                    # state.has("Progressive Anatomy for Disaster", player, 3) # Obtainable during Mega Jump Job
+                    
                 )
             )
 
