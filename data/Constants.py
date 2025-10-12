@@ -320,6 +320,48 @@ ADDRESSES = {
         ],
         "treasures": [
             [
+                0x3D4BA8,
+                0x3D4BA4,
+                0x3D4BA0,
+            ],
+            [
+                0x3D4BB0,
+                0x3D4BAC,
+                0x3D4BB4,
+            ],
+            [
+                0x3D4BC0,
+                0x3D4BBC,
+                0x3D4BB8,
+            ],
+            [
+                0x3D4BCC,
+                0x3D4BC8,
+                0x3D4BC4,
+            ],
+            [
+                0x3D4BD8,
+                0x3D4BD4,
+                0x3D4BD0,
+            ],
+            [
+                0x3D4BDC,
+                0x3D4BE0,
+                0x3D4BE4,
+            ],
+            [
+                0x3D4BF0,
+                0x3D4BE8,
+                0x3D4BEC,
+            ],
+            [
+                0x3D4BFC,
+                0x3D4BF8,
+                0x3D4C00,
+            ]
+        ],
+        "treasure pedestals": [
+            [
                 0x3D4C9C,
                 0x3D4CA0,
                 0x3D4CA4,
