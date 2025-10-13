@@ -326,8 +326,8 @@ ADDRESSES = {
             ],
             [
                 0x3D4BB0,
-                0x3D4BAC,
                 0x3D4BB4,
+                0x3D4BAC
             ],
             [
                 0x3D4BC0,
@@ -351,8 +351,8 @@ ADDRESSES = {
             ],
             [
                 0x3D4BF0,
-                0x3D4BE8,
                 0x3D4BEC,
+                0x3D4BE8
             ],
             [
                 0x3D4BFC,
