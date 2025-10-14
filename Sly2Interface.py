@@ -436,7 +436,7 @@ class Sly2Interface(GameInterface):
         self.set_text(addresses[1],new_gadget_description)
 
     def treasure_stolen(self, address: int) -> bool:
-        return self._read32(address) == 0xffffffff
+        return self._read32(address) > 0x00000000
 
     def set_thiefnet_cost(self, powerup: int, cost: int) -> None:
         address = self.addresses["thiefnet costs"][powerup]
