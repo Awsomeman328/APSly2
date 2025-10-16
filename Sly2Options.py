@@ -208,6 +208,12 @@ class BottleSanity(DefaultOnToggle):
 
     display_name = "Bottlesanity"
 
+class ScoutThiefnet(DefaultOnToggle):
+    """
+    Whether to scout/hint ThiefNet checks. They will still be displayed in game.
+    """
+
+    display_name = "Scout Thiefnet"
 
 class SkipIntro(DefaultOnToggle):
     """
@@ -237,6 +243,7 @@ class Sly2Options(PerGameCommonOptions):
     bottle_location_bundle_size: BottleLocationBundleSize
     bottle_item_bundle_size: BottleItemBundleSize
     bottlesanity: BottleSanity
+    scout_thiefnet: ScoutThiefnet
     # skip_intro: SkipIntro
 
 sly2_option_groups = [
@@ -261,6 +268,7 @@ sly2_option_groups = [
         ThiefNetCostMaximum,
         IncludeVaults,
         BottleLocationBundleSize,
-        BottleSanity
+        BottleSanity,
+        ScoutThiefnet
     ])
 ]

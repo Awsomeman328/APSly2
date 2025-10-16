@@ -143,14 +143,15 @@ async def set_thiefnet(ctx: 'Sly2Context'):
         for i in range(24)
     ])
 
-    await ctx.send_msgs([{
-        "cmd": "LocationScouts",
-        "locations": [
-            Locations.location_dict[f"ThiefNet {i+1:02}"].code
-            for i in range(24)
-        ],
-        "create_as_hint": 2
-    }])
+    if ctx.slot_data["scout_thiefnet"]:
+        await ctx.send_msgs([{
+            "cmd": "LocationScouts",
+            "locations": [
+                Locations.location_dict[f"ThiefNet {i+1:02}"].code
+                for i in range(24)
+            ],
+            "create_as_hint": 2
+        }])
 
     # Set which items should be available to purchase and unlock all from the
     # start

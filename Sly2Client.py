@@ -162,13 +162,14 @@ class Sly2Context(CommonContext):
                 self.death_link_enabled = bool(args["slot_data"]["death_link"])
                 Utils.async_start(self.update_death_link(
                     bool(args["slot_data"]["death_link"])))
-                Utils.async_start(self.send_msgs([{
-                    "cmd": "LocationScouts",
-                    "locations": [
-                        Locations.location_dict[location].code
-                        for location in Locations.location_groups["Purchase"]
-                    ]
-                }]))
+
+            Utils.async_start(self.send_msgs([{
+                "cmd": "LocationScouts",
+                "locations": [
+                    Locations.location_dict[location].code
+                    for location in Locations.location_groups["Purchase"]
+                ]
+            }]))
 
 def update_connection_status(ctx: Sly2Context, status: bool):
     if ctx.is_connected_to_game == status:

@@ -217,6 +217,11 @@ requires:
     'false': 0
     'true': 50
 
+  # Whether to scout/hint ThiefNet checks. They will still be displayed in game.
+  scout_thiefnet:
+    'false': 0
+    'true': 50
+
   ## Item & Location Options
 
   # Forces these items to be in their native world.
