@@ -81,7 +81,7 @@ class KeysInPool(Range):
 
     display_name = "Clockwerk Parts in Pool"
     range_start = 1
-    range_end = 100
+    range_end = 50
     default = 10
 
 
@@ -93,7 +93,7 @@ class RequiredKeys(Range):
 
     display_name = "Episode 8 Required Keys"
     range_start = 1
-    range_end = 100
+    range_end = 50
     default = 10
 
 
@@ -104,7 +104,7 @@ class RequiredKeysGoal(Range):
 
     display_name = "Goal Required Keys"
     range_start = 1
-    range_end = 100
+    range_end = 50
     default = 10
 
 
