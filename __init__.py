@@ -99,22 +99,22 @@ class Sly2World(World):
         if opt.episode_8_keys.value != 3 and opt.required_keys_episode_8 > opt.keys_in_pool:
             logging.warning(
                 f"{self.player_name}: " +
-                f"Episode 8 requires {opt.required_keys_episode_8} keys but only {opt.keys_in_pool} keys in pool. Increasing number of keys in pool."
+                f"Episode 8 requires {opt.required_keys_episode_8} keys but only {opt.keys_in_pool} keys in pool. Decreasing number of required keys."
             )
-            opt.keys_in_pool.value = opt.required_keys_episode_8.value
+            opt.required_keys_episode_8.value = opt.keys_in_pool.value
             # raise OptionError(
-            #     f"Episode 8 requires {opt.required_keys_episode_8} keys but only {opt.keys_in_pool} keys in pool"
+            #     f"Episode 8 requires {opt.required_keys_episode_8} keys but only {opt.keys_in_pool} keys in pool Decreasing number of required keys."
             # )
 
         if opt.goal == 6 and opt.required_keys_goal > opt.keys_in_pool:
             logging.warning(
                 f"{self.player_name}: " +
-                f"Clockwerk Hunt goal requires {opt.required_keys_goal} keys but only {opt.keys_in_pool} keys in pool. Increasing number of keys in pool."
+                f"Clockwerk Hunt goal requires {opt.required_keys_goal} keys but only {opt.keys_in_pool} keys in pool. Decreasing number of required keys."
             )
-            opt.keys_in_pool.value = opt.required_keys_goal.value
+            opt.required_keys_goal.value = opt.keys_in_pool.value
 
             # raise OptionError(
-            #     f"Clockwerk Hunt goal requires {opt.required_keys_goal} keys but only {opt.keys_in_pool} keys in pool"
+            #     f"Clockwerk Hunt goal requires {opt.required_keys_goal} keys but only {opt.keys_in_pool} keys in pool Decreasing number of required keys."
             # )
 
         if opt.episode_8_keys.value in [0,2] and (
@@ -141,6 +141,18 @@ class Sly2World(World):
             opt.bottle_location_bundle_size.value = 0
             # raise OptionError(
             #     f"Bottle item bundle size and bottle location bundle size should either both be zero or both be non-zero"
+            # )
+
+        if opt.bottle_item_bundle_size < opt.bottle_location_bundle_size:
+            logging.warning(
+                f"{self.player_name}: " +
+                f"Bottle location bundle size must be less than or equal to bottle item bundle size (location bundle: {opt.bottle_location_bundle_size}, item bundle: {opt.bottle_item_bundle_size}). Swapping values."
+            )
+            temp = opt.bottle_location_bundle_size.value
+            opt.bottle_location_bundle_size.value = opt.bottle_item_bundle_size.value
+            opt.bottle_item_bundle_size.value = temp
+            # raise OptionError(
+            #     f"Bottle location bundle size must be less than or equal to bottle item bundle size (location bundle: {opt.bottle_location_bundle_size}, item bundle: {opt.bottle_item_bundle_size})."
             # )
 
         if opt.coins_maximum < opt.coins_minimum:
