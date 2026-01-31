@@ -4,7 +4,7 @@ from math import ceil
 from BaseClasses import Region, CollectionState, Location
 
 from .data.Locations import location_dict
-from .data.Constants import EPISODES, TREASURES, LOOT
+from .data.Constants import EPISODES, TREASURES, LOOT, ADDRESSES
 
 if typing.TYPE_CHECKING:
     from . import Sly2World
@@ -70,6 +70,16 @@ def create_regions(world: "Sly2World"):
                 f"{episode} - {job}": location_dict[f"{episode} - {job}"].code
                 for job in EPISODES[episode][n-1]
             })
+            # Delete Later: Also add in all tasks to each region. For now, just for testing purposes,
+            # adding all the tasks to the final region of each episode.
+            if (n == 4 and episode != "Jailbreak") or (n == 3 and episode == "Jailbreak"):
+                region.add_locations({
+                    f"{episode} - Task #{task}": location_dict[f"{episode} - Task #{task}"].code
+                    # for i, (ep, jobs) in enumerate(ADDRESSES["SCUS-97316"]["tasks"].items())
+                    # for job_tasks in jobs for task_num in job_tasks
+                    # for i, (ep, chapters) in enumerate(EPISODES.items())
+                    for job in ADDRESSES["SCUS-97316"]["tasks"][i] for task in job
+                })
 
             world.multiworld.regions.append(region)
             menu.connect(

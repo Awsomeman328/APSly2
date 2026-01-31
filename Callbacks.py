@@ -316,6 +316,19 @@ def check_jobs(ctx: 'Sly2Context') -> None:
         for (j, k), status in zip(job_positions, statuses):
             ctx.jobs_completed[episode-1][j][k] = status
 
+    # Based on the old implementation of this def, this needs to be updated.
+    # Find the total number of tasks by finding the largest id number in the list of lists
+    num_tasks = max(map(lambda x: max(x, default=1), ctx.game_interface.addresses["tasks"][episode - 1]))
+    tasks_addresses = ctx.game_interface.get_tasks_addresses(num_tasks)
+    for j, job in enumerate(ctx.game_interface.addresses["tasks"][episode - 1]):
+        for t, task in enumerate(job):
+            task_address = tasks_addresses[ctx.game_interface.addresses["tasks"][episode - 1][j][t] - 1]
+            ctx.tasks_completed[episode - 1][j][t] = (
+                    ctx.tasks_completed[episode - 1][j][t] or
+                    ctx.game_interface.task_completed(task_address) or
+                    ctx.game_interface.task_finalized(task_address)
+            )
+
 def set_jobs(ctx: 'Sly2Context') -> None:
     """Sets jobs to available/unavailable"""
     if ctx.current_episode is None:
@@ -510,6 +523,22 @@ async def handle_checks(ctx: 'Sly2Context') -> None:
                 if job:
                     job_name = EPISODES[episode_name][j][k]
                     location_name = f"{episode_name} - {job_name}"
+                    location_code = Locations.location_dict[location_name].code
+                    ctx.locations_checked.add(location_code)
+
+    # Tasks
+    for i, episode in enumerate(ctx.tasks_completed):
+        # episode_name = ""
+        # if i == 0:
+        #    # Remove this hard coded line once this name is added to the Constants.py file.
+        #    episode_name = "A Shadow from the Past"
+        # else:
+        episode_name = list(EPISODES.keys())[i]
+        for j, job in enumerate(episode):
+            for t, task in enumerate(job):
+                if task:
+                    task_num = ctx.game_interface.addresses["tasks"][i][j][t] + 1
+                    location_name = f"{episode_name} - Task #{task_num}"
                     location_code = Locations.location_dict[location_name].code
                     ctx.locations_checked.add(location_code)
 

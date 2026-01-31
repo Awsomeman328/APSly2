@@ -1,6 +1,6 @@
 from typing import NamedTuple, List
 
-from .Constants import EPISODES, TREASURES, LOOT
+from .Constants import EPISODES, TREASURES, LOOT, ADDRESSES
 
 class Sly2LocationData(NamedTuple):
     name: str
@@ -11,6 +11,16 @@ jobs_list = [
     (f"{ep} - {job}",       "Job")
     for ep, chapters in EPISODES.items()
     for jobs in chapters for job in jobs
+]
+
+tasks_list = [
+    (f"{ep} - Task #{task}", "Task")
+    for i, (ep, chapters) in enumerate(EPISODES.items())
+    #for jobs in ep for task in jobs
+    #int(task) for task in str(ADDRESSES["SCUS-97316"]["tasks"][i])
+    #for i, (ep) in enumerate(ADDRESSES["SCUS-97316"]["tasks"])
+    #for job in ep for task_num in job
+    for job in ADDRESSES["SCUS-97316"]["tasks"][i] for task in job
 ]
 
 vaults_list = [
@@ -44,7 +54,7 @@ pickpocket_list = [
     for loot in LOOT.keys()
 ]
 
-location_list = jobs_list + vaults_list + treasures_list + bottles_list + purchases_list + pickpocket_list
+location_list = jobs_list + tasks_list + vaults_list + treasures_list + bottles_list + purchases_list + pickpocket_list
 
 base_code = 321_000
 

@@ -390,6 +390,116 @@ ADDRESSES = {
                 [86]
             ]
         ],
+        # Old implementation of making Tasks Checks. Delete this when no longer used.
+        "tasks": [
+            [   # Prologue
+                [ 1, 2, 3,16],  # Overworld
+                [ 4, 5, 6, 7, 8, 9,10,11,12,13,14,15]  # Museum Break-In
+            ],
+            [   # Episode 1
+                [ 1, 2, 3, 4,29,30,31,43,48,60,83,99],  # Overworld (Need to double-check these b/c of the Chalk-talk #3 Task)
+                [ 5, 6, 7, 8, 9],  # OSatellite Sabotage
+                [10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],  # Breaking and Entering
+                [37,38,39,40,41,42],  # Bug Dimitri's Office
+                [44,45,46,47],  # Follow Dimitri
+                [76,77,78,79,80,81,82],  # Waterpump Destruction
+                [32,33,34,35,36],  # Silence the Alarms
+                [49,50,51,52,53,54,55,56,57,58,59],  # Theater Pickpocketing
+                [61,62,63],  # Moonlight Rendezvous
+                [64,65,66,67,68,69,70,71,72,73,74,75],  # Disco Demolitions
+                [84,85,86,87,88,89,90,91,92,93,94],  # Operation: Thunder Beak
+                [95,96,97,98]  # Printing Press Duel
+            ],
+            [   # Episode 2
+                [ 1, 2,16,51,65,93],  # Overworld
+                [ 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15],  # Recon the Ballroom
+                [17,18,19,20,21,22,23,24,25],  # Lower the Drawbridge
+                [26,27,28,29],  # Battle the Chopper
+                [37],  # Ballroom Dance Party
+                [38,39,40,41,42,43,44,45,46],  # Steal a Tuxedo
+                [47,48,49,50],  # Dominate the Dance Floor
+                [30,31,32,33,34,35,36],  # Boardroom Brawl
+                [52,53,54],  # Bombing Run
+                [55,56,57,58,59,60,61,62,63,64],  # Elephant Rampage
+                [65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87],  # Operation: Hippo Drop/Bomb the Bridge
+                [88,89,90],  # Tango with Carmelita
+                [91,92]  # Clear the Way for Murray
+            ],
+            [   # Episode 3
+                [ 1, 2,14,56,66,82],  # Overworld (Need to double-check these b/c of the Spice Grinder Door Task)
+                [ 3, 4, 5, 6, 7, 8, 9,10,11,12,13],  # Spice Room Recon
+                [15,16,17],  # Water Bug Run
+                [18,19,20,21,22,23,24,25,26,27],  # Freeing the Elephant
+                [36,37,38,39,40,41,42,43,44,45,46],  # Leading Rajan
+                [28,29,30,31,32,33,34,55],  # Neyla's Secret
+                [47,48,49,50,51,52,53,54,55],  # Spice Grinder Destruction
+                [57,58],  # Blow the Dam
+                [59,60,61,62,63,64,65],  # Rip-off the Ruby
+                [67,68,69,70,71,72,73,74,75,76],  # Operation: Wet Tiger
+                [77,78,79,80,81]  # Showdown with Rajan
+            ],
+            [   # Episode 4
+                [ 1,33,77,110],  # Overworld
+                [ 2, 3, 4, 5, 6, 7, 8],  # Eavesdrop on Contessa
+                [ 9,10,11,12,13,14,15,16,17,18,19,20,21],  # Train Hack
+                [22,23,24,25,26,27,28,29,30,31,32],  # Wall Bombing
+                [34,35,36,37],  # Big House Brawl
+                [38,39,40,41,42,43,44,45,46,47,48,49],  # Lightning Action
+                [50,51,52,53,54],  # Disguise Bridge
+                [55,56,57,58,59,60,61,62,63,64,65,66,67,68],  # Code Capture
+                [69,70,71,72,73,74,75,76],  # Close to Contessa
+                [78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,
+                 100,101,102,103,104,105,106,107,108,109]  # Operation: Trojan Tank
+            ],
+            [   # Episode 5
+                [ 1,16,46,79,80,102],  # Overworld
+                [ 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15],  # Know your Enemy
+                [17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],  # Ghost Capture
+                [33,34,35,36,37,38,39,40,41],  # Mojo Trap Action
+                [42,43,44,45],  # Kidnap the General
+                [47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62],  # Stealing Voices
+                [63,64,65,66,67,68,69,70],  # Tank Showdown
+                [71,72,73,74,75,76,77,78],  # Crypt Hack
+                [81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101]  # Operation: High Road
+            ],
+            [   # Episode 6
+                [ 1,17,18,44,60,72],  # Overworld
+                [ 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16],  # Cabin Crimes
+                [19,20,21,22,23,24,25,26],  # Spice in the Sky
+                [27,28,29],  # Ride the Iron Horse
+                [30,31,32,33,34,35,36,37,38,39,40,41,42,43],  # A Friend in Need
+                [45,46,47,48],  # Aerial Assault
+                [49,50,51],  # Theft on the Rails
+                [52,53,54,55,56,57,58,59],  # Bear Cub Kidnapping
+                [61,62,63,64,65,66,67,68,69,70,71]  # Operation: Choo-Choo
+            ],
+            [   # Episode 7
+                [ 1, 2,17,55,89,90,122],  # Overworld
+                [ 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16],  # Recon the Sawmill
+                [18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34],  # Bearcave Bugging
+                [35,36,37,38,39,40],  # RC Combat Club
+                [41,42,43,44,45,46,47,48,49,50,51,52,53,54],  # Laser Redirection
+                [56,57,58,59,60,61,62],  # Lighthouse Break In
+                [63,64,65,66,67,68],  # Old Grizzle Face
+                [69,70,71,72,73,74,75,76,77,78,79,80,81,82],  # Boat Hack
+                [83,84,85,86,87,88],  # Thermal Ride
+                [90,91,92,93,94,95,96,97,98,99,
+                 100,101,102,103,104,105,106,107,108,109,110,111,112],  # Operation: Canada Games
+                [113,114,115,116,117,118,119,120,121]  # Brains over Brawn
+            ],
+            [   # Episode 8
+                [ 1,25,80,99],  # Overworld
+                [ 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],  # Blimp HQ Recon
+                [24],  # Post Recon
+                [26,27,28,29,30,31],  # Charged TNT Run
+                [32,33,34,35,36,37,38,39,40,41,42],  # Murray/Sly Tag Team
+                [43,44,45,46,47,48,49,50,51,52],  # Sly/Bentley Conspire
+                [53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79],  # Bentley/Murray Team Up
+                [81,82,83,84,85,86],  # Mega-Jump Job
+                [87,88,89],  # Carmelita's Gunner
+                [90,91,92,93,94,95,96,97,98]  # Showdown with Clock-La
+            ],
+        ],
         "treasures": [
             [
                 0x3D4BA8,

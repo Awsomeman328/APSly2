@@ -180,6 +180,9 @@ class Sly2Interface(GameInterface):
     def _write_job_status(self, address: int, status: int):
         self._write32(self._get_job_address(address)+0x54, status)
 
+    def _read_task_status(self, actual_address: int):
+        return self._read32(actual_address+0x54)
+
     def _read_task_mission(self, address: int, status: int):
         self._write32(self._get_job_address(address)+0x54, status)
 
@@ -331,6 +334,21 @@ class Sly2Interface(GameInterface):
 
     def set_current_job(self, job: int) -> None:
         self._write32(self.addresses["job id"], job)
+
+    def get_tasks_addresses(self, num_tasks: int) -> List[int]:
+        address_list = []
+        pointer = self._read32(self.addresses["DAG root"])
+        for task in range(num_tasks):
+            pointer = self._read32(pointer+0x20)
+            address_list.append(pointer)
+
+        return address_list
+
+    def task_completed(self, task_address: int) -> bool:
+        return self._read_task_status(task_address) == 2
+
+    def task_finalized(self, task_address: int) -> bool:
+        return self._read_task_status(task_address) == 3
 
     # =====================================================
     # Job/Task Management

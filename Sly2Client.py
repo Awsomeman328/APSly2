@@ -7,7 +7,7 @@ from CommonClient import get_base_parser, logger, server_loop, gui_enabled
 import Utils
 
 from .data import Locations, Items
-from .data.Constants import EPISODES, ENEMIES, PICKPOCKET_LOOT_TABLE_CHANCES
+from .data.Constants import EPISODES, ADDRESSES, ENEMIES, PICKPOCKET_LOOT_TABLE_CHANCES
 from .Sly2Interface import Sly2Interface, Sly2Episode, PowerUps
 from .Callbacks import init, update
 
@@ -183,6 +183,13 @@ class Sly2Context(CommonContext): # type: ignore[misc]
     jobs_completed: list[list[list[bool]]] = [
         [[False for _ in chapter] for chapter in episode]
         for episode in EPISODES.values()
+    ]
+    tasks_completed: list[list[list[bool]]] = [
+        [[False for _ in job] for job in episode]
+        for episode in ADDRESSES["SCUS-97316"]["tasks"]
+        # [False for _, task in enumerate(episode.values())]
+        #    for episode in ADDRESSES["SCUS-97316"]["tasks"]
+
     ]
     vaults: list[bool] = [
         False for _ in EPISODES
