@@ -1,6 +1,6 @@
 from typing import NamedTuple, List
 
-from .Constants import EPISODES, TREASURES, LOOT, ADDRESSES
+from .Constants import EPISODES, TREASURES, LOOT, ADDRESSES, EPISODES_DAYS_JOBS_TASKS
 
 class Sly2LocationData(NamedTuple):
     name: str
@@ -22,6 +22,54 @@ tasks_list = [
     #for job in ep for task_num in job
     for job in ADDRESSES["SCUS-97316"]["tasks"][i] for task in job
 ]
+
+episodes_list = []
+days_list = []
+jobs_list_2 = []
+tasks_list_2 = []
+objectives_list = []
+checkpoints_list = []
+photos_list = []
+story_stealing_list = []
+
+
+def is_compound_job(job_contents):
+    """True if job contains sub-jobs instead of tasks"""
+    first_entry = job_contents[0]
+    return isinstance(first_entry[1], tuple) and isinstance(first_entry[1][0], tuple)
+
+def get_job_and_task_names(ep, job, tasks):
+    """Appends Job names to the Jobs list & Task names to the Tasks list"""
+    jobs_list_2.append((f"{ep} - {job}", "Job"))
+
+    for task in tasks:
+        tasks_list_2.append((f"{ep} - {job} - {task[1]}", "Task"))
+        if task[5] != "":
+            objectives_list.append((f"{ep} - {job} - {task[5]}", "Objective"))
+        if task[2]:
+            checkpoints_list.append((f"{ep} - {job} - {task[1]}", "Checkpoint"))
+        if task[3]:
+            photos_list.append((f"{ep} - {job} - {task[1]}", "Photo"))
+        if task[4]:
+            story_stealing_list.append((f"{ep} - {job} - {task[1]}", "Story Stealing"))
+
+
+for episode_name, days in EPISODES_DAYS_JOBS_TASKS.items():
+    episodes_list.append((episode_name, "Episode"))
+
+    for day in days:
+        days_list.append((f"{episode_name} - Day {day}", "Day"))
+
+        for job_name, job_contents in day:
+            # Compound job (sub-jobs)
+            if is_compound_job(job_contents):
+                for subjob_name, subjob_tasks in job_contents:
+                    get_job_and_task_names(episode_name,subjob_name,job_contents)
+
+            # Normal job
+            else:
+                get_job_and_task_names(episode_name,job_name,job_contents)
+
 
 vaults_list = [
     (f"{ep} - Vault",        "Vault")
@@ -67,6 +115,7 @@ location_groups = {
     key: {location.name for location in location_dict.values() if location.category == key}
     for key in [
         "Job",
+        "Task",
         "Bottle",
         "Vault",
         "Treasure",

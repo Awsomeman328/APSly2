@@ -159,7 +159,7 @@ TASK_FIELD = {
     "IS_STEALING": 4,
     "OBJECTIVE": 5
 }
-# TODO: Remember that the first and last task in moat episodes are bugged & fix 'em.
+# TODO: Remember that the first and last task in most episodes are bugged & fix 'em.
 # Besides the Prologue & Ep3's intro, every other episode's DAG isn't loaded
 # during the completion of their first and last tasks. Each of these tasks are
 # located in each Episode's Day 1's Overworld sections as the first and last
