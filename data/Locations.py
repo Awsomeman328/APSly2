@@ -1,6 +1,6 @@
 from typing import NamedTuple, List
 
-from .Constants import EPISODES, TREASURES, LOOT, ADDRESSES, EPISODES_DAYS_JOBS_TASKS
+from .Constants import EPISODES, TREASURES, LOOT, ADDRESSES, TASK_FIELD, EPISODES_DAYS_JOBS_TASKS
 
 class Sly2LocationData(NamedTuple):
     name: str
@@ -38,37 +38,61 @@ def is_compound_job(job_contents):
     first_entry = job_contents[0]
     return isinstance(first_entry[1], tuple) and isinstance(first_entry[1][0], tuple)
 
-def get_job_and_task_names(ep, job, tasks):
-    """Appends Job names to the Jobs list & Task names to the Tasks list"""
-    jobs_list_2.append((f"{ep} - {job}", "Job"))
-
+def get_job_and_task_names(ep, job, sub_job, tasks):
+    """Appends Job names to the Jobs list & Task names to the Tasks list
+    TODO: Delete all of the print() calls in this file and refactor this def's comment"""
     for task in tasks:
-        tasks_list_2.append((f"{ep} - {job} - {task[1]}", "Task"))
+        if job != sub_job:
+            job = sub_job
+        if job == "Overworld":
+            job = ep
+        tasks_list_2.append((f"{job} - {task[1]}", "Task"))
+        #print(tasks_list_2[-1])
         if task[5] != "":
-            objectives_list.append((f"{ep} - {job} - {task[5]}", "Objective"))
+            objectives_list.append((f"{job} - {task[5]}", "Objective"))
+            #print(objectives_list[-1])
         if task[2]:
-            checkpoints_list.append((f"{ep} - {job} - {task[1]}", "Checkpoint"))
+            checkpoints_list.append((f"{job} - {task[1]} (Checkpoint)", "Checkpoint"))
+            #print(checkpoints_list[-1])
         if task[3]:
-            photos_list.append((f"{ep} - {job} - {task[1]}", "Photo"))
+            photos_list.append((f"{job} - {task[1]} (Photo)", "Photo"))
+            #print(photos_list[-1])
         if task[4]:
-            story_stealing_list.append((f"{ep} - {job} - {task[1]}", "Story Stealing"))
+            story_stealing_list.append((f"{job} - {task[1]} (Stealing)", "Story Stealing"))
+            #print(story_stealing_list[-1])
 
+    num_cp_jobs = 0
+    for episode_name, days in EPISODES_DAYS_JOBS_TASKS.items():
+        episodes_list.append((episode_name, "Episode"))
+        #print(episodes_list[-1])
 
-for episode_name, days in EPISODES_DAYS_JOBS_TASKS.items():
-    episodes_list.append((episode_name, "Episode"))
+        # TODO: Account for different number of Days in Eps 4 & 8 depending on user's settings.
+        #  (May need to do this elsewhere)
+        num_days = 0
+        for day in days:
+            num_days += 1
+            days_list.append((f"{episode_name} - All Day {num_days} Jobs", "Day"))
+            #print(days_list[-1])
 
-    for day in days:
-        days_list.append((f"{episode_name} - Day {day}", "Day"))
+            # TODO: Account for Compound-Jobs being treated as either 1 Job or multiple
+            #  depending on user's settings. (May need to do this elsewhere)
+            for job_name, job_contents in day:
+                # Compound job (sub-jobs)
+                if is_compound_job(job_contents):
+                    num_cp_jobs += 1
+                    #print(f"COMPOUND JOB #{num_cp_jobs}!")
+                    for subjob_name, subjob in job_contents:
+                        if job_name != "Overworld":
+                            jobs_list_2.append((f"{episode_name} - {job_name}", "Job"))
+                            #print(jobs_list_2[-1])
+                        get_job_and_task_names(episode_name, job_name, subjob_name, subjob)
 
-        for job_name, job_contents in day:
-            # Compound job (sub-jobs)
-            if is_compound_job(job_contents):
-                for subjob_name, subjob_tasks in job_contents:
-                    get_job_and_task_names(episode_name,subjob_name,job_contents)
-
-            # Normal job
-            else:
-                get_job_and_task_names(episode_name,job_name,job_contents)
+                # Normal job
+                else:
+                    if job_name != "Overworld":
+                        jobs_list_2.append((f"{episode_name} - {job_name}", "Job"))
+                        #print(jobs_list_2[-1])
+                    get_job_and_task_names(episode_name, job_name, job_name, job_contents)
 
 
 vaults_list = [

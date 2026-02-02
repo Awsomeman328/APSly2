@@ -206,14 +206,93 @@ class Sly2World(World):
                     f"Thiefnet minimum cannot be larger than maximum (min: {opt.thiefnet_minimum}, max: {opt.thiefnet_maximum})"
                 )
 
+        if (opt.include_total_percentage.value == 0 and opt.include_episodes_percentage.value == 0 and
+            not opt.episodes_as_locations and not opt.days_as_locations and not opt.jobs_as_locations and
+            not opt.objectives_as_locations and not opt.tasks_as_locations):
+            if opt.permissive_yaml:
+                logging.warning(
+                    f"{self.player_name}: " +
+                    "At least 1 of Episodes, Days, Jobs, Tasks, Objectives, Episode %, or Total % must be enabled as Locations. "+
+                    "Enabling Jobs as Locations as the default"
+                )
+                opt.jobs_as_locations.value = True
+            else:
+                raise OptionError(
+                    "At least 1 of Episodes, Days, Jobs, Tasks, Objectives, Episode %, or Total % must be enabled as Locations."
+                )
+
+        if (opt.episodes_as_items.value == 2 and opt.days_as_items.value == 2 and opt.jobs_as_items.value == 3
+                #and opt.StartingCharacter.value == 0
+            ):
+            if opt.permissive_yaml:
+                logging.warning(
+                    f"{self.player_name}: " +
+                    "At least 1 of Episodes, Days, Jobs, or Characters must be enabled as Items. (Characters not yet supported) "+
+                    "Enabling Progressive Days as Items as the default"
+                )
+                opt.days_as_items.value = 0
+            else:
+                raise OptionError(
+                    "At least 1 of Episodes, Days, Jobs, or Characters must be enabled as Items. (Characters not yet supported)"
+                )
+
+        # TODO: Validate that at least 1 of the options for Episodes, Days, Jobs, Tasks, Objectives, Episode%, or
+        #  Total% as Locations is 'On', & that at least 1 of the options for Episodes, Days, Jobs, or Characters as
+        #  Items is 'On'. If Permissive if 'On' then just turn on Jobs as Locations & Days as Items as the default.
+        #  (Episode%, Total%, & Characters might not be implemented yet.)
+
+        # TODO: Count the number of episodes, days, jobs, tasks, checkpoints, photographs, & story stealings there are
+        #  and include them in the count here. Don't forget to account for the various yaml options for all of these,
+        #  both the generic options of if they're enabled or not & the more specific ones about:
+        #  -If Prologue is being counted or not
+        #  -If Eps 4 & 8 will have 3 Days or 4
+        #  -etc.
+
         # Checking number of locations and items
         n_locations = (
-            69 + # jobs
-            24 + # treasures
-            24 + # thiefnet
-            (8 if opt.include_vaults else 0) +
-            (30 if opt.include_pickpocketing else 0)
+            24 + # ThiefNet
+            (24 if opt.include_treasures else 0) +
+            (8 if opt.include_vaults else 0)
         )
+#            (
+#            () + # episodes
+#            () + # days
+#            () + # jobs
+#            # tasks
+#            # objectives
+#            # checkpoints
+
+#            # photographs
+#            # story stealing
+#            (30 if opt.include_pickpocketing else 0)
+#            )
+        if opt.episodes_as_locations:
+            n_locations += (9 if opt.include_prologue else 8)
+        if opt.days_as_locations:
+            n_locations += (1 if opt.include_prologue else 0)
+            match opt.episodes_as_locations:
+                case 0:
+                    n_locations += 30
+                case 1 | 2:
+                    n_locations += 31
+                case 3:
+                    n_locations += 32
+        if opt.jobs_as_locations:
+            n_locations += (70 if opt.include_prologue else 69)
+        if opt.objectives_as_locations:
+            n_locations += (1 if opt.include_prologue else 0)
+        if opt.tasks_as_locations:
+            n_locations += (1 if opt.include_prologue else 0)
+        if opt.checkpoints_as_locations:
+            n_locations += (1 if opt.include_prologue else 0)
+        n_locations += (1 if opt.include_photography else 0)
+        match opt.include_pickpocketing:
+            case 0:
+                n_locations += 30
+            case 1:
+                n_locations += 0
+            case 2:
+                n_locations += 30 + 0
         if opt.bottle_location_bundle_size != 0:
             n_locations += ceil(30/opt.bottle_location_bundle_size)*8
         if opt.goal < 5:
