@@ -61,38 +61,38 @@ def get_job_and_task_names(ep, job, sub_job, tasks):
             story_stealing_list.append((f"{job} - {task[1]} (Stealing)", "Story Stealing"))
             #print(story_stealing_list[-1])
 
-    num_cp_jobs = 0
-    for episode_name, days in EPISODES_DAYS_JOBS_TASKS.items():
-        episodes_list.append((episode_name, "Episode"))
-        #print(episodes_list[-1])
+num_cp_jobs = 0
+for episode_name, days in EPISODES_DAYS_JOBS_TASKS.items():
+    episodes_list.append((episode_name, "Episode"))
+    #print(episodes_list[-1])
 
-        # TODO: Account for different number of Days in Eps 4 & 8 depending on user's settings.
-        #  (May need to do this elsewhere)
-        num_days = 0
-        for day in days:
-            num_days += 1
-            days_list.append((f"{episode_name} - All Day {num_days} Jobs", "Day"))
-            #print(days_list[-1])
+    # TODO: Account for different number of Days in Eps 4 & 8 depending on user's settings.
+    #  (May need to do this elsewhere)
+    num_days = 0
+    for day in days:
+        num_days += 1
+        days_list.append((f"{episode_name} - All Day {num_days} Jobs", "Day"))
+        #print(days_list[-1])
 
-            # TODO: Account for Compound-Jobs being treated as either 1 Job or multiple
-            #  depending on user's settings. (May need to do this elsewhere)
-            for job_name, job_contents in day:
-                # Compound job (sub-jobs)
-                if is_compound_job(job_contents):
-                    num_cp_jobs += 1
-                    #print(f"COMPOUND JOB #{num_cp_jobs}!")
-                    for subjob_name, subjob in job_contents:
-                        if job_name != "Overworld":
-                            jobs_list_2.append((f"{episode_name} - {job_name}", "Job"))
-                            #print(jobs_list_2[-1])
-                        get_job_and_task_names(episode_name, job_name, subjob_name, subjob)
-
-                # Normal job
-                else:
+        # TODO: Account for Compound-Jobs being treated as either 1 Job or multiple
+        #  depending on user's settings. (May need to do this elsewhere)
+        for job_name, job_contents in day:
+            # Compound job (sub-jobs)
+            if is_compound_job(job_contents):
+                num_cp_jobs += 1
+                #print(f"COMPOUND JOB #{num_cp_jobs}!")
+                for subjob_name, subjob in job_contents:
                     if job_name != "Overworld":
                         jobs_list_2.append((f"{episode_name} - {job_name}", "Job"))
                         #print(jobs_list_2[-1])
-                    get_job_and_task_names(episode_name, job_name, job_name, job_contents)
+                    get_job_and_task_names(episode_name, job_name, subjob_name, subjob)
+
+            # Normal job
+            else:
+                if job_name != "Overworld":
+                    jobs_list_2.append((f"{episode_name} - {job_name}", "Job"))
+                    #print(jobs_list_2[-1])
+                get_job_and_task_names(episode_name, job_name, job_name, job_contents)
 
 
 vaults_list = [
