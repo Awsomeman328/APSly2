@@ -72,6 +72,9 @@ def gen_clockwerk(world: "Sly2World") -> list[Item]:
 
 def gen_bottles(world: "Sly2World"):
     """Generate the bottle items for the item pool"""
+    # TODO: If bottles as items are enabled but Vaults as locations are
+    #  disabled, then change all of the bottle items' classifications to
+    #  be 'filler' instead of 'progression'.
     if world.options.bottle_item_bundle_size == 0:
         return []
 

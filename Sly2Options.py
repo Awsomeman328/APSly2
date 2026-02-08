@@ -26,6 +26,26 @@ class PermissiveYaml(Toggle):
     display_name = "Permissive Yaml"
 
 
+class YamlItemsAndLocationsHandling(Choice):
+    """
+    Hidden option.
+    If 'Permissive Yaml' is on, then this option will determine how this world
+    will attempt to resolve having more Items than Locations (if such a
+    situation occurs).
+
+    The main two choices are to either remove Items from the Item Pool or to
+    add more Locations to this world, and it could be possible to attempt to
+    do both. There are also likely other possible implementations that could
+    be made and turned into choices to be placed here.
+    """
+    visibility = Visibility.none
+    display_name = "Yaml Items and Locations Handling"
+    option_Items = 0
+    option_Locations = 1
+    option_Items_And_Locations = 2
+    default = 0
+
+
 class StartingEpisode(Choice):
     """
     Select which episode to start with. Starting with Anatomy for disaster
@@ -90,11 +110,13 @@ class StartingJob(OptionSet):
 
     Requires "Jobs as Items" to be set to "Nonprogressive Jobs" for this to have
     any effect. Also requires your chosen job to be available in your starting
-    episode & day to have any effect.
+    episode & day to have any effect. If multiple valid Job names are entered,
+    then a random one from among those entered will be chosen. You can also set
+    this to ['Random'] to add all possible valid Jobs to this pool.
     """
     visibility = Visibility.none
     display_name = "Starting Job"
-    valid_keys = [str(job) for ep in EPISODES for job in ep]
+    valid_keys = [str(job) for ep in EPISODES for job in ep] + ["Random"]
     default = ["Satellite Sabotage"]
 
 
@@ -362,6 +384,7 @@ class JobsAsLocations(DefaultOnToggle):
     display_name = "Jobs As Locations"
 
 
+# TODO: Decide whether this Option should be hidden or not.
 class TasksAsLocations(Toggle):
     """
     Whether to include completing Tasks as checks.
@@ -591,12 +614,15 @@ class SkipIntro(DefaultOnToggle):
 
 
 # TODO: Determine the desired order & Groupings for these Options. Rearrange the
-#  above file & the OptionGroups below to more accurately reflect this chosen order.
+#  above file & the OptionGroups below, as well as the 'generate_early' function
+#  & the 'get_options_as_dict' function in the __init__.py file to more accurately
+#  reflect this chosen order.
 @dataclass
 class Sly2Options(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
     death_link: DeathLink
     permissive_yaml: PermissiveYaml
+    yaml_items_and_locations_handling: YamlItemsAndLocationsHandling
     logic_difficulty_level: LogicDifficultyLevel
 
     starting_episode: StartingEpisode
@@ -618,9 +644,9 @@ class Sly2Options(PerGameCommonOptions):
     episodes_as_items: EpisodesAsItems
     days_as_items: DaysAsItems
     jobs_as_items: JobsAsItems
+
     include_total_percentage: IncludeTotalPercentage
     include_episodes_percentage: IncludeEpisodesPercentages
-
     episodes_as_locations: EpisodesAsLocations
     days_as_locations: DaysAsLocations
     jobs_as_locations: JobsAsLocations

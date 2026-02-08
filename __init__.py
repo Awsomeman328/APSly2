@@ -242,10 +242,11 @@ class Sly2World(World):
         #  (Episode%, Total%, & Characters might not be implemented yet.)
 
         # TODO: Count the number of episodes, days, jobs, tasks, checkpoints, photographs, & story stealings there are
-        #  and include them in the count here. Don't forget to account for the various yaml options for all of these,
+        #  and include them in the count below. Don't forget to account for the various yaml options for all of these,
         #  both the generic options of if they're enabled or not & the more specific ones about:
         #  -If Prologue is being counted or not
         #  -If Eps 4 & 8 will have 3 Days or 4
+        #  -If Compound-Jobs will count as multiple Jobs or not
         #  -etc.
 
         # Checking number of locations and items
@@ -328,6 +329,9 @@ class Sly2World(World):
         if opt.bottle_item_bundle_size.value != 0:
             n_items += ceil(30/opt.bottle_item_bundle_size.value)*8
 
+        # TODO: Utilize the 'YamlItemsAndLocationsHandling' Option to choose if we should
+        #  try removing Items from our Item Pool, add more Locations for our world to check,
+        #  or both.
         if n_items > n_locations:
             if not opt.permissive_yaml:
                 raise OptionError(
@@ -386,32 +390,64 @@ class Sly2World(World):
 
                 if "Sly 2: Band of Thieves" in re_gen_passthrough:
                     slot_data = re_gen_passthrough["Sly 2: Band of Thieves"]
-                    self.thiefnet_costs = slot_data["thiefnet_costs"]
-                    self.loot_table = slot_data["loot_table"]
-                    self.options.starting_episode.value = slot_data["starting_episode"]
                     self.options.permissive_yaml.value = slot_data["permissive_yaml"]
+                    self.options.logic_difficulty_level = slot_data["logic_difficulty_level"]
+
+                    self.options.starting_episode.value = slot_data["starting_episode"]
+                    self.options.starting_day.value = slot_data["starting_day"]
+                    self.options.starting_job.value = slot_data["starting_job"]
+                    #self.options.starting_character.value = slot_data["starting_character"]
+
                     self.options.goal.value = slot_data["goal"]
+
                     self.options.keys_in_pool.value = slot_data["keys_in_pool"]
                     self.options.episode_8_keys.value = slot_data["episode_8_keys"]
                     self.options.required_keys_episode_8.value = slot_data["required_keys_episode_8"]
                     self.options.required_keys_goal.value = slot_data["required_keys_goal"]
-                    self.options.include_tom.value = slot_data["include_tom"]
+
+                    self.options.include_prologue = slot_data["include_prologue"]
+                    self.options.episodes_4_and_8_num_days.value = slot_data["episodes_4_and_8_num_days"]
+                    self.options.compound_jobs_as_multiple_jobs = slot_data["compound_jobs_as_multiple_jobs"]
+
+                    self.options.episodes_as_items = slot_data["episodes_as_items"]
+                    self.options.days_as_items = slot_data["days_as_items"]
+                    self.options.jobs_as_items = slot_data["jobs_as_items"]
+
+                    self.options.include_total_percentage = slot_data["include_total_percentage"]
+                    self.options.include_episodes_percentage = slot_data["include_episodes_percentage"]
+                    self.options.episodes_as_locations = slot_data["episodes_as_locations"]
+                    self.options.days_as_locations = slot_data["days_as_locations"]
+                    self.options.jobs_as_locations = slot_data["jobs_as_locations"]
+                    self.options.objectives_as_locations = slot_data["objectives_as_locations"]
+                    self.options.tasks_as_locations = slot_data["tasks_as_locations"]
+                    self.options.checkpoints_as_locations = slot_data["checkpoints_as_locations"]
+
                     self.options.include_mega_jump.value = slot_data["include_mega_jump"]
+                    self.options.include_tom.value = slot_data["include_tom"]
                     self.options.include_time_rush.value = slot_data["include_time_rush"]
+
                     self.options.coins_minimum.value = slot_data["coins_minimum"]
                     self.options.coins_maximum.value = slot_data["coins_maximum"]
-                    self.options.thiefnet_minimum.value = slot_data["thiefnet_minimum"]
-                    self.options.thiefnet_maximum.value = slot_data["thiefnet_maximum"]
+
+                    self.options.include_treasures = slot_data["include_treasures"]
                     self.options.include_vaults.value = slot_data["include_vaults"]
+                    self.options.include_photography = slot_data["include_photography"]
                     self.options.include_pickpocketing.value = slot_data["include_pickpocketing"]
+
                     self.options.small_guard_loot_chance.value = slot_data["small_guard_loot_chance"]
                     self.options.large_guard_loot_chance.value = slot_data["large_guard_loot_chance"]
                     self.options.loot_table_distribution.value = slot_data["loot_table_distribution"]
                     self.options.randomize_loot.value = slot_data["randomize_loot"]
+                    self.loot_table = slot_data["loot_table"]
+
+                    self.options.thiefnet_minimum.value = slot_data["thiefnet_minimum"]
+                    self.options.thiefnet_maximum.value = slot_data["thiefnet_maximum"]
+                    self.thiefnet_costs = slot_data["thiefnet_costs"]
+                    self.options.scout_thiefnet.value = slot_data["scout_thiefnet"]
+
                     self.options.bottle_item_bundle_size.value = slot_data["bottle_item_bundle_size"]
                     self.options.bottle_location_bundle_size.value = slot_data["bottle_location_bundle_size"]
                     self.options.bottlesanity.value = slot_data["bottlesanity"]
-                    self.options.scout_thiefnet.value = slot_data["scout_thiefnet"]
             return
 
         self.validate_options(self.options)
@@ -460,29 +496,62 @@ class Sly2World(World):
         return self.options.as_dict(
             "death_link",
             "permissive_yaml",
+            "yaml_items_and_locations_handling",
+            "logic_difficulty_level",
+
             "starting_episode",
+            "starting_day",
+            "starting_job",
+
             "goal",
+
             "keys_in_pool",
             "episode_8_keys",
             "required_keys_episode_8",
             "required_keys_goal",
-            "include_tom",
+
+            "include_prologue",
+            "episodes_4_and_8_num_days",
+            "compound_jobs_as_multiple_jobs",
+
+            "episodes_as_items",
+            "days_as_items",
+            "jobs_as_items",
+
+            "include_total_percentage",
+            "include_episodes_percentage",
+            "episodes_as_locations",
+            "days_as_locations",
+            "jobs_as_locations",
+            "objectives_as_locations",
+            "tasks_as_locations",
+            "checkpoints_as_locations",
+            
             "include_mega_jump",
+            "include_tom",
             "include_time_rush",
+
             "coins_minimum",
             "coins_maximum",
-            "thiefnet_minimum",
-            "thiefnet_maximum",
+
+            "include_treasures",
             "include_vaults",
+            "include_photography",
             "include_pickpocketing",
+
             "small_guard_loot_chance",
             "large_guard_loot_chance",
             "loot_table_distribution",
             "randomize_loot",
+
+            "thiefnet_minimum",
+            "thiefnet_maximum",
+            "scout_thiefnet",
+
             "bottle_location_bundle_size",
-            "bottlesanity",
             "bottle_item_bundle_size",
-            "scout_thiefnet"
+            "bottlesanity",
+
             # "skip_intro"
         )
 

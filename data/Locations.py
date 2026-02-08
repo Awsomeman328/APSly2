@@ -7,22 +7,33 @@ class Sly2LocationData(NamedTuple):
     code: int
     category: str
 
-jobs_list = [
-    (f"{ep} - {job}",       "Job")
-    for ep, chapters in EPISODES.items()
-    for jobs in chapters for job in jobs
+#jobs_list = [
+#    (f"{ep} - {job}",       "Job")
+#    for ep, chapters in EPISODES.items()
+#    for jobs in chapters for job in jobs
+#]
+#
+#tasks_list = [
+#    (f"{ep} - Task #{task}", "Task")
+#    for i, (ep, chapters) in enumerate(EPISODES.items())
+#    #for jobs in ep for task in jobs
+#    #int(task) for task in str(ADDRESSES["SCUS-97316"]["tasks"][i])
+#    #for i, (ep) in enumerate(ADDRESSES["SCUS-97316"]["tasks"])
+#    #for job in ep for task_num in job
+#    for job in ADDRESSES["SCUS-97316"]["tasks"][i] for task in job
+#]
+
+total_percentage_list = [
+    (f"Total - {i}% Completion",        "Total Percent")
+    for i in range(1, 101)
 ]
 
-tasks_list = [
-    (f"{ep} - Task #{task}", "Task")
-    for i, (ep, chapters) in enumerate(EPISODES.items())
-    #for jobs in ep for task in jobs
-    #int(task) for task in str(ADDRESSES["SCUS-97316"]["tasks"][i])
-    #for i, (ep) in enumerate(ADDRESSES["SCUS-97316"]["tasks"])
-    #for job in ep for task_num in job
-    for job in ADDRESSES["SCUS-97316"]["tasks"][i] for task in job
+episode_percentage_list = [
+    (f"{ep} - {i}% Completion",        "Episode Percent")
+    for ep in EPISODES.keys() for i in range(1, 101)
 ]
 
+# TODO: Rename the list variables numbered '2' when this is made official.
 episodes_list = []
 days_list = []
 jobs_list_2 = []
@@ -46,19 +57,19 @@ def get_job_and_task_names(ep, job, sub_job, tasks):
             job = sub_job
         if job == "Overworld":
             job = ep
-        tasks_list_2.append((f"{job} - {task[1]}", "Task"))
+        tasks_list_2.append((f"{job} - {task[TASK_FIELD['TASK_NAME']]}", "Task"))
         #print(tasks_list_2[-1])
-        if task[5] != "":
-            objectives_list.append((f"{job} - {task[5]}", "Objective"))
+        if task[TASK_FIELD['OBJECTIVE']] != "":
+            objectives_list.append((f"{job} - {task[TASK_FIELD['OBJECTIVE']]}", "Objective"))
             #print(objectives_list[-1])
-        if task[2]:
-            checkpoints_list.append((f"{job} - {task[1]} (Checkpoint)", "Checkpoint"))
+        if task[TASK_FIELD['IS_CHECKPOINT']]:
+            checkpoints_list.append((f"{job} - {task[TASK_FIELD['TASK_NAME']]} (Checkpoint)", "Checkpoint"))
             #print(checkpoints_list[-1])
-        if task[3]:
-            photos_list.append((f"{job} - {task[1]} (Photo)", "Photo"))
+        if task[TASK_FIELD['IS_PHOTOGRAPHY']]:
+            photos_list.append((f"{job} - {task[TASK_FIELD['TASK_NAME']]} (Photo)", "Photo"))
             #print(photos_list[-1])
-        if task[4]:
-            story_stealing_list.append((f"{job} - {task[1]} (Stealing)", "Story Stealing"))
+        if task[TASK_FIELD['IS_STEALING']]:
+            story_stealing_list.append((f"{job} - {task[TASK_FIELD['TASK_NAME']]} (Stealing)", "Story Stealing"))
             #print(story_stealing_list[-1])
 
 num_cp_jobs = 0
@@ -126,7 +137,9 @@ pickpocket_list = [
     for loot in LOOT.keys()
 ]
 
-location_list = jobs_list + tasks_list + vaults_list + treasures_list + bottles_list + purchases_list + pickpocket_list
+location_list = (total_percentage_list + episode_percentage_list + episodes_list + days_list + jobs_list_2 +
+                 tasks_list_2 + objectives_list + checkpoints_list + photos_list + story_stealing_list + vaults_list +
+                 treasures_list + bottles_list + purchases_list + pickpocket_list)
 
 base_code = 321_000
 
@@ -138,11 +151,19 @@ location_dict = {
 location_groups = {
     key: {location.name for location in location_dict.values() if location.category == key}
     for key in [
+        "Total Percent",
+        "Episode Percent",
+        "Episode",
+        "Day",
         "Job",
         "Task",
-        "Bottle",
+        "Objective",
+        "Checkpoint",
+        "Photo",
+        "Story Stealing",
         "Vault",
         "Treasure",
+        "Bottle",
         "Purchase",
         "Pickpocket"
     ]

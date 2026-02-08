@@ -20,6 +20,9 @@ filler_list = [
     ("Coins",                   ItemClassification.filler,      "Filler"),
 ]
 
+# TODO: Once the "Difficulty" yaml Option is made and implemented, examine
+#  which of these Gadgets/Power-Ups are required for the easiest difficulty
+#  and change their classifications to 'progression'.
 powerup_list = [
     ("Smoke Bomb",              ItemClassification.useful,      "Power-Up"),
     ("Combat Dodge",            ItemClassification.useful,      "Power-Up"),
@@ -29,6 +32,7 @@ powerup_list = [
     ("Silent Obliteration",     ItemClassification.useful,      "Power-Up"),
     ("Thief Reflexes",          ItemClassification.useful,      "Power-Up"),
     ("Feral Pounce",            ItemClassification.progression, "Power-Up"),
+
     ("Knockout Dive",           ItemClassification.useful,      "Power-Up"),
     ("Insanity Strike",         ItemClassification.useful,      "Power-Up"),
     ("Voltage Attack",          ItemClassification.useful,      "Power-Up"),
@@ -37,8 +41,9 @@ powerup_list = [
     ("Music Box",               ItemClassification.useful,      "Power-Up"),
     ("Lightning Spin",          ItemClassification.useful,      "Power-Up"),
     ("Shadow Power",            ItemClassification.useful,      "Power-Up"),
-    ("TOM",                     ItemClassification.useful,      "Power-Up"),
+
     ("Mega Jump",               ItemClassification.progression, "Power-Up"),
+    ("TOM",                     ItemClassification.useful,      "Power-Up"),
     ("Time Rush",               ItemClassification.useful,      "Power-Up"),
 
     ("Trigger Bomb",            ItemClassification.useful,      "Power-Up"),
@@ -98,9 +103,21 @@ bottle_list = [
 ]
 
 progressive_episode_list = [
-    (f"Progressive {e}",        ItemClassification.progression, "Episode")
+    (f"Progressive {e}",        ItemClassification.progression, "Progressive Episode")
     for e in EPISODES.keys()
 ]
+
+nonprogressive_episode_list = []
+
+progressive_day_list = []
+
+nonprogressive_day_list = []
+
+progressive_job_list = [] + []
+
+nonprogressive_job_list = []
+
+#character_list = []
 
 item_list = (
     filler_list+
