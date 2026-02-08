@@ -6,9 +6,13 @@ from Options import (
     Toggle,
     DefaultOnToggle,
     Range,
-    OptionGroup
+    OptionSet,
+    OptionGroup,
+    Visibility
 )
 from dataclasses import dataclass
+
+from .data.Constants import EPISODES
 
 class PermissiveYaml(Toggle):
     """
@@ -27,6 +31,9 @@ class StartingEpisode(Choice):
     Select which episode to start with. Starting with Anatomy for disaster
     is not compatible with the "first section" and "whole episode" options for
     "Episode 8 Keys".
+
+    Requires "Episodes As Items" to be set to "Nonprogressive Episodes" for this
+    to have any effect.
     """
     display_name = "Starting Episode"
     option_The_Black_Chateau = 0
@@ -38,6 +45,57 @@ class StartingEpisode(Choice):
     option_Menace_from_the_North_Eh = 6
     option_Anatomy_for_Disaster = 7
     default = 0
+
+
+# These are potential options planned for the future, to be able to control
+# where exactly in the story the player gets to start their run, which would
+# also allow for these options to be randomized.
+#
+# Each of these will require that we get playing Jobs in any order within Episodes
+# to be up and running first, and would ideally want us to have added Days & Jobs
+# as items as well.
+#
+# I did have a thought though, that these could just be excluded and that we would
+# use the built-in "Start Inventory" Option instead. However, I would want these
+# to be able to be randomized and to only have them randomize with each other,
+# which would not be easy to do with the regular "Start Inventory" or "Start
+# Inventory from Pool", if not simply impossible, if other non-Day or non-Job
+# items were included in either of those as well.
+class StartingDay(Choice):
+    """
+    Hidden option.
+    Select which day to start with. Starting with an episode's final day
+    is not compatible with any of the boss "goal" options. Also, starting with
+    Day 4 is not compatible with the "Jailbreak" and "Anatomy for Disaster"
+    options for "Starting Episode" if those episodes are set to only have a total
+    of 3 days for  "Episodes 4 and 8 Num Days".
+
+    Requires "Days As Items" to be set to "Nonprogressive Days" for this to have
+    any effect.
+    """
+    visibility = Visibility.none
+    display_name = "Starting Day"
+    option_Day_1 = 0
+    option_Day_2 = 1
+    option_Day_3 = 2
+    option_Day_4 = 3
+    default = 0
+
+
+class StartingJob(OptionSet):
+    """
+    Hidden option
+    Select which job to start with. Starting with an episode's final job
+    is not compatible with any of the boss "goal" options.
+
+    Requires "Jobs as Items" to be set to "Nonprogressive Jobs" for this to have
+    any effect. Also requires your chosen job to be available in your starting
+    episode & day to have any effect.
+    """
+    visibility = Visibility.none
+    display_name = "Starting Job"
+    valid_keys = [str(job) for ep in EPISODES for job in ep]
+    default = ["Satellite Sabotage"]
 
 
 # This is an option planned for the future, to be able to control which
@@ -67,20 +125,22 @@ class StartingEpisode(Choice):
 #
 # This setting will 100% require the input of the Sly 2 APWorld community to help
 # determine where we want to draw the lines for each of these difficulties.
-#class LogicDifficultyLevel(Choice):
-#    """
-#    Select which difficulty level for the logic to use.
-#     - Easy: Very forgiving, trying to ensure that you have various Gadgets to help in various locations.
-#     - Normal: The default difficulty ensures that you have the bare minimum Gadgets to complete your locations.
-#     - Hard: The hardest "regular" difficulty that will expect you to know of non-glitch tricks to compensate for fewer Gadgets.
-#     - Glitched: The most unforgiving logic, requiring the use of glitches/speedrunning tricks, like Triple-Jumping.
-#    """
-#    display_name = "Logic Difficulty Level"
-#    option_easy = 0
-#    option_normal = 1
-#    option_hard = 2
-#    option_glitched = 3
-#    default = 1
+class LogicDifficultyLevel(Choice):
+    """
+    Hidden option.
+    Select which difficulty level for the logic to use.
+     - Easy: Very forgiving, trying to ensure that you have various Gadgets to help in various locations.
+     - Normal: The default difficulty ensures that you have the bare minimum Gadgets to complete your locations.
+     - Hard: The hardest "regular" difficulty that will expect you to know of non-glitch tricks to compensate for fewer Gadgets.
+     - Glitched: The most unforgiving logic, requiring the use of glitches/speedrunning tricks, like Triple-Jumping.
+    """
+    visibility = Visibility.none
+    display_name = "Logic Difficulty Level"
+    option_easy = 0
+    option_normal = 1
+    option_hard = 2
+    option_glitched = 3
+    default = 1
 
 
 # Other possible goals to consider adding:
@@ -169,6 +229,9 @@ class RequiredKeysGoal(Range):
     default = 10
 
 
+# TODO: Determine whether this new class should be used, or if it would be ok &
+#  to use the old SkipPrologue class.
+#
 class IncludePrologue(Toggle):
     """
     Whether the Cairo Prologue should be included as checks or skipped.
@@ -193,7 +256,7 @@ class Episodes4And8NumDays(Choice):
 
 
 # TODO: Finish making this Option
-class CompoundJobs():
+class CompoundJobsAsMultipleJobs(Toggle):
     """
     Whether to handle "Compound-Jobs" as multiple Jobs or as only a single Job.
     Jobs this affects:
@@ -203,6 +266,7 @@ class CompoundJobs():
     - Operation: Canada Games // Brains over Brawn
     - Carmelita's Gunner // Showdown with Clock-La
     """
+    display_name = "Compound-Jobs As Multiple Jobs"
 
 
 class EpisodesAsItems(Choice):
@@ -520,52 +584,70 @@ class SkipIntro(DefaultOnToggle):
     display_name = "Skip Intro"
 
 
+# TODO: Determine the desired order & Groupings for these Options. Rearrange the
+#  above file & the OptionGroups below to more accurately reflect this chosen order.
 @dataclass
 class Sly2Options(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
     death_link: DeathLink
     permissive_yaml: PermissiveYaml
+    logic_difficulty_level: LogicDifficultyLevel
+
     starting_episode: StartingEpisode
+    starting_day: StartingDay
+    starting_job: StartingJob
     # starting_character: StartingCharacter
-    # logic_difficulty_level: LogicDifficultyLevel
+
     goal: Goal
+
     keys_in_pool: KeysInPool
     episode_8_keys: Episode8Keys
     required_keys_episode_8: RequiredKeys
     required_keys_goal: RequiredKeysGoal
+
     include_prologue: IncludePrologue
     episodes_4_and_8_num_days: Episodes4And8NumDays
+    compound_jobs_as_multiple_jobs: CompoundJobsAsMultipleJobs
+
     episodes_as_items: EpisodesAsItems
     days_as_items: DaysAsItems
     jobs_as_items: JobsAsItems
     include_total_percentage: IncludeTotalPercentage
     include_episodes_percentage: IncludeEpisodesPercentages
+
     episodes_as_locations: EpisodesAsLocations
     days_as_locations: DaysAsLocations
     jobs_as_locations: JobsAsLocations
     objectives_as_locations: ObjectivesAsLocations
     tasks_as_locations: TasksAsLocations
     checkpoints_as_locations: CheckpointsAsLocations
+
     include_mega_jump: IncludeMegaJump
     include_tom: IncludeTOM
     include_time_rush: IncludeTimeRush
+
     coins_minimum: CoinsMinimum
     coins_maximum: CoinsMaximum
+
     include_treasures: IncludeTreasures
     include_vaults: IncludeVaults
     include_photography: IncludePhotography
     include_pickpocketing: IncludePickpocketing
+
+    # lootsanity:LootSanity
     small_guard_loot_chance: SmallGuardLootChance
     large_guard_loot_chance: LargeGuardLootChance
     loot_table_distribution: LootTableDistribution
     randomize_loot: RandomizeLoot
+
     thiefnet_minimum: ThiefNetCostMinimum
     thiefnet_maximum: ThiefNetCostMaximum
+    scout_thiefnet: ScoutThiefnet
+
     bottle_location_bundle_size: BottleLocationBundleSize
     bottle_item_bundle_size: BottleItemBundleSize
     bottlesanity: BottleSanity
-    # lootsanity:LootSanity
-    scout_thiefnet: ScoutThiefnet
+
     # skip_intro: SkipIntro
 
 sly2_option_groups = [
@@ -581,8 +663,13 @@ sly2_option_groups = [
     # It COULD be possible to combine the Episodes, Days, and Jobs options as a single choice that would control them
     #  as both Items and Locations (and just call them Include{X}), but I felt that doing so would likely be confusing.
     OptionGroup("Story Progression",[
+        StartingEpisode,
+        StartingDay,
+        StartingJob,
+        #StartingCharacter,
         IncludePrologue,
         Episodes4And8NumDays,
+        CompoundJobsAsMultipleJobs,
         EpisodesAsItems,
         DaysAsItems,
         JobsAsItems,
@@ -612,7 +699,7 @@ sly2_option_groups = [
         IncludePhotography,
         BottleLocationBundleSize,
         BottleSanity,
-        ScoutThiefnet
+        ScoutThiefnet # TODO: Determine if this is needed in this OptionGroup or not.
     ]),
     OptionGroup("Pick-pocketing",[
         RandomizeLoot,
