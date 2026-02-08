@@ -256,9 +256,10 @@ class Episodes4And8NumDays(Choice):
 
 
 # TODO: Finish making this Option
-class CompoundJobsAsMultipleJobs(Toggle):
+class CompoundJobsAsMultipleJobs(Choice):
     """
-    Whether to handle "Compound-Jobs" as multiple Jobs or as only a single Job.
+    Whether to handle "Compound-Jobs" as multiple Jobs or as only a single Job,
+    both in terms of Jobs being Items or Locations.
     Jobs this affects:
     - Operation: Thunder Beak // Printing Press Duel
     - Operation: Hippo Drop (Bomb the Bridge, Tango with Carmelita, Clear the Way for Murray)
@@ -267,6 +268,11 @@ class CompoundJobsAsMultipleJobs(Toggle):
     - Carmelita's Gunner // Showdown with Clock-La
     """
     display_name = "Compound-Jobs As Multiple Jobs"
+    option_As_Items_Only = 0
+    option_As_Locations_Only = 1
+    Option_Both = 2
+    Option_Off = 3
+    default = 0
 
 
 class EpisodesAsItems(Choice):

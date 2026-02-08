@@ -254,23 +254,11 @@ class Sly2World(World):
             (24 if opt.include_treasures else 0) +
             (8 if opt.include_vaults else 0)
         )
-#            (
-#            () + # episodes
-#            () + # days
-#            () + # jobs
-#            # tasks
-#            # objectives
-#            # checkpoints
-
-#            # photographs
-#            # story stealing
-#            (30 if opt.include_pickpocketing else 0)
-#            )
         if opt.episodes_as_locations:
             n_locations += (9 if opt.include_prologue else 8)
         if opt.days_as_locations:
             n_locations += (1 if opt.include_prologue else 0)
-            match opt.episodes_as_locations:
+            match opt.episodes_4_and_8_num_days:
                 case 0:
                     n_locations += 30
                 case 1 | 2:
@@ -279,20 +267,23 @@ class Sly2World(World):
                     n_locations += 32
         if opt.jobs_as_locations:
             n_locations += (70 if opt.include_prologue else 69)
+            if (opt.compound_jobs_as_multiple_jobs == 1 or
+                opt.compound_jobs_as_multiple_jobs) == 2:
+                n_locations += 6
         if opt.objectives_as_locations:
-            n_locations += (1 if opt.include_prologue else 0)
+            n_locations += (158 if opt.include_prologue else 155)
         if opt.tasks_as_locations:
-            n_locations += (1 if opt.include_prologue else 0)
+            n_locations += (795 if opt.include_prologue else 779)
         if opt.checkpoints_as_locations:
-            n_locations += (1 if opt.include_prologue else 0)
-        n_locations += (1 if opt.include_photography else 0)
+            n_locations += (307 if opt.include_prologue else 304)
+        n_locations += (54 if opt.include_photography else 0)
         match opt.include_pickpocketing:
             case 0:
                 n_locations += 30
             case 1:
-                n_locations += 0
+                n_locations += 82
             case 2:
-                n_locations += 30 + 0
+                n_locations += 30 + 82
         if opt.bottle_location_bundle_size != 0:
             n_locations += ceil(30/opt.bottle_location_bundle_size)*8
         if opt.goal < 5:
@@ -304,13 +295,35 @@ class Sly2World(World):
             int(opt.include_tom.value) +
             int(opt.include_time_rush.value) +
             int(opt.include_mega_jump.value) +
-            26 + # Episodes (27 without ep8, minus the one you start with)
+            #26 + # Episodes (27 without ep8, minus the one you start with)
             (opt.keys_in_pool.value if using_parts else 0)
         )
         if opt.episode_8_keys.value in [0,1]:
             n_items += 3
         elif opt.episode_8_keys.value == 3:
             n_items += 4
+
+        # For each of these, we minus 1 to exclude the one you start with. We also don't count Prologue.
+        match opt.episodes_as_items:
+            case 0 | 1:
+                n_items += 7
+        match opt.days_as_items:
+            case 0 | 1:
+                match opt.episodes_4_and_8_num_days:
+                    case 0:
+                        n_items += 29
+                    case 1 | 2:
+                        n_items += 30
+                    case 3:
+                        n_items += 31
+        match opt.jobs_as_items:
+            case 0 | 1 | 2:
+                match opt.compound_jobs_as_multiple_jobs:
+                    case 0 | 2:
+                        n_items += 74
+                    case 1 | 3:
+                        n_items += 68
+
 
         if opt.bottle_item_bundle_size.value != 0:
             n_items += ceil(30/opt.bottle_item_bundle_size.value)*8
