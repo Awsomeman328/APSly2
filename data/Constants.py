@@ -1492,6 +1492,22 @@ DEATH_TYPES = {
     0x1000: "{player} fell to their death",
 }
 
+HEALTH_MULTIPLIERS = {
+    "Sly": 8,
+    "Bentley": 8,
+    "Murray": 12,
+    "India1_Turret": 1,
+    "India1_RCChopper": 20,
+    "India2_Turret": 60,
+    "Prague1_RCChopper": 20,
+    "Prague2_Tank": 28, # remember that this one is a float
+    "Prague2_Turret": 9, # remember that this one is 1 byte
+    "Canada1_RCChopper1": 20,
+    "Canada1_RCChopper2": 20,
+    "Canada2_RCCar": 20,
+    "Carmelita_Turret": 60,
+}
+
 ADDRESSES = {
     "SCUS-97316": {
         "unload mega jump": 0x20ECD4,
@@ -1635,6 +1651,11 @@ ADDRESSES = {
             "RCTank": 0xDF0AE0, # Canada2_RCCar
             "ChopperCarmelita": 0x50EE50 # Carmelita_Turret
         },
+        "health GUIs": {
+          # TODO: Find all of the HP GUIs for each of the above playable entities
+          #  so that when we update their HP ourselves we can also update the HUD
+          #  to properly & accurately display the correct amount of current HP.
+        },
         "guard structs": [
             0x3E0774,  # swarmer 1
             0x3E0778,  # swarmer 2
@@ -1704,7 +1725,7 @@ ADDRESSES = {
                 [86]
             ]
         ],
-        # Old implementation of making Tasks Checks. Delete this when no longer used.
+        # Old implementation of making Tasks Checks. TODO: Delete this when no longer used.
         "tasks": [
             [   # Prologue
                 [ 1, 2, 3,16],  # Overworld
