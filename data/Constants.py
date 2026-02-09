@@ -1618,20 +1618,22 @@ ADDRESSES = {
             0x3D5CD0, # Carmelita's Gunner
             0x3D5C50, # Showdown with Clock-La
         ],
+        # TODO: Rename all of the non-gang addresses to be more consistent & easier to understand.
+        #  Don't want to rename rn since idk what will break & I don't want to search for these yet.
         "health": {
             "Sly": 0x3d4ab0,
             "Bentley": 0x3d4ac8,
             "Murray": 0x3d4ae0,
-            "ChopperPrague": 0x52A560,
-            "TurretIndia": 0x5A5BA0,
-            "RCTank": 0xDF0AE0,
-            "Tank": 0x5616C0,
-            "Blimp": 0x563F10,
-            "ChopperCanada1": 0x5523D0,
-            "ChopperCanada2": 0x500618,
-            "ChopperIndia": 0x5A68F0,
-            "TurretIndia2": 0x525600,
-            "ChopperCarmelita": 0x50EE50
+            "TurretIndia": 0x5A5BA0, # India1_Turret
+            "ChopperIndia": 0x5A68F0, # India1_RCChopper
+            "TurretIndia2": 0x525600, # India2_Turret
+            "ChopperPrague": 0x52A560, # Prague1_RCChopper
+            "Tank": 0x5616C0, # Prague2_Tank
+            "Blimp": 0x563F10, # Prague2_Turret
+            "ChopperCanada1": 0x5523D0, # Canada1_RCChopper1
+            "ChopperCanada2": 0x500618, # Canada1_RCChopper2
+            "RCTank": 0xDF0AE0, # Canada2_RCCar
+            "ChopperCarmelita": 0x50EE50 # Carmelita_Turret
         },
         "guard structs": [
             0x3E0774,  # swarmer 1

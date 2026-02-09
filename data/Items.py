@@ -2,7 +2,8 @@ from typing import NamedTuple
 
 from BaseClasses import Item, ItemClassification
 
-from .Constants import EPISODES
+from .Constants import EPISODES, EPISODES_DAYS_JOBS_TASKS
+from .Locations import is_compound_job
 
 class Sly2Item(Item):
     game: str = "Sly 2: Band of Thieves"
@@ -17,7 +18,8 @@ class Sly2ItemData(NamedTuple):
 # with multiworlds generated with a version with a different order of items.
 
 filler_list = [
-    ("Coins",                   ItemClassification.filler,      "Filler"),
+    ("Coins",   ItemClassification.filler,  "Filler"), # TODO: Change "Filler" to "Coin" once the Health filler item is implemented
+    #("Health", ItemClassification.filler,  "Health")
 ]
 
 # TODO: Once the "Difficulty" yaml Option is made and implemented, examine
@@ -103,28 +105,109 @@ bottle_list = [
 ]
 
 progressive_episode_list = [
-    (f"Progressive {e}",        ItemClassification.progression, "Progressive Episode")
+    (f"Progressive Episode",        ItemClassification.progression, "Progressive Episode")
     for e in EPISODES.keys()
 ]
 
-nonprogressive_episode_list = []
+nonprogressive_episode_list = [
+    (f"{e}",        ItemClassification.progression, "Nonprogressive Episode")
+    for e in EPISODES.keys()
+]
 
-progressive_day_list = []
+progressive_day_list = [
+    (f"Progressive Day - {e}",        ItemClassification.progression, "Progressive Day")
+    for e in EPISODES.keys()
+]
 
-nonprogressive_day_list = []
+nonprogressive_day_list = [
+    (f"{e} - Day {d}",        ItemClassification.progression, "Nonprogressive Day")
+    for e in EPISODES.keys() for d in range(1,5)
+]
 
-progressive_job_list = [] + []
+progressive_job_list = [
+    (f"Progressive Job List - {e}",        ItemClassification.progression, "Progressive Job by Episode")
+    for e in EPISODES.keys()
+] + [
+    (f"Progressive Job List - {e}, Day {d}",        ItemClassification.progression, "Progressive Job by Day")
+    for e in EPISODES.keys() for d in range(1,5)
+]
 
 nonprogressive_job_list = []
+for e, days in EPISODES_DAYS_JOBS_TASKS.items():
+    for day in days:
+        for job_name, job_contents in day:
+            if is_compound_job(job_contents):
+                for subjob_name, subjob in job_contents:
+                    nonprogressive_job_list.append((f"{e} - {job_name}", ItemClassification.progression, "Nonprogressive Job"))
+            nonprogressive_job_list.append((f"{e} - {job_name}", ItemClassification.progression, "Nonprogressive Job"))
 
-#character_list = []
+# TODO: Delete all of this when the comments are no longer necessary.
+# The following lists are planned items to add in the future, adding characters as Items
+# (akin to what Sly 3 is planning), each of their Max Healths & Max Gadget Power as Items,
+# and each of the playable Vehicles as Items.
+#
+# For Max HP & Max Gadget Power, the range of having up to 5 of each of these items per
+# character (plus the option for the item to apply to all characters) is based on the default
+# Max Health for all playable entities, not just the base characters of Sly, Bentley, & Murray.
+# Originally I wanted to use the base characters' entities' Max Healths as the base-line for
+# how to divide up each of these items, with the potential to have up to 20 of these Max Health
+# increase items, either per character or for the whole gang, but then I found out that a
+# single outlying turret entity only has a Max Health of 5, so that shot that idea down.
+#
+# When implementing this, will need to remember to change both the memory addresses for both
+# the actual amount of Health left and for updating the GUI for it to display the correct
+# current Health. But other than that, it will simply check if (either the currently controlled
+# entity or all playable entities, not sure which yet) are above current allowed Max Health
+# amount, and if they are over then their Health will be adjusted to be their currently allowed
+# Max Health.
+#
+# While researching this, I also came up with the idea of making each of the playable Vehicles
+# into Items that players will have to unlock in order to access them. This will include:
+# - The Turret (Episodes 2, 3, 5, & 8)
+# - The RC Chopper (Episodes 2, 4, & 6)
+# - The Tank (Episode 5)
+# - The RC Car (Episode 7)
+character_list = [
+    ("Playable Sly", ItemClassification.progression, "Character"),
+    ("Playable Bentley", ItemClassification.progression, "Character"),
+    ("Playable Murray", ItemClassification.progression, "Character"),
+]
+
+vehicle_list = [
+    ("Playable Turret", ItemClassification.progression, "Vehicle"),
+    ("Playable RC Chopper", ItemClassification.progression, "Vehicle"),
+    ("Playable Tank", ItemClassification.progression, "Vehicle"),
+    ("Playable RC Car", ItemClassification.progression, "Vehicle")
+]
+
+health_list = [
+    (f"Progressive Max Health - {c[0][8:]}", ItemClassification.useful, "HP")
+    for c in character_list for i in range(1,6)
+] + [
+    (f"Progressive Max Gadget Power - {c[0][8:]}", ItemClassification.useful, "GP")
+    for c in character_list for i in range(1,6)
+] + [
+    (f"Progressive Max Health", ItemClassification.useful, "HP")
+    for i in range(1,6)
+] + [
+    (f"Progressive Max Gadget Power", ItemClassification.useful, "GP")
+    for i in range(1,6)
+]
 
 item_list = (
     filler_list+
     powerup_list+
     clockwerk_parts_list+
     bottle_list+
-    progressive_episode_list
+    progressive_episode_list+
+    nonprogressive_episode_list+
+    progressive_day_list+
+    nonprogressive_day_list+
+    progressive_job_list+
+    nonprogressive_job_list+
+    character_list+
+    vehicle_list+
+    health_list
 )
 
 base_code = 123_000
@@ -140,8 +223,18 @@ item_groups = {
         "Filler",
         "Power-Up",
         "Bottles",
-        "Episode",
-        "Clockwerk Part"
+        "Clockwerk Part",
+        "Progressive Episode",
+        "Nonprogressive Episode",
+        "Progressive Day",
+        "Nonprogressive Day",
+        "Progressive Job by Episode",
+        "Progressive Job by Day",
+        "Nonprogressive Job",
+        "Character",
+        "Vehicle",
+        "HP",
+        "GP"
     ]
 }
 
