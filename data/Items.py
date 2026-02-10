@@ -17,6 +17,10 @@ class Sly2ItemData(NamedTuple):
 # The way I chose to do this is super nice-looking, but it also won't play nice
 # with multiworlds generated with a version with a different order of items.
 
+# ... TODO: Increment the Version No. for this APWorld since we messed w/ the order of items here.
+
+# TODO: Figure out what the chances of a Health Pick-up spawning from defeating a guard is,
+#  and use that as the base Coins-to-Health ratio for Filler items.
 filler_list = [
     ("Coins",   ItemClassification.filler,  "Filler"), # TODO: Change "Filler" to "Coin" once the Health filler item is implemented
     #("Health", ItemClassification.filler,  "Health")
@@ -104,9 +108,12 @@ bottle_list = [
     for e in EPISODES.keys() for i in range(2,31)
 ]
 
+# TODO: Determine if we are going to stick with differentiating between Progressive & Nonprogressive
+#  distinctions for the item groups. If we are, then determine if we should also apply the same
+#  naming scheme to the bottles or not.
 progressive_episode_list = [
     (f"Progressive Episode",        ItemClassification.progression, "Progressive Episode")
-    for e in EPISODES.keys()
+    for e in EPISODES.keys() # This 'for' may not be needed if all of these are named the same thing.
 ]
 
 nonprogressive_episode_list = [
@@ -138,26 +145,27 @@ for e, days in EPISODES_DAYS_JOBS_TASKS.items():
         for job_name, job_contents in day:
             if is_compound_job(job_contents):
                 for subjob_name, subjob in job_contents:
-                    nonprogressive_job_list.append((f"{e} - {job_name}", ItemClassification.progression, "Nonprogressive Job"))
+                    nonprogressive_job_list.append(
+                                           (f"{e} - {subjob_name}",ItemClassification.progression,"Nonprogressive Job"))
             nonprogressive_job_list.append((f"{e} - {job_name}", ItemClassification.progression, "Nonprogressive Job"))
 
 # TODO: Delete all of this when the comments are no longer necessary.
-# The following lists are planned items to add in the future, adding characters as Items
+# The following lists are possible planned items to add in the future, adding characters as Items
 # (akin to what Sly 3 is planning), each of their Max Healths & Max Gadget Power as Items,
 # and each of the playable Vehicles as Items.
 #
 # For Max HP & Max Gadget Power, the range of having up to 5 of each of these items per
 # character (plus the option for the item to apply to all characters) is based on the default
-# Max Health for all playable entities, not just the base characters of Sly, Bentley, & Murray.
-# Originally I wanted to use the base characters' entities' Max Healths as the base-line for
-# how to divide up each of these items, with the potential to have up to 20 of these Max Health
-# increase items, either per character or for the whole gang, but then I found out that a
-# single outlying turret entity only has a Max Health of 5, so that shot that idea down.
+# Max Health for ALL playable entities, not just the base characters of Sly, Bentley, & Murray.
+# Originally I wanted to allow for some more customizability with the Option for these items,
+# with the potential to have up to 20 of these Max Health increase items, either per character
+# or for the whole gang, but then I found a few entities whose particular Max HP values ended
+# up shooting that idea down.
 #
-# When implementing this, will need to remember to change both the memory addresses for both
-# the actual amount of Health left and for updating the GUI for it to display the correct
+# When implementing this, will need to remember to change both the memory addresses for the
+# actual amount of Health left and the address for updating the GUI for it to display the correct
 # current Health. But other than that, it will simply check if (either the currently controlled
-# entity or all playable entities, not sure which yet) are above current allowed Max Health
+# entity or all playable entities, not sure which yet) are above the current allowed Max Health
 # amount, and if they are over then their Health will be adjusted to be their currently allowed
 # Max Health.
 #
@@ -180,6 +188,7 @@ vehicle_list = [
     ("Playable RC Car", ItemClassification.progression, "Vehicle")
 ]
 
+# The 'ranges' that follow may not be needed if all of these are named the same thing, but not sure yet.
 health_list = [
     (f"Progressive Max Health - {c[0][8:]}", ItemClassification.useful, "HP")
     for c in character_list for i in range(1,6)

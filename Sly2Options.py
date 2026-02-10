@@ -145,6 +145,23 @@ class StartingJob(OptionSet):
 # Higher difficulty levels will also assume that you know how to perform some
 # speedrunning tricks, like triple-jumping.
 #
+# The harder difficulties could also adjust the times on each of the Pedestal Treasures
+# to have less time to bring them back to the Safehouse, thus actually requiring
+# movement-based Gadgets to be able to collect. There is even a whole dedicated mod for
+# this on the Weed Sheet Google Doc that I remember seeing that could be used as a
+# reference for this idea. That being said, I am thinking that controlling this might
+# be better located and controlled by the "Include Treasures" Option below, but this
+# difficulty option can still interact with that setting depending on our desired
+# implementation for all of this.
+#
+# This can also interact with the "Include Max HP" Option also planned later, so that
+# easier difficulties will start with more Max HP Items & "require" more Max HP Items
+# in logic for players to beat certain parts of the game, while the harder difficulties
+# will not gate any logic behind these Max HP Items at all (Except for the Ep7 Operation
+# which requires using the Alarm Clock Gadget, so we'll have to determine how little GP
+# you absolutely require for that Job). Though if having so little HP & GP ends up being
+# TOO difficult, then we could  create an additional difficulty for this Brutal setting.
+#
 # This setting will 100% require the input of the Sly 2 APWorld community to help
 # determine where we want to draw the lines for each of these difficulties.
 class LogicDifficultyLevel(Choice):
@@ -408,6 +425,8 @@ class CheckpointsAsLocations(Toggle):
     display_name = "Checkpoints As Locations"
 
 
+# TODO: Implement the choice here to make the Mega-Jump Gadget required for the
+#  "Mega-Jump Job" in Episode 8
 class IncludeMegaJump(Choice):
     """
     Add the Mega Jump ability/gadget to the pool. If set to "Required", then the
@@ -477,6 +496,9 @@ class ThiefNetCostMaximum(Range):
     default = 2000
 
 
+# TODO: Once being able to play any Job in any order is implemented, change this
+#  from a Toggle to a Choice that includes an extra option for the Gold Painting
+#  you get from the Bug Dimitri's Office job.
 class IncludeTreasures(DefaultOnToggle):
     """
     Whether to include Pedestal Treasures as checks.
@@ -604,6 +626,26 @@ class ScoutThiefnet(DefaultOnToggle):
     Whether to scout/hint ThiefNet checks. They will still be displayed in game.
     """
     display_name = "Scout Thiefnet"
+
+
+# TODO: Determine if it is possible to "piggy-back" off of the RetroAchievements'
+#  website calls to use as locations. Otherwise, we'll have to use the memory
+#  address lists that they use for determining trophy completion and reimplement
+#  it ourselves.
+class IncludeTrophies(Choice):
+    """
+    Whether to include trophies as checks. These trophies are originally based
+    off of the ones made for the PS3, PS4, & PS5 versions of Sly 2, however
+    there are choices for this option to include fan-made trophies from the
+    RetroAchievements website.
+    """
+    visibility = Visibility.none
+    display_name = "Include Trophies"
+    option_On = 0
+    option_Include_Fanmade = 1
+    option_Include_Missable = 2
+    option_Off = 3
+    default = 3
 
 
 class SkipIntro(DefaultOnToggle):

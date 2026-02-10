@@ -7,6 +7,7 @@ class Sly2LocationData(NamedTuple):
     code: int
     category: str
 
+# Old functionality. TODO: Delete when not needed to fall back on anymore
 #jobs_list = [
 #    (f"{ep} - {job}",       "Job")
 #    for ep, chapters in EPISODES.items()

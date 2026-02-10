@@ -4,7 +4,7 @@ from math import ceil
 from BaseClasses import Region, CollectionState, Location
 
 from .data.Locations import location_dict
-from .data.Constants import EPISODES, TREASURES, LOOT, ADDRESSES
+from .data.Constants import EPISODES, TASK_FIELD, EPISODES_DAYS_JOBS_TASKS, TREASURES, LOOT, ADDRESSES
 
 if typing.TYPE_CHECKING:
     from . import Sly2World
@@ -50,6 +50,8 @@ def create_access_rule(episode: str, n: int, options: "Sly2Options", player: int
 
     return rule
 
+# TODO: Adjust this function to instead create a region for each Episode (including the Main Menu &
+#  Prologue if their Options include it), each Chapter/Day, & each Job.
 def create_regions(world: "Sly2World"):
     """Creates a region for each chapter of each episode"""
     menu = Region("Menu", world.player, world.multiworld)
@@ -60,11 +62,39 @@ def create_regions(world: "Sly2World"):
 
     world.multiworld.regions.append(menu)
 
-    for i, episode in enumerate(EPISODES.keys()):
-        for n in range(1,5):
+#    for i, episode in enumerate(EPISODES.keys()):
+#        for n in range(1,5):
+#            if n == 4 and episode == "Jailbreak":
+#                break
+#
+#            region = Region(f"Episode {i+1} ({n})", world.player, world.multiworld)
+#            region.add_locations({
+#                f"{episode} - {job}": location_dict[f"{episode} - {job}"].code
+#                for job in EPISODES[episode][n-1]
+#            })
+#
+#            world.multiworld.regions.append(region)
+#            menu.connect(
+#                region,
+#                None,
+#                create_access_rule(episode, n, world.options, world.player)
+#            )
+    i = -1
+    for episode_name, days in EPISODES_DAYS_JOBS_TASKS.items():
+        i += 1
+        # TODO: Add the Whole Episode Regions Here.
+        region_name = ("Prologue" if i == 0 else f"Episode {i}")
+        episode_region = Region(region_name, world.player, world.multiworld)
+
+        for day in days:
+            # TODO: Account for the "episodes_4_and_8_num_days" Option here
             if n == 4 and episode == "Jailbreak":
                 break
 
+            # TODO: Add the Job Regions Here.
+            #  Then from here, figure out the following according to the player's currently set options:
+            #  1) Which Region to place each Job-based Location into.
+            #  2) How to Connect each Region together.
             region = Region(f"Episode {i+1} ({n})", world.player, world.multiworld)
             region.add_locations({
                 f"{episode} - {job}": location_dict[f"{episode} - {job}"].code

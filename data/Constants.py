@@ -170,6 +170,15 @@ TASK_FIELD = {
 # the original task names from within the game's memory, but I still feel as
 # though about half of those names need to be altered for various reasons.
 # (Either too generic, inaccurate, technical, or multiple of these)
+#
+# The main thing missing from each of these are which characters & vehicles are
+# required for each Job, b/c I only came up with those items AFTER already writing
+# out all 1k+ lines of this. But I can likely add them in myself.
+#
+# It is also possible that this data structure could be flattened out to get rid of
+# a lot of its nested-ness, with each Task's Episode, Day, & Job info being stored
+# within each Task individually, but that would store a lot of redundant data.
+# But whichever approach we feel is necessary we can go with.
 
 # (TASK_NUM, TASK_NAME, IS_CHECKPOINT, IS_PHOTOGRAPHY, IS_STEALING, OBJECTIVE)
 EPISODES_DAYS_JOBS_TASKS = {
@@ -180,7 +189,7 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (2, "Game Intro Post-Run-Up", False,False,False,""),
                 (3, "Game Start Screen",      False,False,False,""),
                 (16,"Prologue Complete",      False,False,False,""),
-            )),
+            ), "Any", "None"), #Character requirements & Vehicle requirements
             ("Museum Break-in", (
                 (4, "Job Start",True,False,False,"Power up the elevator"),
 
@@ -197,7 +206,7 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (13,"Cop Car Chase 3",        False,False,False,""),
                 (14,"Van Rescue Attempt",     False,False,False,""),
                 (15,"Van Escape",             False,False,False,""),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
         ),
     ),  # (TASK_NUM, TASK_NAME, IS_CHECKPOINT, IS_PHOTOGRAPHY, IS_STEALING, OBJECTIVE)
     "The Black Chateau": (
@@ -215,7 +224,7 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (60,"Pickpocket Reminder",        False,False,False,""),
                 (83,"Chalk-talk #3",              False,False,False,""),
                 (99,"Episode Complete",           False,False,False,""),  # Not Working Properly
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Satellite Sabotage", (
                 (5,"Job Start",True,False,False,"Locate The Job Start Point"),
 
@@ -223,7 +232,7 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (7,"Satellite Dish #2",   False,False,False,""),
                 (8,"Satellite Dish #3",   False,False,False,""),
                 (9,"Job Complete",        False,False,False,"Reposition All 3 Dishes"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Breaking and Entering", (
                 (10,"Job Start",      False,False,False,""),
                 (11,"Inside Intro",   True ,False,False,""),
@@ -246,7 +255,7 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (26,"Photograph Dimitri",     False,True ,False,""),
                 (27,"Photograph Tailfeathers",False,True ,False,""),
                 (28,"Job Complete",           False,False,False,"Take Reconnaissance Photos"),
-            )),
+            ), "Sly & Murray", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 2
             ("Bug Dimitri's Office",(
@@ -258,13 +267,13 @@ EPISODES_DAYS_JOBS_TASKS = {
 
                 (41, "Bug Swap",    False,False,False,""),
                 (42, "Job Complete",False,False,False,"Place Bug/Swap Paintings"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Follow Dimitri",(
                 (44,"Job Start",                        True ,False,False,""),
                 (45,"Ring the Bell",                    True ,False,False,""),
                 (46,"Follow Dimitri on the Streets",    False,False,False,""),
                 (47,"Job Complete",                     False,False,False,"Steal Dimitri’s Access Code"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Waterpump Destruction",(
                 (76,"Job Start",                True ,False,False,""),
                 (77,"Murray Tutorial",          False,False,False,""),
@@ -274,7 +283,7 @@ EPISODES_DAYS_JOBS_TASKS = {
 
                 (81,"Break Waterpump Tank", False,False,False,""),
                 (82,"Photography Tutorial", False,False,False,"Destroy the water pump"),
-            )),
+            ), "Murray", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 3
             ("Silence the Alarms",(
@@ -283,7 +292,7 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (34,"Destroy Alarm #2", False,False,False,""),
                 (35,"Destroy Alarm #3", False,False,False,""),
                 (36,"Job Complete",     False,False,False,"Locate and Destroy Alarms"),
-            )),
+            ), "Murray", "None"), #Character requirements & Vehicle requirements
             ("Theater Pickpocketing",(
                 (49,"Job Start",            True ,False,False,""),
                 (50,"Pickpocket Tutorial",  False,False,False,""),
@@ -298,12 +307,12 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (58,"Shut Off Fans",False,False,False,"Use Keys to Shut Down Fans"),
 
                 (59,"Job Complete",False,False,False,"Climb Fans and Kill the Power"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Moonlight Rendezvous",(
                 (61,"Job Start",    True ,False,False,""),
                 (62,"Chase Neyla",  False,False,False,""),
                 (63,"Job Complete", False,False,False,"Chase Neyla"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Disco Demolitions",(
                 (64,"Job Start",                True ,False,False,""),
                 (65,"Bomb Tutorial",            False,False,False,""),
@@ -317,7 +326,7 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (73,"Bomb Disco Support #3",    False,False,False,""),
                 (74,"Bomb Disco Support #4",    False,False,False,""),
                 (75,"Job Complete",             False,False,False,"Bomb all 4 support columns"),
-            )),
+            ), "Bentley", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 4
             ("Operation: Thunder Beak",(  # "Compound-Job" #1
@@ -340,14 +349,14 @@ EPISODES_DAYS_JOBS_TASKS = {
                     (93,"Shoot Harpoon",True ,False,False,"Grapple to top of sign"),
 
                     (94,"Truck Siege",False,False,False,"Defend the truck"),
-                )),
+                ), "All", "None"), #Character requirements & Vehicle requirements
                 ("Printing Press Duel",(
                     (95,"Boss Arena Break-In",  True ,False,False,""),
                     (96,"Boss Fight Start",     True ,False,False,""),
                     (97,"Boss Fight",           False,False,False,""),
                     (98,"Boss Fight Complete",  False,False,True ,"Get the Clockwerk Tail Feathers"),
-                )),
-            )),
+                ), "Sly", "None"), #Character requirements & Vehicle requirements
+            ), "All", "None"), #Character requirements & Vehicle requirements
         ),
 
     ),  # (TASK_NUM, TASK_NAME, IS_CHECKPOINT, IS_PHOTOGRAPHY, IS_STEALING, OBJECTIVE)
@@ -363,7 +372,7 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (16,"Chalk-talk #2",        False,False,False,""),
                 (16,"Chalk-talk #3",        False,False,False,""),
                 (16,"Episode Complete",     False,False,False,""),  # Not Working Properly
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Recon the Ballroom",(
                 (3, "Job Start",            True ,False,False,""),
                 (4, "Sneak Into Ballroom",  True ,False,False,"Sneak through balcony door"),
@@ -379,7 +388,7 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (13,"Photograph Carmelita",         False,True ,False,""),
                 (14,"Photograph Arpeggio",          False,True ,False,""),
                 (15,"Job Complete",                 False,False,False,"Take needed recon photos"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 2
             ("Lower the Drawbridge",(
@@ -393,13 +402,13 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (24,"Pickpocket All Keys",          False,False,False,"Pickpocket guards"),
 
                 (25,"Job Complete",True ,False,True ,"Unlock drawbridge winch"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Battle the Chopper",(
                 (26,"Job Start",            True ,False,False,""),
                 (27,"Lift Turret Lever",    False,False,False,""),
                 (28,"Attack the Chopper",   True ,False,False,""),
                 (29,"Job Complete",         False,False,False,"Destroy the chopper"),
-            )),
+            ), "Murray", "Turret"), #Character requirements & Vehicle requirements
             # I originally considered structuring this Job w/ "Dominate the Dance Floor"
             # as a "Compound-Job" like how most of the Heists are actually multiple
             # Jobs stringed directly together, but since these two jobs each have their
@@ -410,7 +419,7 @@ EPISODES_DAYS_JOBS_TASKS = {
             # make the activation of each Job easier to access and simpler to code.
             ("Ballroom Dance Party",(
                 (37,"Job Start",True ,False,False,"Knock on the Ballroom Door"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Steal a Tuxedo",(
                 (38,"Job Start",                                    True ,False,False,""),
                 (39,"Rajan PA",                                     False,False,False,""),
@@ -421,13 +430,13 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (44,"Steal Carmelita’s Gloves (Room 102)",          True ,False,True ,""),
                 (45,"Steal Contesssa’s Shirt (Room 104)",           True ,False,True ,""),
                 (46,"Job Complete",                                 False,False,False,"Find needed tuxedo pieces"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Dominate the Dance Floor",(
                 (47,"Job Start",        False,False,False,""),
                 (48,"Talk to Neyla",    False,False,False,""),
                 (49,"Dance Audition",   True ,False,False,""),
                 (50,"Job Complete",     False,False,False,"Complete the dance"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 3
             ("Boardroom Brawl",(
@@ -441,12 +450,12 @@ EPISODES_DAYS_JOBS_TASKS = {
 
                 (35,"Brawl Battle", True ,False,False,""),
                 (36,"Job Complete", False,False,False,"Protect Bentley while he hacks the computers"),
-            )),
+            ), "All", "None"), #Character requirements & Vehicle requirements
             ("RC Bombing Run",(
                 (52,"Job Start",        True ,False,False,""),
                 (53,"Destroy the jeep", False,False,False,""),
                 (54,"Job Complete",     False,False,False,"Destroy jeep"),
-            )),
+            ), "Bentley", "RC Chopper"), #Character requirements & Vehicle requirements
             ("Elephant Rampage",(
                 (55, "Job Start",       True ,False,False,""),
                 (56, "Scare Elephants", False,False,False,"Break elephants out of pen"),
@@ -459,7 +468,7 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (62, "Collect Gem 2B",  False,False,True ,""),
                 (63, "Collect Gem 2C",  False,False,True ,""),
                 (64, "Job Complete",    False,False,False,"Get gems off the elephants"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 4
             ("Operation: Hippo Drop",(  # "Compound-Job" #2
@@ -486,17 +495,17 @@ EPISODES_DAYS_JOBS_TASKS = {
                     (85, "Bomb Upper Cleat #7",     False,False,False,""),
                     (86, "Bomb Upper Cleat #8",     False,False,False,""),
                     (87, "Job Complete",            False,False,False,"Bomb and destroy the bridge"),
-                )),
+                ), "Bentley", "None"), #Character requirements & Vehicle requirements
                 ("Tango with Carmelita",(
                     (88, "Job Start",           False,False,False,""),
                     (89, "Dance With Carmelita",True ,False,False,""),
                     (90, "Job Complete",        False,False,False,"Complete the dance"),
-                )),
+                ), "Sly & Murray", "None"), #Character requirements & Vehicle requirements
                 ("Clear the Way for Murray",(
                     (91, "Job Start/Cover Murray",  True ,False,True ,""),
                     (92, "Job Complete",            False,False,False,"Protect Murray from guards"),
-                )),
-             )),
+                ), "Bentley & Murray", "RC Chopper"), #Character requirements & Vehicle requirements
+             ), "All", "RC Chopper"), #Character requirements & Vehicle requirements
         ),
     ),  # (TASK_NUM, TASK_NAME, IS_CHECKPOINT, IS_PHOTOGRAPHY, IS_STEALING, OBJECTIVE)
     "The Predator Awakens": (
@@ -512,7 +521,7 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (56,"Chalk-talk #2",                    False,False,False,""),
                 (66,"Chalk-talk #3",                    False,False,False,""),
                 (82,"Episode Complete",                 False,False,False,""),
-            )),
+            ), "Unknown", "None"), #Character requirements & Vehicle requirements ... TODO: Check if only Sly can make it to the Spice Grinder Room or if anyone else can.
             ("Spice Room Recon",(
                 (3, "Job Start",    True ,False,False,""),
                 (4, "Enter Pipe",   False,False,False,"Find entrance into temple"),

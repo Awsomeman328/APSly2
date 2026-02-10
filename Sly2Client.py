@@ -49,6 +49,11 @@ class Sly2CommandProcessor(ClientCommandProcessor): # type: ignore[misc]
         if isinstance(self.ctx, Sly2Context):
             self.ctx.game_interface.kill_player()
 
+    # TODO: Write additional commands to allow players to warp/load into any episode.
+    #  Additionally, it could also be nice to have commands to warp/load into any Job,
+    #  though unlike the episode warp commands, for these the client will have to
+    #  actually determine if the player has access to that Job before initiating the load.
+
     def _cmd_menu(self):
         """Reload to the episode menu"""
         if isinstance(self.ctx, Sly2Context):
