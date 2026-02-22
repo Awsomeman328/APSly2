@@ -425,6 +425,18 @@ class CheckpointsAsLocations(Toggle):
     display_name = "Checkpoints As Locations"
 
 
+class IncludeGadgetButtons(Choice):
+    """
+    Add the Assignable Gadget Powerup buttons on the controller to the pool.
+    """
+    visibility = Visibility.none
+    display_name = "Include Gadget Buttons"
+    option_All_Characters = 0
+    option_Per_Character = 1
+    option_Off = 2
+    default = 2
+
+
 # TODO: Implement the choice here to make the Mega-Jump Gadget required for the
 #  "Mega-Jump Job" in Episode 8
 class IncludeMegaJump(Choice):
@@ -696,6 +708,7 @@ class Sly2Options(PerGameCommonOptions):
     tasks_as_locations: TasksAsLocations
     checkpoints_as_locations: CheckpointsAsLocations
 
+    include_gadget_buttons: IncludeGadgetButtons
     include_mega_jump: IncludeMegaJump
     include_tom: IncludeTOM
     include_time_rush: IncludeTimeRush
@@ -757,6 +770,7 @@ sly2_option_groups = [
         CheckpointsAsLocations
     ]),
     OptionGroup("Items",[
+        IncludeGadgetButtons,
         IncludeTOM,
         IncludeMegaJump, # TODO: Add in the additional choice for requiring this Gadget for its specific Job.
         IncludeTimeRush,

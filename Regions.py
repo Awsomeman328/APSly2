@@ -82,19 +82,38 @@ def create_regions(world: "Sly2World"):
     i = -1
     for episode_name, days in EPISODES_DAYS_JOBS_TASKS.items():
         i += 1
-        # TODO: Add the Whole Episode Regions Here.
-        region_name = ("Prologue" if i == 0 else f"Episode {i}")
+        # TODO: Add the Whole Episode Regions Here. Account for the "include_prologue" Option
+        if i == 0 and not world.options.include_prologue: break
+        region_name = f"Episode {i}"
         episode_region = Region(region_name, world.player, world.multiworld)
 
+        n = 0
         for day in days:
-            # TODO: Account for the "episodes_4_and_8_num_days" Option here
-            if n == 4 and episode == "Jailbreak":
+            n +=1
+
+            # TODO: Account for he "episodes_4_and_8_num_days" Option.
+            #  The new constant was originally structured w/ 3 days by default, so if either of them are set to 4 days in the
+            #  options we need to add in their respective 4th day where appropriate.
+            #  ...
+            #  However, I am now going to restructure it to behave in the opposite direction, and make them already
+            #  separated into 4 days, since it is MUCH easier to just "remove" a day by simply incrementing 'n' by 1
+            #  rather than to try to add in a day since that approach would need to involve part of the job for-loop below as well.
+            if episode_name == "Jailbreak" and world.options.episodes_4_and_8_num_days >=2  and n == :
+                break
+            elif episode_name == "Anatomy for Disaster" and world.options.episodes_4_and_8_num_days ==  and n == :
                 break
 
-            # TODO: Add the Job Regions Here.
+            # TODO: Add the Job Regions Here. Account for the "compound_jobs_as_multiple_jobs" Option.
             #  Then from here, figure out the following according to the player's currently set options:
-            #  1) Which Region to place each Job-based Location into.
-            #  2) How to Connect each Region together.
+            #   1) Which Region to place each Job-based Location into.
+            #   2) How to Connect each Region together.
+            #  ...
+            #  Also don't forget that the first Job in each Episode's Day 1 is all of their "Overworld" Tasks and are
+            #  not actually a part of any Job. These tasks should either:
+            #   - Be placed in the regular Day Regions and spaced out across them using the Chalk-Talk tasks, OR
+            #   - This constant should be restructured so that the first entry of each day are the "Overworld" tasks
+            #       relevant for that day, rather than have them all grouped together in the first day.
+            #       This is likely what will happen to make implementation easier here.
             region = Region(f"Episode {i+1} ({n})", world.player, world.multiworld)
             region.add_locations({
                 f"{episode} - {job}": location_dict[f"{episode} - {job}"].code

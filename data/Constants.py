@@ -180,6 +180,14 @@ TASK_FIELD = {
 # within each Task individually, but that would store a lot of redundant data.
 # But whichever approach we feel is necessary we can go with.
 
+# TODO: Add in the Character & Vehicle Unlock Item Requirements to each Job.
+# TODO: Restructure Eps 4 & 8 to be a full 4 days rather than only 3.
+# TODO: Add in more "Overworld" Jobs for each day, not just Day 1,
+#  and reorganize all of the appropriate tasks to those Days' new "Overworld" sections.
+# TODO: Additionally to the item directly above this, have it so that all "Chalk-Talk" Tasks
+#  require being able to beat all other Jobs in the same Day, which with the above change
+#  will likely have all of said "Chalk-Talk" Tasks be the last Task listed in every "Overworld"
+#  section, but we'll see if that holds true or not.
 # (TASK_NUM, TASK_NAME, IS_CHECKPOINT, IS_PHOTOGRAPHY, IS_STEALING, OBJECTIVE)
 EPISODES_DAYS_JOBS_TASKS = {
     "A Shadow from the Past": (
@@ -217,13 +225,6 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (3, "Waypoint Marker Reminder",   False,False,False,""),
                 (4, "Abandon Job Reminder",       False,False,False,""),
                 (29,"Chalk-talk #1",              False,False,False,""),
-                (30,"Binocucom Reminder",         False,False,False,""),
-                (31,"Booty Reminder",             False,False,False,""),
-                (43,"Swapped Painting Reminder",  False,False,False,""),
-                (48,"Chalk-talk #2",              False,False,False,""),
-                (60,"Pickpocket Reminder",        False,False,False,""),
-                (83,"Chalk-talk #3",              False,False,False,""),
-                (99,"Episode Complete",           False,False,False,""),  # Not Working Properly
             ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Satellite Sabotage", (
                 (5,"Job Start",True,False,False,"Locate The Job Start Point"),
@@ -258,6 +259,12 @@ EPISODES_DAYS_JOBS_TASKS = {
             ), "Sly & Murray", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 2
+            ("Overworld", (
+                (30,"Binocucom Reminder",         False,False,False,""),
+                (31,"Booty Reminder",             False,False,False,""),
+                (43,"Swapped Painting Reminder",  False,False,False,""),
+                (48,"Chalk-talk #2",              False,False,False,""),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Bug Dimitri's Office",(
                 (37, "Job Start",       True, False,False,""),
                 (38, "Interior Intro",  True, False,False,"Enter Nightclub via Balcony"),
@@ -286,6 +293,10 @@ EPISODES_DAYS_JOBS_TASKS = {
             ), "Murray", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 3
+            ("Overworld", (
+                (60,"Pickpocket Reminder",        False,False,False,""),
+                (83,"Chalk-talk #3",              False,False,False,""),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Silence the Alarms",(
                 (32,"Job Start",        True ,False,False,""),
                 (33,"Destroy Alarm #1", False,False,False,""),
@@ -329,6 +340,9 @@ EPISODES_DAYS_JOBS_TASKS = {
             ), "Bentley", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 4
+            ("Overworld", (
+                (99,"Episode Complete",           False,False,False,""),  # Not Working Properly
+            ), "All", "None"), #Character requirements & Vehicle requirements
             ("Operation: Thunder Beak",(  # "Compound-Job" #1
                 ("Operation: Thunder Beak",(
                     (84,"Heist Start",              True ,False,False,""),
@@ -369,9 +383,6 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (1, "Episode Intro",        False,False,False,""),  # Not Working Properly
                 (2, "Spire Jump Tutorial",  False,False,False,""),  # Not Working Properly
                 (16,"Chalk-talk #1",        False,False,False,""),
-                (16,"Chalk-talk #2",        False,False,False,""),
-                (16,"Chalk-talk #3",        False,False,False,""),
-                (16,"Episode Complete",     False,False,False,""),  # Not Working Properly
             ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Recon the Ballroom",(
                 (3, "Job Start",            True ,False,False,""),
@@ -391,6 +402,9 @@ EPISODES_DAYS_JOBS_TASKS = {
             ), "Sly", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 2
+            ("Overworld", (
+                (51,"Chalk-talk #2",        False,False,False,""),
+            ), "Sly & Murray", "Turret"), #Character requirements & Vehicle requirements
             ("Lower the Drawbridge",(
                 (17,"Job Start",                    True ,False,False,""),
                 (18,"Lounge Key Guard Hint",        False,False,False,""),
@@ -439,6 +453,9 @@ EPISODES_DAYS_JOBS_TASKS = {
             ), "Sly", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 3
+            ("Overworld", (
+                (65,"Chalk-talk #3",        False,False,False,""),
+            ), "All", "RC Chopper"), #Character requirements & Vehicle requirements
             ("Boardroom Brawl",(
                 (30,"Job Start",        True ,False,False,""),
                 (31,"Look for the Code",False,False,False,""),
@@ -471,6 +488,9 @@ EPISODES_DAYS_JOBS_TASKS = {
             ), "Sly", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 4
+            ("Overworld", (
+                (93,"Episode Complete",     False,False,False,""),  # Not Working Properly
+            ), "All", "RC Chopper"), #Character requirements & Vehicle requirements
             ("Operation: Hippo Drop",(  # "Compound-Job" #2
                 ("Bomb the Bridge",(
                     (66, "Heist Start",             True ,False,False,""),
@@ -509,19 +529,15 @@ EPISODES_DAYS_JOBS_TASKS = {
         ),
     ),  # (TASK_NUM, TASK_NAME, IS_CHECKPOINT, IS_PHOTOGRAPHY, IS_STEALING, OBJECTIVE)
     "The Predator Awakens": (
-        ( # Day 1
-            ("Overworld", (
 # Task #1 for this Episode is Part of the cut content for the game, and is now used
 # as part of the achievements for the PS4/PS5 releases for this game, as well as
 # likely being a part of RetroAchievements. But it is still a part of the DAG’s Task
-# List for this game, so I'm including it in here.
-                (1, "Destroy the Spice Grinder Door",   False,False,False,""),
+# List for this game, so I'm including it in this when it is available on Day ?.
+        ( # Day 1
+            ("Overworld", (
                 (2, "Episode Intro",                    False,False,False,""),
                 (14,"Chalk-talk #1",                    False,False,False,""),
-                (56,"Chalk-talk #2",                    False,False,False,""),
-                (66,"Chalk-talk #3",                    False,False,False,""),
-                (82,"Episode Complete",                 False,False,False,""),
-            ), "Unknown", "None"), #Character requirements & Vehicle requirements ... TODO: Check if only Sly can make it to the Spice Grinder Room or if anyone else can.
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Spice Room Recon",(
                 (3, "Job Start",    True ,False,False,""),
                 (4, "Enter Pipe",   False,False,False,"Find entrance into temple"),
@@ -537,14 +553,17 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (12,"Temple Recon Complete",        False,False,False,"Take Recon Photos"),
 
                 (13,"Job Complete",False,False,False,""),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 2
+            ("Overworld", (
+                (56,"Chalk-talk #2",                    False,False,False,""),
+            ), "Sly & Bentley", "None"), #Character requirements & Vehicle requirements
             ("Water Bug Run",(
                 (15,"Job Start",    True ,False,False,""),
                 (16,"Plant Bug",    False,False,False,""),
                 (17,"Job Complete", False,False,False,"Get the bug in Rajan’s office"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Freeing the Elephants",(
                 (18,"Job Start",                True ,False,False,""),
                 (19,"Collect Spice #1",         True ,False,True ,""),
@@ -557,7 +576,7 @@ EPISODES_DAYS_JOBS_TASKS = {
 
                 (26,"Deposit Spice",False,False,False,""),
                 (27,"Job Complete", False,False,False,"Drop the spice in the basket"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Leading Rajan",(
                 (36,"Job Start",            True ,False,False,""),
                 (37,"Sleep Rajan #1",       False,False,False,""),
@@ -570,9 +589,13 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (44,"Retrieve Blueprint #3",False,False,True ,""),
                 (45,"Item #3 Complete",     True ,False,False,""),
                 (46,"Job Complete",         False,False,False,"Get Rajan’s three blueprints"),
-            )),
+            ), "Bentley", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 3
+            ("Overworld", (
+                (1, "Destroy the Spice Grinder Door",   False,False,False,""), # TODO: Check if only Sly can make it to the Spice Grinder Room or if anyone else can.
+                (66,"Chalk-talk #3",                    False,False,False,""),
+            ), "All", "Turret"), #Character requirements & Vehicle requirements
             ("Neyla's Secret",(
                 (28,"Job Start",    True ,False,False,""),
                 (29,"Chase Neyla",  False,False,False,""),
@@ -583,7 +606,7 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (33,"Pickpocket Key #2",        True ,False,True ,""),
                 (34,"Drop the Clockwerk Heart", False,False,False,""),
                 (35,"Job Complete",             False,False,True ,"Get half of the Clockwerk heart"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Spice Grinder Destruction",(
                 (47,"Job Start",                True ,False,False,""),
                 (48,"Destroy Laser Fence #1",   False,False,False,""),
@@ -594,11 +617,11 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (53,"Find the Spice Grinder",   False,False,False,""),
                 (54,"TNTBarrel Reminder",       False,False,False,""),
                 (55,"Job Complete",             False,False,False,"Destroy the Spice Grinder"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Blow the Dam",(
                 (57,"Job Start",    True ,False,False,""),
                 (58,"Job Complete", False,False,False,"Take out Rajan’s dam"),
-            )),
+            ), "Bentley", "Turret"), #Character requirements & Vehicle requirements
             ("Rip-Off the Ruby",(
 # In this job, the task with the objective "Get Murray to the ruby" appears to either
 # be assigned to the wrong task in the game's memory, or one could say that the text
@@ -615,9 +638,12 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (63,"Talk to the First Buyer",  True ,False,False,""),
                 (64,"Carry the Ruby Part #2",   False,False,False,""),
                 (65,"Job Complete",             False,False,False,"Get ruby to the final buyer"),
-            )),
+            ), "All", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 4
+            ("Overworld", (
+                (82,"Episode Complete",                 False,False,False,""),
+            ), "All", "Turret"), #Character requirements & Vehicle requirements
             ("Operation: Wet Tiger",(  # "Compound-Job" #3
                 ("Operation: Wet Tiger",(
                     (67,"Heist Start",          False,False,False,""),
@@ -633,7 +659,7 @@ EPISODES_DAYS_JOBS_TASKS = {
 
                     (75,"Switch to Sly",                True ,False,False,""),
                     (76,"Destroy the Elephant’s Mouth", False,False,False,"Get TNT Barrel into mouth"),
-                )),
+                ), "All", "Turret"), #Character requirements & Vehicle requirements
                 ("Showdown with Rajan",(
                     (77,"Boss Fight Start",             True ,False,False,""),
                     (78,"Boss Fight Lightning Phase",   False,False,False,"Get to Rajan"),
@@ -641,22 +667,19 @@ EPISODES_DAYS_JOBS_TASKS = {
                     (79,"Sly’s Capture",        True ,False,False,""),
                     (80,"Boss Fight Pool Phase",False,False,True ,""),
                     (81,"Boss Fight Complete",  False,False,False,"Defeat Rajan"),
-                )),
+                ), "Sly & Murray", "None"), #Character requirements & Vehicle requirements
             )),
         ),
     ),  # (TASK_NUM, TASK_NAME, IS_CHECKPOINT, IS_PHOTOGRAPHY, IS_STEALING, OBJECTIVE)
     "Jailbreak": (
         ( # Day 1 (Or 1 & 2)
-# This day could be split into 2 to have this episode be 4 days like the rest, which
-# is actually how the original implementation has it setup, but instead I am going
-# to make this a .yaml option to have this and Ep8 be either 3 days or 4 days, and
-# I am just going to handle that logic elsewhere rather than encode it into this.
+# Both Days 1 & 2 could be combined into a single Day (which is actually how the
+# original implementation had it setup), but with me now making it a .yaml option to
+# select between this & Ep8 be either 3 Days or 4 Days, it is easier to have each of
+# them already set up for 4 Days and then combine the two days later if desired.
             ("Overworld", (
                 (1,  "Episode Intro",   False,False,False,""),
-                (33, "Chalk-talk #1",   False,False,False,""),
-                (77, "Chalk-talk #2",   False,False,False,""),
-                (110,"Episode Complete",False,False,False,""),
-            )),
+            ), "None", "None"), #Character requirements & Vehicle requirements
             ("Eavesdrop on Contessa",(
                 (2,  "Job Start",   True ,False,False,""),
                 (3,  "Eavesdrop #1",False,False,False,""),
@@ -665,7 +688,12 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (6,  "Eavesdrop #4",False,False,False,""),
                 (7,  "Job Outro",   False,False,False,"Shoot Contessa with darts"),
                 (8,  "Job Complete",False,False,False,""),
-            )),
+            ), "Bentley", "None"), #Character requirements & Vehicle requirements
+        ),
+        ( # Day 2 (Or 1 & 2)
+            ("Overworld", (
+                (33, "Chalk-talk #1",   False,False,False,""),
+            ), "Bentley & Sly", "None"), #Character requirements & Vehicle requirements
             ("Train Hack",(
                 (9,  "Job Start",           True ,False,False,""),
                 (10, "Hack Station #1",     False,False,False,""),
@@ -680,7 +708,7 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (19, "Get to Station #6",   True ,False,False,""),
                 (20, "Hack Station #6",     False,False,False,""),
                 (21, "Job Complete",        False,False,False,"Hack all six stations"),
-            )),
+            ), "Bentley", "None"), #Character requirements & Vehicle requirements
             ("Wall Bombing",(
                 (22, "Job Start",       True ,False,False,""),
                 (23, "Bomb Guard #1",   False,False,False,""),
@@ -694,16 +722,19 @@ EPISODES_DAYS_JOBS_TASKS = {
 
                 (31, "Sly Escape",  True ,False,False,""),
                 (32, "Job Complete",False,False,False,"Escape to the safehouse"),
-            )),
+            ), "Bentley & Sly", "RC Chopper"), #Character requirements & Vehicle requirements
         ),
-        ( # Day 2 (Or 3)
+        ( # Day 3 (Or 2)
+            ("Overworld", (
+                (77, "Chalk-talk #2",   False,False,False,""),
+            ), "All", "None"), #Character requirements & Vehicle requirements
             ("Big House Brawl",(
                 (34, "Job Start",   True ,False,False,""),
                 (35, "Brawl Intro", True ,False,False,"Find pipe into Murray’s cell"),
 
                 (36, "Brawl Beatdown",  False,False,False,""),
                 (37, "Job Complete",    True ,False,False,"Take out 50 prisoners"),
-            )),
+            ), "Sly & Murray", "None"), #Character requirements & Vehicle requirements
             ("Lightning Action",(
                 (38, "Job Start",                       True ,False,False,""),
                 (39, "Lightning Puzzle #1 Animation",   False,False,False,""),
@@ -717,14 +748,14 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (47, "Lightning Puzzle #5 Animation",   False,False,False,""),
                 (48, "Lightning Puzzle #5 Complete",    True ,False,False,""),
                 (49, "Job Complete",                    False,False,False,"Disable all lightning rods"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Disguise Bridge",(
                 (50, "Job Start",           True ,False,False,""),
                 (51, "Bomb Under Bridge",   False,False,False,""),
                 (52, "Bentley Relocate",    False,False,False,""),
                 (53, "Bomb On Top",         True ,False,False,""),
                 (54, "Job Complete",        True ,False,False,"Protect Bentley from guards"),
-            )),
+            ), "Sly & Bentley", "None"), #Character requirements & Vehicle requirements
             ("Code Capture",(
                 (55, "Job Start",                   True ,False,False,""),
                 (56, "Pickpocket Key #1",           False,False,True ,""),
@@ -740,7 +771,7 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (66, "Photograph Code #4",          False,True ,False,""),
                 (67, "Complete Capturing Code #4",  True ,False,False,""),
                 (68, "Job Complete",                False,False,False,"Photograph the four codes"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Close to Contessa",(
                 (69, "Job Start",               True ,False,False,""),
                 (70, "Pickpocket Tank Key #1",  False,False,True ,""),
@@ -750,9 +781,12 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (74, "Pickpocket Tank Schedule",True ,False,True ,""),
                 (75, "Contessa Relocate #2",    False,False,False,""),
                 (76, "Job Complete",            False,False,False,"Pickpocket Contessa 3 times"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
         ),
-        ( # Day 3 (Or 4)
+        ( # Day 4 (Or 4)
+            ("Overworld", (
+                (110,"Episode Complete",False,False,False,""),
+            ), "All", "None"), #Character requirements & Vehicle requirements
             ("Operation: Trojan Tank", (
                 (78, "Heist Start",     False,False,False,""),
                 (79, "Heist Intro",     True ,False,False,""),
@@ -794,7 +828,7 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (107,"Contessa Chase Start",    True ,False,False,""),
                 (108,"Contessa Chase Complete", False,False,False,""),
                 (109,"Heist Complete",          True ,False,False,"Chase the Contessa"),
-            ),),
+            ), "All", "None"), #Character requirements & Vehicle requirements
         ),
     ),  # (TASK_NUM, TASK_NAME, IS_CHECKPOINT, IS_PHOTOGRAPHY, IS_STEALING, OBJECTIVE)
     "A Tangled Web": (
@@ -802,11 +836,7 @@ EPISODES_DAYS_JOBS_TASKS = {
             ("Overworld", (
                 (1,  "Episode Intro",       False,False,False,""),
                 (16, "Chalk-talk #1",       False,False,False,""),
-                (46, "Chalk-talk #2",       False,False,False,""),
-                (79, "Chalk-talk #3",       False,False,False,""),
-                (80, "Paraglider Reminder", False,False,False,""),
-                (102,"Episode Complete",    False,False,False,""),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Know Your Enemy",(
                 (2,  "Job Start",               True ,False,False,""),
                 (3,  "Photograph Neyla’s HQ",   True ,True ,False,""),
@@ -823,9 +853,12 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (13, "Photograph Old Terminal",     False,True ,False,""),
                 (14, "Tower Recon Complete",        False,False,False,""),
                 (15, "Job Complete",                False,False,False,"Take photos in tower"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 2
+            ("Overworld", (
+                (46, "Chalk-talk #2",       False,False,False,""),
+            ), "All", "None"), #Character requirements & Vehicle requirements
             ("Ghost Capture",(
                 (17, "Job Start",  True ,False,False,""),
                 (18, "Enter Tomb", True ,False,False,"Enter the tomb"),
@@ -846,7 +879,7 @@ EPISODES_DAYS_JOBS_TASKS = {
 
                 (31, "Ghost Drop",              False,False,False,""),
                 (32, "Job Complete",            False,False,False,"Deliver ghosts to Neyla’s HQ"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Mojo Trap Action",(
                 (33, "Job Start",                      True ,False,False,""),
                 (34, "Trap Tutorial",                  False,False,False,""),
@@ -857,15 +890,18 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (39, "Open Water Crypt Door",          True ,False,False,""),
                 (40, "Collect Water Crypt’s Bad Mojo", True ,False,False,""),
                 (41, "Job Complete",                   False,False,False,"Collect 4 batches of bad mojo"),
-            )),
+            ), "Bentley", "None"), #Character requirements & Vehicle requirements
             ("Kidnap the General",(
                 (42, "Job Start",           True ,False,False,""),
                 (43, "Initial Grab",        False,False,False,""),
                 (44, "Carry to Safehouse",  False,False,False,""),
                 (45, "Job Complete",        False,False,False,"Bring General to safehouse"),
-            )),
+            ), "Murray", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 3
+            ("Overworld", (
+                (79, "Chalk-talk #3",       False,False,False,""),
+            ), "All", "None"), #Character requirements & Vehicle requirements
             ("Stealing Voices",(
                 (47, "Job Start",                   True ,False,False,""),
                 (48, "Pickpocket Wire Tap Key #1",  True ,False,True ,""),
@@ -885,7 +921,7 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (60, "Open Sewer Door",         False,False,False,""),
                 (61, "Tap into the Cable",      True ,False,False,""),
                 (62, "Job Complete",            False,False,False,"Keys then tap into cable"),
-            )),
+            ), "Sly", "None"), #Character requirements & Vehicle requirements
             ("Tank Showdown",(
                 (63, "Job Start",   True ,False,False,""),
                 (64, "Kill Tank #1",False,False,False,""),
@@ -895,7 +931,7 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (68, "Kill Tank #5",False,False,False,""),
                 (69, "Kill Tank #6",False,False,False,""),
                 (70, "Job Complete",False,False,False,"Destroy 6 of Neyla’s tanks"),
-            )),
+            ), "Murray", "Tank"), #Character requirements & Vehicle requirements
             ("Crypt Hack",(
                 (71, "Job Start",           True ,False,False,""),
                 (72, "Find the Battery",    False,False,False,"Destroy 6 of Neyla’s tanks"),
@@ -906,9 +942,13 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (76, "Get to Station #3",   True ,False,False,""),
                 (77, "Hack Station #3",     False,False,False,""),
                 (78, "Job Complete",        False,False,False,"Hack all three computers"),
-            )),
+            ), "Bentley", "None"), #Character requirements & Vehicle requirements
         ),
         ( # Day 4
+            ("Overworld", (
+                (80, "Paraglider Reminder", False,False,False,""),
+                (102,"Episode Complete",    False,False,False,""),
+            ), "All", "Turret & Tank"), #Character requirements & Vehicle requirements
             ("Operation: High Road",(
                 (81, "Heist Start",             True ,False,False,""),
                 (82, "Paraglide to the Blimp",  True ,False,False,"Paraglide to blimp"),
@@ -937,11 +977,63 @@ EPISODES_DAYS_JOBS_TASKS = {
                 (99, "Boss Fight Phase 2 Start",    True ,False,False,""),
                 (100,"Boss Fight Phase 2 Complete", False,False,False,""),
                 (101,"Heist Complete",              True ,False,True ,"Retrieve the Clockwerk Eye"),
-            )),
+            ), "All", "Turret & Tank"), #Character requirements & Vehicle requirements
         ),
     ),  # (TASK_NUM, TASK_NAME, IS_CHECKPOINT, IS_PHOTOGRAPHY, IS_STEALING, OBJECTIVE)
     "He Who Tames the Iron Horse": (
         ( # Day 1
+# *Sigh* ... So task #18, the "Jean Bison PA" Task, made me realise some important things.
+#
+# 1) This specific task only triggers if the Job "Spice in the Sky" is Finished & you pick
+# Bentley, which if we are planning on letting players play their jobs in any order, this
+# will be a problem since Spice in the Sky will always be set to available and not finished,
+# so this task will never trigger.
+#
+# 2) I finally figured out that the status of each of the Chalk-Talks is what controls
+# which characters are playable; primarily the first Chalk-Talks that would unlock the
+# respective character. There is likely another specific place that is actually responsible
+# for controlling which of the characters are unlocked, and it is just that these Chalk-Talk
+# Tasks are just interacting with that section for that functionality, but idk where that
+# in the game this section that I'm talking about is (though is it highly possible that
+# others have already found where this is considering there are cheats & patches to make
+# Murray playable in Ep4).
+# ...
+# It is through these main 2 discoveries that lead me to make the following decisions on
+# this massive update I'm making, each related to the above 2 points:
+#
+# 1) Either I'm making it such that all Overworld Tasks can no longer be checks OR I'm
+# just getting rid of all tasks as checks entirely. Probably will go with the first option,
+# since to make Photographs, Stealing Key-Items, & Objectives into checks I will still need
+# to use tasks to track if they've been done or not. Plus, if I remember correctly, over 90%
+# of the specific tasks that I listed as possibly being problematic are all Overworld Tasks,
+# like each of the Episode's Intros & Completions and also the opening sequence in Cairo, so
+# just getting rid of the Overworld Tasks themselves will help me solve these issues by simply
+# ignoring them! Out of the 800 or 900 Tasks, this would only remove about 40-45, so not a
+# huge loss. Plus, to bleed into the 2nd point for a little bit, doing this will allow us to
+# more freely use the Chalk-Talk Tasks to unlock all 3 of the Characters for Players so that
+# they don't always have to play Sly's 1st Job anymore.
+#
+# 2) Playable Characters as Items is being dropped as a focus for now. Currently, the only way
+# that I know of to control Character unlocks is through the Chalk-Talk Tasks, which is kind
+# of janky. There is likely a better way to go about it, but figuring that out would require
+# more research, even if other people have already figured it out before me which is highly
+# likely. With only 2 characters to unlock, since you need to start with 1 of them (and it
+# can almost NEVER be Murray), this just isn't worth it to develop any further for now. Maybe
+# sometime in the future we'll work on it more, but for now I'm shelving the idea to be able
+# to more easily focus on the rest of this update. Also, I'd want to see how the Sly 3 APWorld
+# handles this, both in the sense of the game's memory & the logic in AP.
+#
+# That all being said, even though we are no longer going to make the Characters into Items
+# for now & thus don't really need to record which characters are required for each Job, I'll
+# still record these requirements for each of the rest of the Jobs here since I'm already over
+# half way done with it, and this data could still be useful to use in the future if we ever
+# do implement this feature.
+#
+# TODO: Remove ALL Overworld Tasks from being possible checks (we don't want to delete them
+#  here, since their data is still useful to use for other non-checks related stuff).
+# TODO: Comment out EVERYTHING that has to do with making Playable Characters into Item
+#  Unlocks (we can still use their names in the items file, but don't let them be included
+#  as actual possible items to be found).
             ("Overworld", (
                 (1, "Episode Intro",    False,False,False,""),
                 (17,"Chalk-talk #1",    False,False,False,""),
@@ -981,6 +1073,14 @@ EPISODES_DAYS_JOBS_TASKS = {
             )),
         ),
         ( # Day 2
+            ("Overworld", (
+                (1, "Episode Intro",    False,False,False,""),
+                (17,"Chalk-talk #1",    False,False,False,""),
+                (18,"Jean Bison PA",    False,False,False,""),
+                (44,"Chalk-talk #2",    False,False,False,""),
+                (60,"Chalk-talk #3",    False,False,False,""),
+                (72,"Episode Complete", False,False,False,""),
+            )),
             ("Spice in the Sky",(
                 (19,"Job Start",        True ,False,False,""),
                 (20,"Open Red Train",   False,False,False,""),
@@ -1016,6 +1116,14 @@ EPISODES_DAYS_JOBS_TASKS = {
             )),
         ),
         ( # Day 3
+            ("Overworld", (
+                (1, "Episode Intro",    False,False,False,""),
+                (17,"Chalk-talk #1",    False,False,False,""),
+                (18,"Jean Bison PA",    False,False,False,""),
+                (44,"Chalk-talk #2",    False,False,False,""),
+                (60,"Chalk-talk #3",    False,False,False,""),
+                (72,"Episode Complete", False,False,False,""),
+            )),
             ("Aerial Assault",(
                 (45,"Job Start",        True ,False,False,""),
                 (46,"Catch the Train",  True ,False,False,""),
@@ -1039,6 +1147,14 @@ EPISODES_DAYS_JOBS_TASKS = {
             )),
         ),
         ( # Day 4
+            ("Overworld", (
+                (1, "Episode Intro",    False,False,False,""),
+                (17,"Chalk-talk #1",    False,False,False,""),
+                (18,"Jean Bison PA",    False,False,False,""),
+                (44,"Chalk-talk #2",    False,False,False,""),
+                (60,"Chalk-talk #3",    False,False,False,""),
+                (72,"Episode Complete", False,False,False,""),
+            )),
             ("Operation: Choo-Choo",(
                 (61,"Heist Start",                      True ,False,False,""),
                 (62,"Catch the Train",                  True ,False,False,""),

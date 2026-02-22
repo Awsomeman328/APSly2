@@ -299,6 +299,12 @@ class Sly2World(World):
             #26 + # Episodes (27 without ep8, minus the one you start with)
             (opt.keys_in_pool.value if using_parts else 0)
         )
+
+        if opt.include_gadget_buttons == 0:
+            n_items += 3
+        elif opt.include_gadget_buttons == 1:
+            n_items += 9
+
         if opt.episode_8_keys.value in [0,1]:
             n_items += 3
         elif opt.episode_8_keys.value == 3:
@@ -422,6 +428,7 @@ class Sly2World(World):
                     self.options.tasks_as_locations = slot_data["tasks_as_locations"]
                     self.options.checkpoints_as_locations = slot_data["checkpoints_as_locations"]
 
+                    self.options.include_prologue = slot_data["include_gadget_buttons"]
                     self.options.include_mega_jump.value = slot_data["include_mega_jump"]
                     self.options.include_tom.value = slot_data["include_tom"]
                     self.options.include_time_rush.value = slot_data["include_time_rush"]
@@ -466,6 +473,7 @@ class Sly2World(World):
 
     def get_filler_item_name(self) -> str:
         # Currently just coins
+        # TODO: Eventually make this compatible w/ HP as Filler items to0
         return self.random.choice(list(self.item_name_groups["Filler"]))
 
     def create_regions(self) -> None:
@@ -526,7 +534,8 @@ class Sly2World(World):
             "objectives_as_locations",
             "tasks_as_locations",
             "checkpoints_as_locations",
-            
+
+            "include_gadgets_buttons",
             "include_mega_jump",
             "include_tom",
             "include_time_rush",

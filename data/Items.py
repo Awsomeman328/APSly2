@@ -203,6 +203,21 @@ health_list = [
     for i in range(1,6)
 ]
 
+powerup_buttons_list = [
+    ("L1 Gadget", ItemClassification.progression, "Powerup Button"),
+    ("L2 Gadget", ItemClassification.progression, "Powerup Button"),
+    ("R2 Gadget", ItemClassification.progression, "Powerup Button"),
+] + [
+    (f"{c[0][8:]} L1 Gadget", ItemClassification.progression, "Powerup Button")
+    for c in character_list
+] + [
+    (f"{c[0][8:]} L2 Gadget", ItemClassification.progression, "Powerup Button")
+    for c in character_list
+] + [
+    (f"{c[0][8:]} R2 Gadget", ItemClassification.progression, "Powerup Button")
+    for c in character_list
+]
+
 item_list = (
     filler_list+
     powerup_list+
