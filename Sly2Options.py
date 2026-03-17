@@ -294,6 +294,35 @@ class Episodes4And8NumDays(Choice):
     default = 1
 
 
+# TODO: Either here in a new option or in the JobsAsLocations option below,
+#  allow players to choose if "Sequential Jobs" (that normally only get unlocked
+#  after completing another Job in the same Day) will still require completing
+#  other Jobs in the same Day to be accessible or if their accessibility should
+#  be independent of completing other Jobs.
+#  Likely will make this its own Option since this might also affect how the
+#  "Progressive Job" Items for each Episode might behave.
+class SequentialJobsDependencies(Toggle):
+    """
+    Whether to handle if "Sequential Jobs" (that normally only get unlocked
+    after completing another Job in the same Day) will still require completing
+    other Jobs in the same Day to be accessible or if their accessibility should
+    be independent of completing other Jobs.
+    Jobs this affects:
+    - Satellite Sabotage -> Breaking and Entering
+    - Follow Dimitri -> Waterpump Destruction
+    - Moonlight Rendezvous -> Disco Demolitions
+    - Lower the Drawbridge -> Battle the Chopper
+    - Eavesdrop on Contessa -> Train Hack (If Ep4 set to only 3 days)
+    - Train Hack -> Wall Bombing
+    - Spice in the Sky -> Ride the Iron Horse
+    - Aerial Assault -> Theft on the Rails
+    - Old Grizzle Face -> Thermal Ride
+    - Mega-Jump Job -> Carmelita's Gunner (If Ep8 set to only 3 days)
+    """
+    visibility = Visibility.none
+    display_name = "Sequential Jobs Dependencies"
+
+
 # TODO: Finish making this Option
 class CompoundJobsAsMultipleJobs(Choice):
     """
@@ -314,6 +343,11 @@ class CompoundJobsAsMultipleJobs(Choice):
     default = 0
 
 
+# TODO: Look into the possibility of combining all of these Story-Based Options
+#  into a single Option (1 Option for Items & 1 Option for Locations. Look at
+#  Luigi's Mansion and its Furnisanity Option for possible inspiration. Other
+#  examples could include: Yacht Dice (that's all I got so far, would want to
+#  ask others for what they might know about related possibilities from other APWorlds).)
 class EpisodesAsItems(Choice):
     """
     Add every Episode to the pool. You can choose if you want to include the
@@ -387,11 +421,20 @@ class EpisodesAsLocations(Toggle):
     display_name = "Episodes As Locations"
 
 
-class DaysAsLocations(Toggle):
+# TODO: Add an option to pick if each day sends out only 1 check or multiple checks,
+#  either here or in a separate option. If multiple checks is chosen, the number of
+#  checks for each day is determined by how many jobs are in the next day. The
+#  final day of each episode is still only 1 check.
+class DaysAsLocations(Choice):
     """
-    Whether to include completing Days as checks.
+    Whether to include completing Days as checks, and if completing days will send
+    out only a single check or multiple checks.
     """
     display_name = "Days As Locations"
+    option_Single_Check = 0
+    option_Multiple_Checks = 1
+    option_Off = 2
+    default = 2
 
 
 class JobsAsLocations(DefaultOnToggle):
@@ -693,6 +736,7 @@ class Sly2Options(PerGameCommonOptions):
 
     include_prologue: IncludePrologue
     episodes_4_and_8_num_days: Episodes4And8NumDays
+    sequential_jobs_dependencies: SequentialJobsDependencies
     compound_jobs_as_multiple_jobs: CompoundJobsAsMultipleJobs
 
     episodes_as_items: EpisodesAsItems
@@ -756,6 +800,7 @@ sly2_option_groups = [
         #StartingCharacter,
         IncludePrologue,
         Episodes4And8NumDays,
+        SequentialJobsDependencies,
         CompoundJobsAsMultipleJobs,
         EpisodesAsItems,
         DaysAsItems,
